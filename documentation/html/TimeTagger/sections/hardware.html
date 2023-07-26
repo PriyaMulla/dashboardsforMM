@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hardware &mdash; Time Tagger User Manual 2.16.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/iconTT.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Software Overview" href="software.html" />
+    <link rel="prev" title="Synchronizer" href="../synchronizer/index.html" />
+ 
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXS6LN3');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXS6LN3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Time Tagger User Manual
+              <img src="../_static/logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.16.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<div id="link_documentation_pdf" style="margin-top:20px;">
+    <a style="font-weight:normal;color:#fcfcfc" target="_blank" href="/static/downloads/TimeTagger_User_Manual.pdf">
+<svg version="1.1"  width="13px" height="14px" viewBox="0 0 13 14" xmlns="http://www.w3.org/2000/svg">
+<g id="Download" fill="#fff">
+<path d="m10 6.5-0.74-0.76-2.4 2.4v-8.2h-1.1v8.2l-2.4-2.4-0.74 0.76 3.6 3.6z"></path>
+<path d="m1.1 13v-2.7h-1.1v3.8h13v-3.9h-1.1v2.9z"></path>
+</g>
+</svg>
+        Documentation as pdf
+    </a>
+</div>
+<script>
+    // Hide the pdf download link when we detect that the file is served from the local file system.
+    // Mostly likly to identify the ttlab offline documentation browser
+    if(window.location.protocol === "file:") {
+        document.getElementById("link_documentation_pdf").style.display = "none";
+    }
+</script>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronizer/index.html">Synchronizer</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hardware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#input-channels">Input channels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#electrical-characteristics">Electrical characteristics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configurable-input-termination-time-tagger-x-only">Configurable input termination - <em>Time Tagger X</em> only</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#high-resolution-mode">High Resolution Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#data-connection">Data connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#leds">LEDs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#time-tagger-x">Time Tagger X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time-tagger-ultra-and-time-tagger-20">Time Tagger Ultra and Time Tagger 20</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-leds-on-time-tagger-x-and-time-tagger-ultra">Additional LEDs on Time Tagger X and Time Tagger Ultra</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#test-signal">Test signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#virtual-channels">Virtual channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#synthetic-input-delay">Synthetic input delay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#synthetic-dead-time">Synthetic dead time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conditional-filter">Conditional Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bin-equilibration">Bin equilibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overflows">Overflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#external-clock-input-time-tagger-ultra-and-time-tagger-x-only">External Clock Input - <em>Time Tagger Ultra</em> and <em>Time Tagger X</em> only</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#synchronization-signals-time-tagger-ultra-and-time-tagger-x-only">Synchronization signals - <em>Time Tagger Ultra</em> and <em>Time Tagger X</em> only</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fpga-link-time-tagger-x-only">FPGA link - <em>Time Tagger X</em> only</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#general-purpose-io-gpio-time-tagger-ultra-only">General purpose IO (GPIO) - <em>Time Tagger Ultra</em> only</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#general-purpose-io-gpio-time-tagger-20-only">General purpose IO (GPIO) - <em>Time Tagger 20</em> only</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="software.html">Software Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Application Programmer’s Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../InDepthGuides/index.html">In Depth Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageStatistics.html">Usage Statistics Collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Time Tagger User Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Hardware</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hardware">
+<h1>Hardware<a class="headerlink" href="#hardware" title="Permalink to this heading"></a></h1>
+<section id="input-channels">
+<h2>Input channels<a class="headerlink" href="#input-channels" title="Permalink to this heading"></a></h2>
+<p>The <em>Time Tagger</em> has 8 or 18 input channels (SMA-connectors). The electrical characteristics are tabulated below.
+Both rising and falling edges are detected on the input channels.
+In the software, rising edges correspond to channel numbers 1 to 18 (<em>Time Tagger 20</em>: 1 to 8)
+and falling edges correspond to respective channel numbers -1 to -18 (<em>Time Tagger 20</em>: -1 to -8).
+Thereby, you can treat rising and falling edges in a fully equivalent fashion.</p>
+<section id="electrical-characteristics">
+<h3>Electrical characteristics<a class="headerlink" href="#electrical-characteristics" title="Permalink to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Time Tagger 20</p></th>
+<th class="head"><p>Time Tagger Ultra</p></th>
+<th class="head"><p>Time Tagger X</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Termination</p></td>
+<td><p>50 Ohm</p></td>
+<td><p>50 Ohm</p></td>
+<td><p>50 Ohm / High-Z</p></td>
+</tr>
+<tr class="row-odd"><td><p>Input voltage range</p></td>
+<td><p>0.0 to 5.0 V</p></td>
+<td><p>-5.0 to 5.0 V</p></td>
+<td><p>-1.5 to 1.5 V</p></td>
+</tr>
+<tr class="row-even"><td><p>Trigger level range</p></td>
+<td><p>0.0 to 2.5 V</p></td>
+<td><p>-2.5 to 2.5 V</p></td>
+<td><p>-1 to 1 V</p></td>
+</tr>
+<tr class="row-odd"><td><p>Minimum signal level</p></td>
+<td><p>100 mV</p></td>
+<td><p>100 mV</p></td>
+<td><p>100 mV</p></td>
+</tr>
+<tr class="row-even"><td><p>Minimum pulse width</p></td>
+<td><p>1.0 ns</p></td>
+<td><p>0.5 ns</p></td>
+<td><p>350 ps</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="configurable-input-termination-time-tagger-x-only">
+<h3>Configurable input termination - <em>Time Tagger X</em> only<a class="headerlink" href="#configurable-input-termination-time-tagger-x-only" title="Permalink to this heading"></a></h3>
+<p>The input termination of the <em>Time Tagger X</em> can be configured during runtime to either 50 Ohm or High-Z (see <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setInputImpedanceHigh" title="TimeTagger.setInputImpedanceHigh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setInputImpedanceHigh()</span></code></a>).
+Usually 50 Ohm should be chosen to accomplish proper HF termination, but High-Z is useful in certain use cases with small amplitudes and weak output drivers.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>When the <em>Time Tagger X</em> is unpowered or not configured (before <a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a> has been called), the input termination is High-Z.
+This is to protect the <em>Time Taggers</em> input stage from potentially damaging operating conditions (e.g. signals into an unpowered input stage).
+Upon initialization, the termination will switch to 50 Ohm by default.</p>
+<p>One of the following measures can be taken when connecting signal sources to the <em>Time Tagger X</em> which are sensitive to operation without termination:</p>
+<ul class="simple">
+<li><p>The signal source is only operated after the <em>Time Tagger X</em> is powered and configured properly. The <em>Time Tagger’s</em> input termination is set to 50 Ohm.</p></li>
+<li><p>An external 50 Ohm termination is connected between SMA cable and the <em>Time Tagger’s</em> input port. The <em>Time Tagger’s</em> input termination is set to High-Z.</p></li>
+<li><p>An HF circulator or isolator is connected to the output of the signal source to prevent any potentially damaging reflections from getting into the output.</p></li>
+</ul>
+</div>
+</section>
+<section id="high-resolution-mode">
+<span id="highreshardwaredescription"></span><h3>High Resolution Mode<a class="headerlink" href="#high-resolution-mode" title="Permalink to this heading"></a></h3>
+<p>The <em>Time Tagger Ultra Performance</em> can operate in different High Resolution (HighRes) modes.
+An increased resolution is achieved by directing the signal from a single input to multiple time-to-digital converters (TDCs).
+Depending on the mode, 2, 4, or 8 TDCs are used per input. By averaging the results, a single timestamp with lower jitter is generated.
+On the other hand, this process reduces the number of usable signal inputs.</p>
+<p>The table shows the usable inputs for the different modes. Channels available with the minimal four-channel license are shown without parenthesis.
+Further channels are added from the list in parenthesis in the HighRes column first and added in the Standard resolution column if the amount of HighRes channels are exhausted.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode</p></th>
+<th class="head"><p>HighRes channels</p></th>
+<th class="head"><p>Standard channels</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Standard</p></td>
+<td></td>
+<td><p>1 - 4, (5 - 18)</p></td>
+</tr>
+<tr class="row-odd"><td><p>HighResA</p></td>
+<td><p>1, 3, 5, 7, (10, 12, 14, 16)</p></td>
+<td><p>(9, 18)</p></td>
+</tr>
+<tr class="row-even"><td><p>HighResB</p></td>
+<td><p>1, 5, 10, 14</p></td>
+<td><p>(9, 18)</p></td>
+</tr>
+<tr class="row-odd"><td><p>HighResC</p></td>
+<td><p>5, 14</p></td>
+<td><p>9, 18</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As a result of the averaging process, the quality of the calculated timestamps is affected by relative changes of internal delays of the contributing inputs. These delays are affected especially by the temperature of the device. It is strongly recommended to let the device heat up for at least 10 s before starting a measurement. Constant average count rates (averaged over the timescale of hundreds of milliseconds) will provide the best results. If you need more information on this topic, please contact us via <a class="reference external" href="mailto:support&#37;&#52;&#48;swabianinstruments&#46;com">support<span>&#64;</span>swabianinstruments<span>&#46;</span>com</a>.</p>
+</div>
+</section>
+</section>
+<section id="data-connection">
+<h2>Data connection<a class="headerlink" href="#data-connection" title="Permalink to this heading"></a></h2>
+<p>The <em>Time Tagger 20</em> is powered via a USB connection. Therefore, you should ensure that the USB port is capable of providing the full
+specified current (500 mA). A USB &gt;= 2.0 data connection is required for the performance specified here. Operating the device via
+a USB hub is strongly discouraged. The <em>Time Tagger 20</em> can stream about 8 M tags per second.</p>
+<p>The <em>Time Tagger Ultra</em> and <em>Time Tagger X</em> has a USB 3.0 interface. This allows to stream up to 70 M tags per second to the PC.
+The actual number highly depends on the performance of the CPU the <em>Time Tagger</em> is connected to and the evaluation methods involved.</p>
+<p>In addition, the <em>Time Tagger X</em> is equipped with an SPF+ Port (10 GbE), which can be used for streaming up to 300 M tags per second.</p>
+</section>
+<section id="leds">
+<span id="hw-status-leds"></span><h2>LEDs<a class="headerlink" href="#leds" title="Permalink to this heading"></a></h2>
+<p>The <em>Time Tagger</em> devices have LEDs showing status information.</p>
+<section id="time-tagger-x">
+<h3>Time Tagger X<a class="headerlink" href="#time-tagger-x" title="Permalink to this heading"></a></h3>
+<p>On its front panel, the <em>Time Tagger X</em> has an LED inside the power button and individual channel status LEDs:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p>Power Button</p></th>
+</tr>
+<tr class="row-even"><th class="head"><p>Color</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td><p>blue</p></td>
+<td><p>Device in standby, press button to turn it on</p></td>
+</tr>
+<tr class="row-even"><td><p>green</p></td>
+<td><p>Device running</p></td>
+</tr>
+<tr class="row-odd"><td><p>orange</p></td>
+<td><p>Device is getting ready</p></td>
+</tr>
+<tr class="row-even"><td><p>red</p></td>
+<td><p>An error occurred</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p>Channel LEDs</p></th>
+</tr>
+<tr class="row-even"><th class="head"><p>Color</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td><p>dark</p></td>
+<td><p>Channel unavailable (according to your license)</p></td>
+</tr>
+<tr class="row-even"><td><p>blue</p></td>
+<td><p>Channel available but not used by a measurement</p></td>
+</tr>
+<tr class="row-odd"><td><p>solid green</p></td>
+<td><p>Measurement running but no data within last 2 s</p></td>
+</tr>
+<tr class="row-even"><td><p>blinking green</p></td>
+<td><p>Time tags are streamed to the PC.</p>
+<p>Blinking frequency indicates data rate</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>blinking orange</p></td>
+<td><p>Overflow</p></td>
+</tr>
+<tr class="row-even"><td><p>solid red</p></td>
+<td><p>Error</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="time-tagger-ultra-and-time-tagger-20">
+<h3>Time Tagger Ultra and Time Tagger 20<a class="headerlink" href="#time-tagger-ultra-and-time-tagger-20" title="Permalink to this heading"></a></h3>
+<p>The “Power” LED turns green when the power is supplied to the device.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p>Status LED</p></th>
+</tr>
+<tr class="row-even"><th class="head"><p>Color</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td><p>solid green</p></td>
+<td><p>Firmware loaded</p></td>
+</tr>
+<tr class="row-even"><td><p>blinking green-orange</p></td>
+<td><p>Time tags are streaming</p></td>
+</tr>
+<tr class="row-odd"><td><p>red</p></td>
+<td><p>Overflows occurred.</p>
+<p>LED turns red for 0.1 s on every overflow event.</p>
+<p>Solid red indicates continuous overflows.</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>solid blue</p></td>
+<td><p>Device initialization failed</p>
+<p>(check USB connection)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="additional-leds-on-time-tagger-x-and-time-tagger-ultra">
+<h3>Additional LEDs on Time Tagger X and Time Tagger Ultra<a class="headerlink" href="#additional-leds-on-time-tagger-x-and-time-tagger-ultra" title="Permalink to this heading"></a></h3>
+<p>Other RGB LEDs show the additional status information tabulated below.
+They are located on the front panel of the <em>Time Tagger Ultra</em> and the rear panel of the <em>Time Tagger X</em>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p>LED next to the CLK input (if available)</p></th>
+</tr>
+<tr class="row-even"><th class="head"><p>Color</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td><p>dark</p></td>
+<td><p>No clock signal</p></td>
+</tr>
+<tr class="row-even"><td><p>solid green</p></td>
+<td><p>Valid reference or synchronization clock</p></td>
+</tr>
+<tr class="row-odd"><td><p>solid red</p></td>
+<td><p>Invalid reference frequency</p></td>
+</tr>
+<tr class="row-even"><td><p>solid blue</p></td>
+<td><p>Ext. clock valid, but not in use</p></td>
+</tr>
+<tr class="row-odd"><td><p>blinking red *</p></td>
+<td><p>Invalid signal at SYNC IN (AUX IN 1)</p></td>
+</tr>
+<tr class="row-even"><td><p>blinking yellow *</p></td>
+<td><p>Invalid signal at LOOP IN (AUX IN 2)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p>LED next to the SYNC IN input</p></th>
+</tr>
+<tr class="row-even"><th class="head"><p>Color</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td><p>dark</p></td>
+<td><p>No synchronizer on CLK input</p></td>
+</tr>
+<tr class="row-even"><td><p>green</p></td>
+<td><p>Valid signal at  SYNC IN</p></td>
+</tr>
+<tr class="row-odd"><td><p>red</p></td>
+<td><p>Invalid signal at  SYNC IN</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p>LED next to the LOOP IN input</p></th>
+</tr>
+<tr class="row-even"><th class="head"><p>Color</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td><p>dark</p></td>
+<td><p>No synchronizer on CLK input</p></td>
+</tr>
+<tr class="row-even"><td><p>green</p></td>
+<td><p>Valid signal at LOOP IN</p></td>
+</tr>
+<tr class="row-odd"><td><p>red</p></td>
+<td><p>Invalid signal at LOOP IN</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="test-signal">
+<h2>Test signal<a class="headerlink" href="#test-signal" title="Permalink to this heading"></a></h2>
+<p>The <em>Time Tagger</em> has a built-in test signal generator that generates a square wave with a frequency in the range 0.8 to 1.0 MHz.
+You can apply the test signal to any input channel instead of an external input. This is especially useful for testing,
+calibrating and setting up the <em>Time Tagger</em> initially.
+The <em>Time Tagger X</em> also provides the opportunity to put out two square wave signals with a variable frequency
+via the AUX Out Ports on the back of the device.</p>
+</section>
+<section id="virtual-channels">
+<h2>Virtual channels<a class="headerlink" href="#virtual-channels" title="Permalink to this heading"></a></h2>
+<p>The architecture allows you to create virtual channels, e.g.,
+creating a new channel representing the sum of two channels (logical OR),
+or coincidence clicks of two channels (logical AND).</p>
+</section>
+<section id="synthetic-input-delay">
+<h2>Synthetic input delay<a class="headerlink" href="#synthetic-input-delay" title="Permalink to this heading"></a></h2>
+<p>You can introduce an input delay for each channel independently.
+This is useful if the relative timing between two channels is important, e.g.,
+to compensate for propagation delay in cables of unequal length. The input delay
+can be set individually for rising and for falling edges.</p>
+</section>
+<section id="synthetic-dead-time">
+<h2>Synthetic dead time<a class="headerlink" href="#synthetic-dead-time" title="Permalink to this heading"></a></h2>
+<p>You can introduce a synthetic dead time for each channel independently. This is useful
+when you want to suppress consecutive clicks that are closely separated,
+e.g., to suppress after-pulsing of avalanche photodiodes or as a simple way of data rate reduction.
+The dead time can be set individually for rising and for falling edges in each channel.</p>
+</section>
+<section id="conditional-filter">
+<h2>Conditional Filter<a class="headerlink" href="#conditional-filter" title="Permalink to this heading"></a></h2>
+<p>The Conditional Filter allows you to decrease the time tag rate without losing
+those time tags that are relevant to your application, for instance, where
+you have a high-frequency signal applied to at least one channel.
+Examples include fluorescence lifetime measurements or optical quantum information and cryptography, where you want to capture synchronization clicks from a high repetition rate excitation laser.</p>
+<p>To reduce the data rate, you discard all synchronization clicks, except those that follow after one of your low rate detector clicks,
+thereby forming a reduced time tag stream. The software processes the reduced time tag stream in the exact same fashion as the full time tag stream.</p>
+<p>This feature is enabled by the Conditional Filter. As all channels on your <em>Time Tagger</em> are fully equivalent,
+you can specify which channels are filtered and which channels are used as triggers that enable the transmission of a subsequent tag on the filtered channels.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In <em>Time Tagger 20</em>, the software-defined input delays, as set by the method
+<a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setInputDelay" title="TimeTaggerBase.setInputDelay"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setInputDelay()</span></code></a>, do not apply to the Conditional Filter logic.</p>
+</div>
+<p>More details and explanations can be found in the <a class="reference internal" href="../InDepthGuides/ConditionalFilter.html"><span class="doc">In Depth Guide: Conditional Filter</span></a>.</p>
+</section>
+<section id="bin-equilibration">
+<h2>Bin equilibration<a class="headerlink" href="#bin-equilibration" title="Permalink to this heading"></a></h2>
+<p>The discretization of electrical signals is never perfect. In time-to-digital conversion, this manifests
+as small differences (few ps) in the bin sizes inside the converter that even varies from chip to chip.
+This imperfection is inherent to any time-to-digital conversion hardware.
+It is usually not apparent to the user. However, when correlations between two channels are measured on short
+time scales, you might see this as a weak periodic ripple on top of your signal.
+We reduce the effect of this in the software at the cost of a decrease in
+the time resolution by <img class="math" src="../_images/math/8db467030dc4a1799b53811c4d3e227c3511fb3f.svg" alt="\sqrt{2}"/>. This feature is enabled by default. If your application requires time resolution down to the jitter limit,
+you can disable this feature.</p>
+</section>
+<section id="overflows">
+<span id="hw-overflows"></span><h2>Overflows<a class="headerlink" href="#overflows" title="Permalink to this heading"></a></h2>
+<p>The <em>Time Tagger 20</em> is capable of continuous streaming of about 8 M tags per second on average.
+For the <em>Time Tagger Ultra</em>, continuous tags streamed can exceed 70 M tags per second depending on the CPU the <em>Time Tagger</em> is attached to and the evaluation methods involved.
+Higher data rates for short times will be buffered internally so that no overflow occurs.
+This internal buffer is limited, therefore, if continuous higher data rates arise, data loss occurs and parts of the time tags are lost. The hardware allows you to check with <code class="docutils literal notranslate"><span class="pre">timeTagger.getOverflows()</span></code> whether an overflow condition
+has occurred. If no overflow is returned, you can be confident that every time tag is received.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When overflows occur, <em>Time Tagger</em> will still produce valid data blocks
+and discard the invalid tags in between. Your measurement data may still be valid, although
+your acquisition time will likely increase.</p>
+</div>
+</section>
+<section id="external-clock-input-time-tagger-ultra-and-time-tagger-x-only">
+<h2>External Clock Input - <em>Time Tagger Ultra</em> and <em>Time Tagger X</em> only<a class="headerlink" href="#external-clock-input-time-tagger-ultra-and-time-tagger-x-only" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An alternative and more flexible way to apply an external clock signal is the use of <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setSoftwareClock" title="TimeTaggerBase.setSoftwareClock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setSoftwareClock()</span></code></a>.
+Since software version 2.10, the software clock is recommended for applying an external clock.</p>
+</div>
+<p>The external clock input can be used to synchronize different <em>Time Tagger</em> devices.
+The input clock frequency must be 10 or 500 MHz.
+The CLK input requires between 100 and 4 Vpp AC coupled into 50 Ohm, 500 mVpp is recommended.
+The lock status can be read off the LED color: If the CLK LED shines green, the <em>Time Tagger</em> is locked and uses the provided clock.
+If the LED is blue, a valid frequency is supplied, however, the <em>Time Tagger</em> is still configured to use the internal clocking source.
+In case of a wrong or unstable frequency, the LED will shine red.</p>
+<p>Performance:</p>
+<p>The input clock signal must have a very low jitter to provide the specified performance of the <em>Time Tagger</em>.
+Please note that the timing specifications for the <em>Time Tagger Ultra</em> with respect to other devices on the same clock are only met from hardware version 2.3 on.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>In order to reach the specified input jitter for the <em>Time Tagger</em> with an external clock, the input signals must be uncorrelated to the external clock.
+This restriction does not exist for <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setSoftwareClock" title="TimeTaggerBase.setSoftwareClock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setSoftwareClock()</span></code></a>.</p>
+</div>
+</section>
+<section id="synchronization-signals-time-tagger-ultra-and-time-tagger-x-only">
+<h2>Synchronization signals - <em>Time Tagger Ultra</em> and <em>Time Tagger X</em> only<a class="headerlink" href="#synchronization-signals-time-tagger-ultra-and-time-tagger-x-only" title="Permalink to this heading"></a></h2>
+<p>Up to 8 <em>Time Tagger Ultra</em> and/or <em>Time Tagger X</em> units can be synchronized in such a way that they behave like a unified <em>Time Tagger</em>.
+This requires additional hardware, the Swabian Synchronizer.
+The Synchronizer uses the additional hardware connections: SYNC IN, LOOP IN, LOOP OUT and FDBK OUT (see <a class="reference internal" href="../synchronizer/index.html"><span class="doc">Synchronizer</span></a>).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>On <em>Time Tagger Ultra</em> units sold before September 2020, the synchronization signals use the ports labeled AUX IN 1, AUX IN 2, AUX OUT 1, AUX OUT 2.
+A mapping of the signal names is included in the Synchronizer documentation (see <a class="reference internal" href="../synchronizer/index.html"><span class="doc">Synchronizer</span></a>).
+If you own one of these units and would like to have a sticker to update your labels, please reach out to Swabian Instruments <a class="reference external" href="https://www.swabianinstruments.com/contact/">support</a> .</p>
+</div>
+</section>
+<section id="fpga-link-time-tagger-x-only">
+<h2>FPGA link - <em>Time Tagger X</em> only<a class="headerlink" href="#fpga-link-time-tagger-x-only" title="Permalink to this heading"></a></h2>
+<p>The Ethernet based FPGA link can be used for connecting customer FPGA designs
+directly to the Time Tagger X. Both a SFP+ and a QSFP+ connector are available
+for this on the back of the Time Tagger X, labeled as such. Currently only the
+SFP+ connector is active and should be connected to customer designs using either a
+conventional DAC or fiber transceiver.
+More details and explanations can be found in the <a class="reference internal" href="../InDepthGuides/FpgaLink.html"><span class="doc">In Depth Guide: FPGA link</span></a>.</p>
+</section>
+<section id="general-purpose-io-gpio-time-tagger-ultra-only">
+<h2>General purpose IO (GPIO) - <em>Time Tagger Ultra</em> only<a class="headerlink" href="#general-purpose-io-gpio-time-tagger-ultra-only" title="Permalink to this heading"></a></h2>
+<p>Starting from the <em>Time Tagger</em> v2.6.6, the general purpose inputs and outputs on <em>Time Tagger Ultra</em> are used for synchronization signals.
+New <em>Time Tagger Ultra</em> devices will have updated labeling of these IO ports. See, <a class="reference internal" href="../synchronizer/index.html"><span class="doc">Synchronizer</span></a></p>
+</section>
+<section id="general-purpose-io-gpio-time-tagger-20-only">
+<h2>General purpose IO (GPIO) - <em>Time Tagger 20</em> only<a class="headerlink" href="#general-purpose-io-gpio-time-tagger-20-only" title="Permalink to this heading"></a></h2>
+<p>The <em>Time Tagger 20</em> is equipped with four general purpose io ports that interface directly with the system’s FPGA. These are reserved for future implementations.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../synchronizer/index.html" class="btn btn-neutral float-left" title="Synchronizer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="software.html" class="btn btn-neutral float-right" title="Software Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Swabian Instruments.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

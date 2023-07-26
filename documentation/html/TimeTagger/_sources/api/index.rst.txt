@@ -1,0 +1,23 @@
+==================================
+Application Programmer's Interface
+==================================
+
+The Time Tagger API provides methods to control the hardware and to create
+:doc:`measurements <Measurements>` that are hooked onto the time tag stream. It is written in C++ and we also provide wrapper classes for several common higher-level languages (Python, Matlab, LabVIEW, .NET). Maintaining this transparent equivalence between different languages simplifies documentation and allows you to choose the most suitable language for your experiment.
+The API includes a set of standard :doc:`measurements <Measurements>` that cover common tasks relevant to photon counting and time-resolved event measurements. These classes will most likely cover your needs and, of course, the API provides you a possibility to implement your own custom measurements. Custom measurements can be created in one of the following ways:
+
+* Subclassing the :class:`IteratorBase` or :class:`CustomMeasurement` class (best performance, but only available in the C++, C# and Python API - see example in the installation folder)
+* Using the :class:`TimeTagStream` measurement and processing the raw time tag stream.
+* Offline processing when you store time-tags into a file using :class:`FileWriter` and then read the resulting file to perform desired analysis of the time-tags. This also enables to keep a record of the complete chronology of the events in your experiment.
+
+
+.. toctree::
+    :hidden:
+    :maxdepth: 2
+
+    examples
+    TimeTaggerLibrary
+    TimeTagger
+    VirtualChannels
+    Measurements
+    

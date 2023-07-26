@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conditional Filter &mdash; Time Tagger User Manual 2.16.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/iconTT.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Raw Time-Tag-Stream access" href="RawTimeTagStreamAccess.html" />
+    <link rel="prev" title="In Depth Guides" href="index.html" />
+ 
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXS6LN3');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXS6LN3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Time Tagger User Manual
+              <img src="../_static/logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.16.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<div id="link_documentation_pdf" style="margin-top:20px;">
+    <a style="font-weight:normal;color:#fcfcfc" target="_blank" href="/static/downloads/TimeTagger_User_Manual.pdf">
+<svg version="1.1"  width="13px" height="14px" viewBox="0 0 13 14" xmlns="http://www.w3.org/2000/svg">
+<g id="Download" fill="#fff">
+<path d="m10 6.5-0.74-0.76-2.4 2.4v-8.2h-1.1v8.2l-2.4-2.4-0.74 0.76 3.6 3.6z"></path>
+<path d="m1.1 13v-2.7h-1.1v3.8h13v-3.9h-1.1v2.9z"></path>
+</g>
+</svg>
+        Documentation as pdf
+    </a>
+</div>
+<script>
+    // Hide the pdf download link when we detect that the file is served from the local file system.
+    // Mostly likly to identify the ttlab offline documentation browser
+    if(window.location.protocol === "file:") {
+        document.getElementById("link_documentation_pdf").style.display = "none";
+    }
+</script>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sections/gettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/installation.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronizer/index.html">Synchronizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/software.html">Software Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Application Programmer’s Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">In Depth Guides</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Conditional Filter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-configurations">Example configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#one-trigger-and-one-filtered-channel">One trigger and one filtered channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multiple-trigger-channels">Multiple trigger-channels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multiple-filtered-channels">Multiple filtered channels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multiple-trigger-and-filtered-channels">Multiple trigger and filtered channels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#understanding-the-filtering-mechanism">Understanding the filtering mechanism</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#terms">Terms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#processing-stages">Processing stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#consequences">Consequences</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-of-the-conditional-filter">Setup of the Conditional Filter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#control-hardware-delay-compensation">Control hardware delay compensation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#disable-the-conditional-filter">Disable the Conditional Filter</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="RawTimeTagStreamAccess.html">Raw Time-Tag-Stream access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PipelineSynchronization.html">Synchronization of the Time Tagger pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FpgaLink.html">FPGA link</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/UsageStatistics.html">Usage Statistics Collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/changelog.html">Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Time Tagger User Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">In Depth Guides</a></li>
+      <li class="breadcrumb-item active">Conditional Filter</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="conditional-filter">
+<h1>Conditional Filter<a class="headerlink" href="#conditional-filter" title="Permalink to this heading"></a></h1>
+<p>The Conditional Filter is a hardware feature that allows you to remove irrelevant time tags carrying no information.
+In a typical use case, you have a high-frequency signal applied to at least one channel.
+Examples include fluorescence lifetime measurements or optical quantum information and cryptography where you want to capture synchronization clicks from a high repetition rate excitation laser.</p>
+<p>The Conditional Filter distinguishes between <em>trigger</em> channels and <em>filtered</em> channels.
+All input channels of your Time Tagger are fully equivalent and can be used as both, trigger or filtered channels.
+The data rate of the filtered channels will be reduced.
+The reduction is controlled by the trigger channels:
+Every trigger opens the gate for an event of the filtered channel.
+All other events in the filtered channels will be discarded on the Time Tagger and do not need to be transferred via the USB connection.</p>
+<p>Being a hardware feature, the Conditional Filter is not controlled on the level of individual measurements.
+It is enabled on the level of your physical device with a typical Python code looking like</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">TimeTagger</span>
+<span class="n">tagger</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">createTimeTagger</span><span class="p">()</span>
+<span class="n">tagger</span><span class="o">.</span><span class="n">setConditionalFilter</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">filtered</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The details will be explained in the <a class="reference internal" href="#setup-of-the-conditional-filter">Setup of the Conditional Filter</a> section.</p>
+<section id="example-configurations">
+<h2>Example configurations<a class="headerlink" href="#example-configurations" title="Permalink to this heading"></a></h2>
+<section id="one-trigger-and-one-filtered-channel">
+<h3>One trigger and one filtered channel<a class="headerlink" href="#one-trigger-and-one-filtered-channel" title="Permalink to this heading"></a></h3>
+<p>The most fundamental case involves one filtered-channel and one trigger-channel:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tagger</span><span class="o">.</span><span class="n">setConditionalFilter</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">filtered</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+</pre></div>
+</div>
+<figure class="align-center">
+<img alt="../_images/ConditionalFilter_11.svg" class="plot-directive" src="../_images/ConditionalFilter_11.svg" /></figure>
+<p>The Conditional Filter discards by default all signals of the filtered-channel.
+Only the very next event is transmitted after an event on the trigger-channel.
+In the example, click 2 opens the gate for click 3.
+When click 3 passes, it closes the gate and the subsequent events will be discarded until another event (click 8) occurs in the trigger channel.</p>
+</section>
+<section id="multiple-trigger-channels">
+<h3>Multiple trigger-channels<a class="headerlink" href="#multiple-trigger-channels" title="Permalink to this heading"></a></h3>
+<p>There is the option to define more than one trigger-channel for the Conditional Filter.
+As a consequence, the next event on the filtered-channel is transmitted when there was a event at <em>any</em> of the trigger-channels:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tagger</span><span class="o">.</span><span class="n">setConditionalFilter</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">filtered</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+</pre></div>
+</div>
+<figure class="align-center">
+<img alt="../_images/ConditionalFilter_21.svg" class="plot-directive" src="../_images/ConditionalFilter_21.svg" /></figure>
+<p>This is the typical use case when you detect photons with multiple detectors and want to correlate both with the common excitation laser.</p>
+</section>
+<section id="multiple-filtered-channels">
+<h3>Multiple filtered channels<a class="headerlink" href="#multiple-filtered-channels" title="Permalink to this heading"></a></h3>
+<p>It is also possible to use the Conditional Filter with one trigger-channel and several filtered-channels:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tagger</span><span class="o">.</span><span class="n">setConditionalFilter</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">filtered</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+</pre></div>
+</div>
+<figure class="align-center">
+<img alt="../_images/ConditionalFilter_12.svg" class="plot-directive" src="../_images/ConditionalFilter_12.svg" /></figure>
+</section>
+<section id="multiple-trigger-and-filtered-channels">
+<h3>Multiple trigger and filtered channels<a class="headerlink" href="#multiple-trigger-and-filtered-channels" title="Permalink to this heading"></a></h3>
+<p>In general, you can also combine multiple trigger-channels and multiple filtered-channels:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tagger</span><span class="o">.</span><span class="n">setConditionalFilter</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">filtered</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+</pre></div>
+</div>
+<figure class="align-center">
+<img alt="../_images/ConditionalFilter_22.svg" class="plot-directive" src="../_images/ConditionalFilter_22.svg" /></figure>
+<p>This scheme shows two different high-frequency signals on channels #7 and #8.
+Such cases can occur when you want to run two completely independent experiments on a single Time Tagger.
+For instance, channels #1/#7 and #2/#8 may represent the two experiments.
+It is not possible to set up two independent Conditional Filters for these groups.
+The scheme shown is the only way to apply the Conditional Filter in this case - with the drawback that channel #1 (#2) may also trigger channel #8 (#7), making the filtering less efficient.</p>
+</section>
+</section>
+<section id="understanding-the-filtering-mechanism">
+<h2>Understanding the filtering mechanism<a class="headerlink" href="#understanding-the-filtering-mechanism" title="Permalink to this heading"></a></h2>
+<p>The Conditional Filter is a hardware feature that is embedded in a sequence of processing stages.
+It is important to understand the order of these stages.
+Some unexpected results can occur when you are not aware of these mechanisms, so read the following section with care.</p>
+<section id="terms">
+<h3>Terms<a class="headerlink" href="#terms" title="Permalink to this heading"></a></h3>
+<dl class="simple glossary">
+<dt id="term-Input-time-stamp">Input time stamp<a class="headerlink" href="#term-Input-time-stamp" title="Permalink to this term"></a></dt><dd><p>This is the time stamp <em>you</em> are interested in: It refers to the time when the input signal transits the trigger level at the input connector.</p>
+</dd>
+<dt id="term-TDC-time-stamp">TDC time stamp<a class="headerlink" href="#term-TDC-time-stamp" title="Permalink to this term"></a></dt><dd><p>This is the time stamp <em>the Time Tagger</em> is interested in: It is the raw 64 bit integer the FPGA attributes to a pulse edge.</p>
+</dd>
+<dt id="term-Hardware-delay">Hardware delay<a class="headerlink" href="#term-Hardware-delay" title="Permalink to this term"></a></dt><dd><p>The signal entering the input connector is routed through the Time Tagger into the FPGA where the time to digital conversion is performed. This route differs from channel to channel and so does the accumulated delay. Because of this, we need to distinguish between <a class="reference internal" href="#term-Input-time-stamp"><span class="xref std std-term">Input time stamp</span></a> and <a class="reference internal" href="#term-TDC-time-stamp"><span class="xref std std-term">TDC time stamp</span></a>. The <a class="reference internal" href="#term-Hardware-delay"><span class="xref std std-term">hardware delay</span></a> cannot be controlled by the user, it is defined by the design of the Time Tagger hardware and the FPGA configuration (this can vary from software release to software release). But don’t worry, the Time Tagger is calibrated to compensate for this delay. This compensation is done on the device in case of the Time Tagger Ultra and the Time Tagger X. The Time Tagger 20 can only apply the delay in software (see details below). Except for the purpose of understanding the Conditional Filter, you do not need to care about the difference.</p>
+</dd>
+<dt id="term-External-delay">External delay<a class="headerlink" href="#term-External-delay" title="Permalink to this term"></a></dt><dd><p>Any delay introduced before the Time Tagger, e.g. by cable lengths or optical pathways.</p>
+</dd>
+</dl>
+</section>
+<section id="processing-stages">
+<h3>Processing stages<a class="headerlink" href="#processing-stages" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple" id="stage-input">
+<li><p><strong>Pulse enters the Time Tagger:</strong> Up to the input connector, the user is in charge of the <a class="reference internal" href="#term-External-delay"><span class="xref std std-term">external delays</span></a>. They can be controlled by changing cable lengths or optical pathways. The time tag generated by the Time Tagger should therefore represent the temporal order at the input connectors. This is the <a class="reference internal" href="#term-Input-time-stamp"><span class="xref std std-term">input time stamp</span></a>.</p></li>
+</ol>
+<ol class="arabic simple" id="stage-tdc" start="2">
+<li><p><strong>Time to digital conversion:</strong> The pulses propagate through the Time Tagger. They are compared to the trigger level of the input stage. This results in a high or low logic level. This is still analog information that propagates to the FPGA. Here, the <a class="reference internal" href="#term-TDC-time-stamp"><span class="xref std std-term">TDC time stamp</span></a> is attributed to the pulse edge. The propagation length up to this time to digital conversion (TDC) differs from channel to channel. It can be compensated in one of the later stages.</p></li>
+</ol>
+<ol class="arabic simple" id="stage-hardware-delay" start="3">
+<li><p><strong>Adjustable hardware delay (TT Ultra and TTX only!):</strong> From software version 2.8.0 on, the Time Tagger Ultra is able to buffer and reorder the tags before the Conditional Filter. For Time Tagger X, this feature is available from software version 2.12.0 on. You can set an individual delay for every input stage by <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setDelayHardware" title="TimeTaggerBase.setDelayHardware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setDelayHardware()</span></code></a>. This behaves like an adjustable hardware delay and is calibrated by default to compensate for the physical hardware delay. It changes the behavior of the Conditional Filter tremendously, as you will see in the next stages.</p></li>
+</ol>
+<ol class="arabic simple" id="stage-deadtime" start="4">
+<li><p><strong>Adjustable deadtime:</strong> As a first filter stage, the adjustable deadtime is applied. It acts only on the channel itself, considering rising and falling edges as two separate channels. After an event in one of the channels occurred, no other event can appear in the same channel for the defined deadtime. The deadtime can only be set in integer multiples of the FPGA clock cycle (TT20: 6000 ps, TT Ultra: 2000 ps, TTX: 1333 ps) with a technically required minimum of one cycle.</p></li>
+</ol>
+<ol class="arabic simple" id="stage-conditional-filter" start="5">
+<li><p><strong>Conditional Filter:</strong> As a second filter stage, the Conditional Filter is applied. The time tags of trigger channels and filtered channels are compared. If your device is able to introduce <a class="reference internal" href="#stage-hardware-delay"><span class="std std-ref">Adjustable hardware delay</span></a>, this happens based on the timestamp including the <a class="reference internal" href="#term-Hardware-delay"><span class="xref std std-term">Hardware delay</span></a> compensation and the additional delay set by <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setDelayHardware" title="TimeTaggerBase.setDelayHardware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setDelayHardware()</span></code></a>. Otherwise, the raw <a class="reference internal" href="#term-TDC-time-stamp"><span class="xref std std-term">TDC time stamp</span></a> is used. In both cases, the time order of these stamps can deviate from the order of the <a class="reference internal" href="#term-Input-time-stamp"><span class="xref std std-term">input time stamps</span></a> that you are dealing with usually. Note: In the edge case of events arriving at the same time (dt=0) on a trigger and filtered channel, it is not specified whether the event on the filtered channel at dt=0 is passed through, or the subsequent, or both.</p></li>
+</ol>
+<ol class="arabic simple" id="stage-event-divider" start="6">
+<li><p><strong>Event Divider:</strong> As a third filter stage, the Event Divider can be applied. Only every n-th time tag of the respective channel is transmitted, all others are dismissed.</p></li>
+</ol>
+<ol class="arabic simple" id="stage-usb" start="7">
+<li><p><strong>The bottleneck - USB transfer:</strong> The time tags are buffered and transmitted to the PC. At this point, after applying Conditional Filter and Event Divider, it is important that the resulting data rate on average does not exceed the maximum data rate.</p></li>
+</ol>
+<ol class="arabic simple" id="stage-input-delay-compensation" start="8">
+<li><p><strong>setDelaySoftware:</strong> From now on, the Time Tagger hardware is not involved anymore. If your device does not provide an adjustable hardware delay, the software compensates now the <a class="reference internal" href="#term-TDC-time-stamp"><span class="xref std std-term">TDC time stamp</span></a> for the <a class="reference internal" href="#term-Hardware-delay"><span class="xref std std-term">hardware delay</span></a> to provide you the <a class="reference internal" href="#term-Input-time-stamp"><span class="xref std std-term">input time stamp</span></a> (it is possible to disable the hardware delay compensation, see <a class="reference internal" href="#control-hardware-delay-compensation">Control hardware delay compensation</a>). In any case, you can modify this compensation by <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setDelaySoftware" title="TimeTaggerBase.setDelaySoftware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setDelaySoftware()</span></code></a>.</p></li>
+</ol>
+<ol class="arabic simple" id="stage-delayedchannel" start="9">
+<li><p><strong>Delayed Channel:</strong> The most flexible way to control the relative delay of your signals are Virtual Channels.</p></li>
+</ol>
+</section>
+<section id="consequences">
+<h3>Consequences<a class="headerlink" href="#consequences" title="Permalink to this heading"></a></h3>
+<p>The nature of the filtering process can produce counterintuitive results that need to be handled.
+We will explore these cases based on the example of a fluorescence lifetime measurement.
+The sample is excited by a pulsed laser with a repetition rate of 80 MHz (period of 12.5 ns), the laser synchronization signal is connected to channel #8.
+So channel #8 is the high-frequency input that needs to be filtered.
+Fluorescence photons are collected by a single-photon detector connected to channel #1 that will trigger the Conditional Filter.
+We set up a correlation measurement and look at different cases:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TimeTagger</span><span class="o">.</span><span class="n">Correlation</span><span class="p">(</span><span class="n">tagger</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-center">
+<img alt="../_images/ConditionalFilter_signal.svg" class="plot-directive" src="../_images/ConditionalFilter_signal.svg" /></figure>
+<p><strong>Case 1:</strong> Without the Conditional Filter set up, the Correlation measurement class provides a periodic signal.
+The periodicity is a result of the multi-start/multi-stop approach of the Correlation measurement:
+A click on the detector will contribute together with any laser synchronization pulse to the correlation, not only with the one that actually stimulated the photon.
+Without the Conditional Filter, there will be a laser time tag every 12.5 ns.
+Because this high frequency cannot be transferred for a long time, buffer overflows will lead to discarded data.</p>
+<p><strong>Case 2:</strong> With the Conditional Filter on, the data rate is highly reduced at the cost of losing the full periodicity of the signal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tagger</span><span class="o">.</span><span class="n">setConditionalFilter</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">filtered</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Now we observe that the majority of the events is in the range of a few nanoseconds.
+However, the signal does not look like expected:
+Instead of a signal resembling one of the peaks from Case 1, a double peak appears.
+If you look carefully at the signal, you can see that the lifetime curve is cut along the dotted line and one part is shifted by one period.
+This indicates that the physical delay between the input channels is not designed properly.
+The scheme illustrates the problem:</p>
+<figure class="align-center">
+<img alt="../_images/ConditionalFilter_order.svg" class="plot-directive" src="../_images/ConditionalFilter_order.svg" /></figure>
+<p>The dashed line indicates which pulse excited the sample. If the photon is emitted early by the sample (click 2), it will trigger the first pulse (click 3) after the stimulating one (click 1).
+In the second case, the photon is emitted late and the subsequent laser pulse (click 7) has already passed.
+In this case, click 9 is passed and click 8 seems to be very early, although it is quite late, in fact.</p>
+<p><strong>Case 3:</strong> To align the signal properly, having the signal in between two laser events, the strategy depends on your device:
+With Time Tagger Ultra (with software version 2.8.0 and later) and Time Tagger X (with software version 2.12.0 and later), you can use <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setDelayHardware" title="TimeTaggerBase.setDelayHardware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setDelayHardware()</span></code></a> to align your signals.
+In the case of a Time Tagger 20, however, you need to adjust your <a class="reference internal" href="#term-External-delay"><span class="xref std std-term">external delays</span></a>.
+You might either modify optical path lengths or use cables of different lengths.</p>
+<p><strong>Case 4:</strong> This case illustrates that the height of the higher-order peaks is determined by the count rate of your detector.
+The relative height (compared to the center peak) is proportional to the probability for a laser synchronization pulse to pass the Conditional Filter in the higher-order period.
+This probability is given by the probability that a detector click occurs in the respective period and gates the synchronization click.
+In Case 1, without the Conditional Filter, the probability is 100% - every synchronization pulse is passed.
+For Case 2 and Case 3, the probability has been set to 10%, in Case 4 it has been increased to 40%.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In Cases 3 and 4, with <a class="reference internal" href="#term-External-delay"><span class="xref std std-term">external delays</span></a> well adjusted to each other, you can see a signal at negative times.
+How is this possible?
+Wouldn’t this mean that the laser synchronization click arrived earlier than the photon click that gated it?
+Does my Time Tagger violate causality?</p>
+<p>The answer is: No, it does not.
+The occurrence of negative delays is caused by the difference between the <a class="reference internal" href="#term-Input-time-stamp"><span class="xref std std-term">input time stamps</span></a> and the <a class="reference internal" href="#term-TDC-time-stamp"><span class="xref std std-term">TDC time stamps</span></a>.
+Negative delays occur in <a class="reference internal" href="#term-Input-time-stamp"><span class="xref std std-term">input time stamps</span></a>, but causality must only be obeyed in <a class="reference internal" href="#term-TDC-time-stamp"><span class="xref std std-term">TDC time stamps</span></a> (plus <a class="reference internal" href="#stage-hardware-delay"><span class="std std-ref">adjustable onboard delays</span></a>, if available).
+The occurrence of negative delays indicates that the <a class="reference internal" href="#term-Hardware-delay"><span class="xref std std-term">hardware delay</span></a> of channel #8 (laser synchronization) is larger than that of channel #1 (detector).</p>
+</div>
+</section>
+</section>
+<section id="setup-of-the-conditional-filter">
+<h2>Setup of the Conditional Filter<a class="headerlink" href="#setup-of-the-conditional-filter" title="Permalink to this heading"></a></h2>
+<p>The <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setConditionalFilter" title="TimeTagger.setConditionalFilter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setConditionalFilter()</span></code></a> method expects two arguments, <cite>trigger</cite> and <cite>filtered</cite>, and accepts the optional boolean argument <cite>hardwareDelayCompensation</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tagger</span><span class="o">.</span><span class="n">setConditionalFilter</span><span class="p">(</span><span class="n">trigger</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+                            <span class="n">filtered</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+                            <span class="n">hardwareDelayCompensation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The effect of <cite>trigger</cite> and <cite>filter</cite> can be reviewed in the <a class="reference internal" href="#example-configurations">Example configurations</a> section.</p>
+<section id="control-hardware-delay-compensation">
+<h3>Control hardware delay compensation<a class="headerlink" href="#control-hardware-delay-compensation" title="Permalink to this heading"></a></h3>
+<p>With the argument <cite>hardwareDelayCompensation</cite> you can decide whether the <a class="reference internal" href="#term-Hardware-delay"><span class="xref std std-term">hardware delay</span></a> is compensated or not.
+This means, in fact, that you can decide whether you work with <a class="reference internal" href="#term-Input-time-stamp"><span class="xref std std-term">input time stamps</span></a> or with <a class="reference internal" href="#term-TDC-time-stamp"><span class="xref std std-term">TDC time stamps</span></a>. If your device supports <a class="reference internal" href="#stage-hardware-delay"><span class="std std-ref">adjustable onboard delays</span></a>, you should never set this value to False and you can ignore this section.</p>
+<dl class="simple">
+<dt>hardwareDelayCompensation = True (default)</dt><dd><dl class="simple">
+<dt>Pros</dt><dd><ul class="simple">
+<li><p>Time tags are provided in the way you are used to it</p></li>
+<li><p>The signal position will not depend on the software version</p></li>
+</ul>
+</dd>
+<dt>Cons</dt><dd><ul class="simple">
+<li><p>Negative time differences can occur between trigger-channel and filtered-channel and seemingly violate causality</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>hardwareDelayCompensation = False</dt><dd><dl class="simple">
+<dt>Pros</dt><dd><ul class="simple">
+<li><p>Provided Time tags will be in the same temporal order as for the ConditionalFilter, no negative time differences will occur</p></li>
+</ul>
+</dd>
+<dt>Cons</dt><dd><ul class="simple">
+<li><p>Signal positions may change upon software update</p></li>
+<li><p>Affects all channels, not only the ones listed in <cite>trigger</cite> and <cite>filtered</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="disable-the-conditional-filter">
+<h3>Disable the Conditional Filter<a class="headerlink" href="#disable-the-conditional-filter" title="Permalink to this heading"></a></h3>
+<p>To disable the Conditional Filter, you can either pass an empty lists or use the <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.clearConditionalFilter" title="TimeTagger.clearConditionalFilter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.clearConditionalFilter()</span></code></a> method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tagger</span><span class="o">.</span><span class="n">setConditionalFilter</span><span class="p">([],</span> <span class="p">[])</span>
+<span class="c1"># or</span>
+<span class="n">tagger</span><span class="o">.</span><span class="n">clearConditionalFilter</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="In Depth Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="RawTimeTagStreamAccess.html" class="btn btn-neutral float-right" title="Raw Time-Tag-Stream access" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Swabian Instruments.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

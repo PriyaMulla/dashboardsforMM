@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Revision History &mdash; Time Tagger User Manual 2.16.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/iconTT.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Usage Statistics Collection" href="UsageStatistics.html" />
+ 
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXS6LN3');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXS6LN3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Time Tagger User Manual
+              <img src="../_static/logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.16.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<div id="link_documentation_pdf" style="margin-top:20px;">
+    <a style="font-weight:normal;color:#fcfcfc" target="_blank" href="/static/downloads/TimeTagger_User_Manual.pdf">
+<svg version="1.1"  width="13px" height="14px" viewBox="0 0 13 14" xmlns="http://www.w3.org/2000/svg">
+<g id="Download" fill="#fff">
+<path d="m10 6.5-0.74-0.76-2.4 2.4v-8.2h-1.1v8.2l-2.4-2.4-0.74 0.76 3.6 3.6z"></path>
+<path d="m1.1 13v-2.7h-1.1v3.8h13v-3.9h-1.1v2.9z"></path>
+</g>
+</svg>
+        Documentation as pdf
+    </a>
+</div>
+<script>
+    // Hide the pdf download link when we detect that the file is served from the local file system.
+    // Mostly likly to identify the ttlab offline documentation browser
+    if(window.location.protocol === "file:") {
+        document.getElementById("link_documentation_pdf").style.display = "none";
+    }
+</script>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronizer/index.html">Synchronizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software.html">Software Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Application Programmer’s Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../InDepthGuides/index.html">In Depth Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageStatistics.html">Usage Statistics Collection</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Revision History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v2-16-2-23-06-2023">V2.16.2 - 23.06.2023</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-16-0-05-06-2023">V2.16.0 - 05.06.2023</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-15-0-06-03-2023">V2.15.0 - 06.03.2023</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-14-0-23-12-2022">V2.14.0 - 23.12.2022</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-13-2-22-11-2022">V2.13.2 - 22.11.2022</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-12-4-09-11-2022">V2.12.4 - 09.11.2022</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-12-2-04-10-2022">V2.12.2 - 04.10.2022</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-12-0-01-09-2022">V2.12.0 - 01.09.2022</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-11-0-22-04-2022">V2.11.0 - 22.04.2022</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-10-6-16-03-2022">V2.10.6 - 16.03.2022</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-10-4-23-02-2022">V2.10.4 - 23.02.2022</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-10-2-31-12-2021">V2.10.2 - 31.12.2021</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-10-0-22-12-2021">V2.10.0 - 22.12.2021</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-9-0-07-06-2021">V2.9.0 - 07.06.2021</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-8-4-04-05-2021">V2.8.4 - 04.05.2021</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-8-2-26-04-2021">V2.8.2 - 26.04.2021</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-8-0-29-03-2021">V2.8.0 - 29.03.2021</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-7-6-26-04-2021">V2.7.6 - 26.04.2021</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-7-4-19-04-2021">V2.7.4 - 19.04.2021</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-7-2-22-12-2020">V2.7.2 - 22.12.2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-7-0-01-10-2020">V2.7.0 - 01.10.2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-6-10-07-09-2020">V2.6.10 - 07.09.2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-6-8-21-08-2020">V2.6.8 - 21.08.2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-6-6-10-07-2020">V2.6.6 - 10.07.2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-6-4-27-05-2020">V2.6.4 - 27.05.2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-6-2-10-03-2020">V2.6.2 - 10.03.2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-6-0-23-12-2019">V2.6.0 - 23.12.2019</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-4-4-29-07-2019">V2.4.4 - 29.07.2019</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-4-2-12-05-2019">V2.4.2 - 12.05.2019</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-4-0-10-04-2019">V2.4.0 - 10.04.2019</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-2-4-29-01-2019">V2.2.4 - 29.01.2019</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-2-2-13-11-2018">V2.2.2 - 13.11.2018</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-2-0-07-11-2018">V2.2.0 - 07.11.2018</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-1-6-17-05-2018">V2.1.6 - 17.05.2018</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-1-4-21-03-2018">V2.1.4 - 21.03.2018</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-1-2-14-03-2018">V2.1.2 - 14.03.2018</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-1-0-06-03-2018">V2.1.0 - 06.03.2018</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-0-4-01-02-2018">V2.0.4 - 01.02.2018</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-0-2-17-01-2018">V2.0.2 - 17.01.2018</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v2-0-0-14-12-2017">V2.0.0 - 14.12.2017</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v1-0-20-24-10-2017">V1.0.20 - 24.10.2017</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v1-0-6-16-03-2017">V1.0.6 - 16.03.2017</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v1-0-4-24-11-2016">V1.0.4 - 24.11.2016</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v1-0-2-28-07-2016">V1.0.2 - 28.07.2016</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v1-0-0">V1.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#channel-number-schema-0-and-1">Channel Number Schema 0 and 1</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Time Tagger User Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Revision History</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="revision-history">
+<h1>Revision History<a class="headerlink" href="#revision-history" title="Permalink to this heading"></a></h1>
+<section id="v2-16-2-23-06-2023">
+<h2>V2.16.2 - 23.06.2023<a class="headerlink" href="#v2-16-2-23-06-2023" title="Permalink to this heading"></a></h2>
+<p class="rubric">Time Tagger hardware support</p>
+<ul class="simple">
+<li><p>Adds support for Time Tagger 20 with hardware revision 2.5.</p></li>
+<li><p>Adds support for Time Tagger X with hardware revision 1.2.</p></li>
+</ul>
+<p class="rubric">Time Tagger bug fix</p>
+<ul class="simple">
+<li><p>Fixes <a class="reference internal" href="../api/Measurements.html#Counter" title="Counter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Counter</span></code></a> showing wrong values when the same channel is used multiple times, now throwing an exception on creating.</p></li>
+<li><p>Fixes <a class="reference internal" href="../api/Measurements.html#FileReader" title="FileReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileReader</span></code></a> in Matlab not loading the .NET Assembly in its constructor. All measurement classes now load the assembly.</p></li>
+</ul>
+<p class="rubric">Time Tagger Lab</p>
+<ul class="simple">
+<li><p>Fixes non-visible numbers for cursor values.</p></li>
+<li><p>Moved legend of Counter time trace to the top left.</p></li>
+<li><p>Higher precision formatting values when necessary.</p></li>
+</ul>
+</section>
+<section id="v2-16-0-05-06-2023">
+<h2>V2.16.0 - 05.06.2023<a class="headerlink" href="#v2-16-0-05-06-2023" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>Time Tagger Lab: Virtual Antibunching and Fluorescence lifetime setups.</p></li>
+</ul>
+<p class="rubric">Time Tagger Lab features and enhancements</p>
+<ul class="simple">
+<li><p>Antibunching and Fluorescence lifetime setups and corresponding simulation measurements. The detector signals are fully simulated for those measurements and no physical detectors are needed.</p></li>
+<li><p>Option to suppress counts for dt=0 with autocorrelation measurements.</p></li>
+<li><p>Notification that software updates are available.</p></li>
+<li><p>Improved crash and error reporting.</p></li>
+<li><p>Improved ticks and labels of logarithmic plots.</p></li>
+</ul>
+<p class="rubric">Time Tagger Lab bug fixes</p>
+<ul class="simple">
+<li><p>Fixed various crashes related to exporting data, opening a message box, and creating log files.</p></li>
+<li><p>Fixed Histogram 2D export.</p></li>
+<li><p>Fixed auto-restarting with no-plot measurements on configuration change.</p></li>
+<li><p>Missing log-y labels and ticks are added to chart display.</p></li>
+</ul>
+<p class="rubric">Improvement</p>
+<ul class="simple">
+<li><p>Adds support for Python 3.11.</p></li>
+<li><p>The built-in test signal verifies the hardware input stage on Time Tagger X starting from hardware revision 1.1.</p></li>
+</ul>
+<p class="rubric">Bug fixes</p>
+<ul class="simple">
+<li><p>Fixes fan information of <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getSensorData" title="TimeTagger.getSensorData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getSensorData()</span></code></a> on the Time Tagger Ultra.</p></li>
+<li><p>Fixes the support for Time Tagger Ultra devices with the serials starting with <cite>17</cite>.</p></li>
+<li><p>Fixes <a class="reference internal" href="../api/VirtualChannels.html#GatedChannel" title="GatedChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">GatedChannel</span></code></a>, <a class="reference internal" href="../api/VirtualChannels.html#FrequencyMultiplier" title="FrequencyMultiplier"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrequencyMultiplier</span></code></a> and <a class="reference internal" href="../api/VirtualChannels.html#TriggerOnCountrate" title="TriggerOnCountrate"><code class="xref py py-class docutils literal notranslate"><span class="pre">TriggerOnCountrate</span></code></a> to switch to the initial state on <a class="reference internal" href="../api/Measurements.html#IteratorBase.clear" title="IteratorBase.clear"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></a> and <a class="reference internal" href="../api/Measurements.html#IteratorBase.startFor" title="IteratorBase.startFor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">startFor()</span></code></a>.</p></li>
+<li><p>Fixes <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.autoCalibration" title="TimeTagger.autoCalibration"><code class="xref py py-meth docutils literal notranslate"><span class="pre">autoCalibration()</span></code></a> to clear the old calibration data.</p></li>
+<li><p>Fixes the error handling on Linux if parts of the Python wrapper are missing.</p></li>
+<li><p>Fixes a one bit out of bounds memory access on verifying the hardware license.</p></li>
+<li><p>Fixes the jagged array handling of the Matlab Wrapper for <a class="reference internal" href="../api/VirtualChannels.html#Coincidences" title="Coincidences"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coincidences</span></code></a>.</p></li>
+</ul>
+</section>
+<section id="v2-15-0-06-03-2023">
+<h2>V2.15.0 - 06.03.2023<a class="headerlink" href="#v2-15-0-06-03-2023" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>Rework of the Matlab wrapper, now reflecting the full functionality of the Time Tagger API.</p></li>
+</ul>
+<p class="rubric">Matlab wrapper</p>
+<ul class="simple">
+<li><p>Supports class inheritance, new TT classes are closer to their C++, and Python counterparts.</p></li>
+<li><p>Supports creation of TimeTagger objects via <a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">TimeTagger.createTimeTagger()</span></code></a>.</p></li>
+<li><p>Supports native Matlab enums.</p></li>
+<li><p>Supports jagged arrays via conversion from/into Matlab cells.</p></li>
+</ul>
+<p class="rubric">Behavior change</p>
+<ul class="simple">
+<li><p>Disallow an event divider value of 0. Please use 1 instead.</p></li>
+<li><p>Matlab: Removed Matlab app designer examples.</p></li>
+</ul>
+<p class="rubric">Other Changes</p>
+<ul class="simple">
+<li><p>Updated Opal Kelly Frontpanel library to 5.2.12.</p></li>
+</ul>
+<p class="rubric">Bug fixes</p>
+<ul class="simple">
+<li><p>Python: Fix return type annotation for <a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a>.</p></li>
+<li><p>Fixes certain deadlock issues in Matlab caused by asynchronous functions.</p></li>
+<li><p>Fixes the overflow tracking with a USB error while in overflow.</p></li>
+<li><p>Fixes handling of tags with respect to &lt;-&gt; missed events at the timestamp of an OverflowBegin error.</p></li>
+<li><p>Counter: Fixes a transpose issue of the NaN generation in <a class="reference internal" href="../api/Measurements.html#CounterData.getDataNormalized" title="CounterData.getDataNormalized"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CounterData.getDataNormalized()</span></code></a>.</p></li>
+<li><p>FrequencyStability: Fixes an integer overflow in the MDEV / TDEV calculation.</p></li>
+<li><p>Fixed issue with <code class="docutils literal notranslate"><span class="pre">LicenseRequestGenerator.exe</span></code> not working on some systems.</p></li>
+</ul>
+<p class="rubric">Time Tagger Lab features and enhancements</p>
+<ul class="simple">
+<li><p>Device LEDs can be switched on and off (not Time Tagger 20).</p></li>
+<li><p>Improved setting of the reference software clock for signals with an event divider greater than 1.</p></li>
+<li><p>Time Tagger 20 Edu is supported.</p></li>
+</ul>
+<p class="rubric">Time Tagger Lab bug fixes</p>
+<ul class="simple">
+<li><p>Fix the crash when capturing high-resolution counter-time traces.</p></li>
+<li><p>Fix the crash when the USB connection to the device is unstable.</p></li>
+<li><p>Fix the crash when exporting large Scope measurement data.</p></li>
+<li><p>Fix the crash when exporting a plot to a PNG file.</p></li>
+<li><p>Fix the crash when measurements require too much memory on initialization.</p></li>
+<li><p>User interface issues with small screens are solved.</p></li>
+</ul>
+</section>
+<section id="v2-14-0-23-12-2022">
+<h2>V2.14.0 - 23.12.2022<a class="headerlink" href="#v2-14-0-23-12-2022" title="Permalink to this heading"></a></h2>
+<p class="rubric">Time Tagger X</p>
+<ul class="simple">
+<li><p>Adds support for Time Tagger X with hardware revision 1.1.</p></li>
+<li><p>Adds support for Synchronizer with Time Tagger X and also mixed setups with Time Tagger Ultras.</p></li>
+<li><p>Provides preliminary Ethernet support on the SFP+.</p></li>
+<li><p>Improves the auto-calibration for periodic signals.</p></li>
+<li><p>Better CPU performance for aligned tags.</p></li>
+<li><p>Improves the channel LED blinking for 1pps signals.</p></li>
+<li><p>Shows calibration errors on the channel LED in red.</p></li>
+<li><p>Fixes a random skew jump of 1333 ps per input channel on USB errors.</p></li>
+<li><p>Fixes the channel LED indication for falling events.</p></li>
+</ul>
+<p class="rubric">Bug fix</p>
+<ul class="simple">
+<li><p>Fix Power LED turning off after calling <a class="reference internal" href="../api/TimeTaggerLibrary.html#freeTimeTagger" title="freeTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">freeTimeTagger()</span></code></a> on the Time Tagger Ultra.</p></li>
+</ul>
+</section>
+<section id="v2-13-2-22-11-2022">
+<h2>V2.13.2 - 22.11.2022<a class="headerlink" href="#v2-13-2-22-11-2022" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlight</p>
+<ul class="simple">
+<li><p>Release of <a class="reference internal" href="gettingStarted.html#timetaggerlab"><span class="std std-ref">Time Tagger Lab</span></a> - the native UI for Windows.</p></li>
+</ul>
+</section>
+<section id="v2-12-4-09-11-2022">
+<h2>V2.12.4 - 09.11.2022<a class="headerlink" href="#v2-12-4-09-11-2022" title="Permalink to this heading"></a></h2>
+<p class="rubric">Improvement</p>
+<ul class="simple">
+<li><p>Adds support for Time Tagger Ultra with hardware revision 1.7.</p></li>
+</ul>
+<p class="rubric">Bug fix</p>
+<ul class="simple">
+<li><p>Fixed <a class="reference internal" href="gettingStarted.html#webapplication"><span class="std std-ref">Web Application</span></a> data export for <a class="reference internal" href="../api/Measurements.html#HistogramLogBins" title="HistogramLogBins"><code class="xref py py-class docutils literal notranslate"><span class="pre">HistogramLogBins</span></code></a>.</p></li>
+</ul>
+</section>
+<section id="v2-12-2-04-10-2022">
+<h2>V2.12.2 - 04.10.2022<a class="headerlink" href="#v2-12-2-04-10-2022" title="Permalink to this heading"></a></h2>
+<p class="rubric">Bug fixes</p>
+<ul class="simple">
+<li><p>Fixes wrong <a class="reference internal" href="../api/TimeTaggerLibrary.html#TagType.Error" title="TagType.Error"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Error</span></code></a> event generation and channel detection in <a class="reference internal" href="../api/TimeTaggerLibrary.html#mergeStreamFiles" title="mergeStreamFiles"><code class="xref py py-func docutils literal notranslate"><span class="pre">mergeStreamFiles()</span></code></a>.</p></li>
+<li><p>Fixes host license querying for <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a> clients (broken in v2.12.0)</p></li>
+<li><p>Python: Fixes the decoding of the return values of <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getDeviceLicense" title="TimeTagger.getDeviceLicense"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getDeviceLicense()</span></code></a> and <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getSensorData" title="TimeTagger.getSensorData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getSensorData()</span></code></a> of <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a>.</p></li>
+<li><p>C++: Fixes std::string unmarshalling within the Network Time Tagger.</p></li>
+</ul>
+<p class="rubric">Various improvements</p>
+<ul class="simple">
+<li><p>Adds method <a class="reference internal" href="../api/Measurements.html#FrequencyStabilityData.getTraceFrequencyAbsolute" title="FrequencyStabilityData.getTraceFrequencyAbsolute"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getTraceFrequencyAbsolute()</span></code></a> to <a class="reference internal" href="../api/Measurements.html#FrequencyStability" title="FrequencyStability"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrequencyStability</span></code></a>.</p></li>
+<li><p>Adds method <a class="reference internal" href="../api/Measurements.html#FileReader.getChannelList" title="FileReader.getChannelList"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getChannelList()</span></code></a> to <a class="reference internal" href="../api/Measurements.html#FileReader" title="FileReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileReader</span></code></a>.</p></li>
+</ul>
+</section>
+<section id="v2-12-0-01-09-2022">
+<h2>V2.12.0 - 01.09.2022<a class="headerlink" href="#v2-12-0-01-09-2022" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>Add support for our new high precision measurement device, the <cite>Time Tagger X</cite>, with a typical timing resolution of 2.0 picoseconds.</p></li>
+</ul>
+<p class="rubric">WebApp</p>
+<ul class="simple">
+<li><p>Change default access mode to <a class="reference internal" href="../api/TimeTaggerLibrary.html#AccessMode.Control" title="AccessMode.Control"><code class="xref py py-attr docutils literal notranslate"><span class="pre">AccessMode.Control</span></code></a> for Time Tagger Network.</p></li>
+</ul>
+<p class="rubric">Features</p>
+<ul class="simple">
+<li><p>Improve the performance of the Synchronizer. Two Time Tagger Ultras now can achieve a total data rate of over 100 Mtags per second.</p></li>
+<li><p>Add support for the new Ubuntu Long Term Support release 22.04 Jammy Jellyfish.</p></li>
+</ul>
+<p class="rubric">Behavior change</p>
+<ul class="simple">
+<li><p>All provided strings to the C++ API must be encoded as UTF-8, returning strings are also UTF-8 encoded.</p></li>
+<li><p>Rename getLicenseInfo() to <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getDeviceLicense" title="TimeTagger.getDeviceLicense"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.getDeviceLicense()</span></code></a>. It returns a JSON formatted string for easier processing.</p></li>
+<li><p>Drop support for obsolete Python versions 2.7 and 3.5 and for the obsolete Linux distributions CentOS 7 and Ubuntu 16.04.</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>Jitter verification requests the specified jitter values directly from the Time Tagger backend.</p></li>
+<li><p>FLIM example is now available for Matlab</p></li>
+</ul>
+<p class="rubric">Various Fixes and Improvements</p>
+<ul class="simple">
+<li><p>Fix Unicode characters in all filenames of <a class="reference internal" href="../api/Measurements.html#FileWriter" title="FileWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileWriter</span></code></a> and <a class="reference internal" href="../api/Measurements.html#FileReader" title="FileReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileReader</span></code></a>.</p></li>
+<li><p>Fix CoincidenceFactory for Matlab and Labview.</p></li>
+<li><p>Fix the <a class="reference internal" href="../api/Measurements.html#Flim" title="Flim"><code class="xref py py-class docutils literal notranslate"><span class="pre">Flim</span></code></a> measurement for Matlab.</p></li>
+<li><p>Fix the crash on a failing license download within the initialization of the Network Time Tagger.</p></li>
+<li><p>Prefer a host-locked license over a user-locked license in the Virtual Time Tagger. This reduces the chance of a false-positive anti-virus warning.</p></li>
+<li><p>Improve the rounding behavior of <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getTriggerLevel" title="TimeTagger.getTriggerLevel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.getTriggerLevel()</span></code></a>.</p></li>
+<li><p>Update of the USB driver for various fixes.</p></li>
+</ul>
+</section>
+<section id="v2-11-0-22-04-2022">
+<h2>V2.11.0 - 22.04.2022<a class="headerlink" href="#v2-11-0-22-04-2022" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>Introduced <a class="reference internal" href="../api/TimeTaggerLibrary.html#mergeStreamFiles" title="mergeStreamFiles"><code class="xref py py-func docutils literal notranslate"><span class="pre">mergeStreamFiles()</span></code></a> to combine several <a class="reference internal" href="../api/Measurements.html#FileWriter" title="FileWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileWriter</span></code></a> files into one.</p></li>
+</ul>
+<p class="rubric">Time Tagger Network</p>
+<ul class="simple">
+<li><p>New Protocol version 3.1 with a new set of features. Backward compatible with 3.0.</p></li>
+<li><p>Improved messages for connection loss and disconnection. Additionally, messages for connecting to new and old versions of TTN will be presented.</p></li>
+<li><p>Fixed issue related to implicit call of <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.sync" title="TimeTaggerBase.sync"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sync()</span></code></a> on measurement creation in <a class="reference internal" href="../api/TimeTaggerLibrary.html#AccessMode.Listen" title="AccessMode.Listen"><code class="xref py py-attr docutils literal notranslate"><span class="pre">AccessMode.Listen</span></code></a> mode.</p></li>
+<li><p>Server and network information has been added to <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.getConfiguration" title="TimeTaggerBase.getConfiguration"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getConfiguration()</span></code></a>.</p></li>
+<li><p>Fixed crashes when streaming over 250 channels.</p></li>
+<li><p>Various race conditions and possible freezes have been fixed.</p></li>
+<li><p>Faster initialization of measurements with many channels.</p></li>
+<li><p>Fixed error handling on disconnection.</p></li>
+<li><p>Reduced connection timeout to 10 seconds.</p></li>
+<li><p>Fixed an issue where channels used by a client remained registered after a disconnect.</p></li>
+<li><p><a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setTimeTaggerNetworkStreamCompression" title="TimeTagger.setTimeTaggerNetworkStreamCompression"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setTimeTaggerNetworkStreamCompression()</span></code></a> can be utilized to double the maximum transfer rate in a very slow network environment (&lt;= 100 Mbit/s).</p></li>
+</ul>
+<p class="rubric">Time Tagger Virtual</p>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerVirtual" title="TimeTaggerVirtual"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerVirtual</span></code></a> will now wait for a test signal channel to be registered before starting to stream it (behavior identical to a hardware Time Tagger).</p></li>
+</ul>
+<p class="rubric">GatedChannel</p>
+<ul class="simple">
+<li><p>Optional constructor argument <cite>initial</cite> of type <a class="reference internal" href="../api/TimeTaggerLibrary.html#GatedChannelInitial" title="GatedChannelInitial"><code class="xref py py-class docutils literal notranslate"><span class="pre">GatedChannelInitial</span></code></a> to initialize the gate optionally in an open state.</p></li>
+<li><p>Changed behavior if <cite>input_channel</cite> equals <cite>gate_start_channel</cite> or <cite>gate_stop_channel</cite> to allow for operation similar to the ConditionalFilter.</p></li>
+</ul>
+<p class="rubric">FrequencyStability</p>
+<ul class="simple">
+<li><p>Fixed <a class="reference internal" href="../api/Measurements.html#FrequencyStabilityData.getTraceFrequency" title="FrequencyStabilityData.getTraceFrequency"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getTraceFrequency()</span></code></a>; now it returns the relative frequency error instead of the relative period error.</p></li>
+<li><p>Traces are no longer truncated to the length of the maximum steps.</p></li>
+<li><p>Corrected behavior if stopped and restarted without clearing.</p></li>
+</ul>
+<p class="rubric">Other measurement classes</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../api/Measurements.html#HistogramLogBins" title="HistogramLogBins"><code class="xref py py-class docutils literal notranslate"><span class="pre">HistogramLogBins</span></code></a>: Removed bins which have a bin width of 0 ps.</p></li>
+<li><p><a class="reference internal" href="../api/Measurements.html#SynchronizedMeasurements" title="SynchronizedMeasurements"><code class="xref py py-class docutils literal notranslate"><span class="pre">SynchronizedMeasurements</span></code></a>: Methods calls on a <a class="reference internal" href="../api/Measurements.html#SynchronizedMeasurements" title="SynchronizedMeasurements"><code class="xref py py-class docutils literal notranslate"><span class="pre">SynchronizedMeasurements</span></code></a> object without any registered measurements will no longer generate an exception but a warning.</p></li>
+<li><p><a class="reference internal" href="../api/Measurements.html#TimeDifferences" title="TimeDifferences"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeDifferences</span></code></a>: Added <a class="reference internal" href="../api/Measurements.html#TimeDifferences.getHistogramIndex" title="TimeDifferences.getHistogramIndex"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getHistogramIndex()</span></code></a> to return the index of the histogram being processed currently.</p></li>
+<li><p>Exposed <a class="reference internal" href="../api/TimeTaggerLibrary.html#TagType" title="TagType"><code class="xref py py-class docutils literal notranslate"><span class="pre">TagType</span></code></a> to be used with <a class="reference internal" href="../api/Measurements.html#TimeTagStream" title="TimeTagStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagStream</span></code></a> and <a class="reference internal" href="../api/Measurements.html#CustomMeasurement" title="CustomMeasurement"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomMeasurement</span></code></a>.</p></li>
+</ul>
+<p class="rubric">Synchronizer</p>
+<ul class="simple">
+<li><p>Improved error messages.</p></li>
+<li><p>Fixed USB errors occurring under very high data rates.</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>Added Visual Basic .NET example</p></li>
+</ul>
+<p class="rubric">Various Fixes</p>
+<ul class="simple">
+<li><p>Fixed crash on <a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a> during a USB error.</p></li>
+<li><p>Fixed an issue where <a class="reference internal" href="../api/Measurements.html#IteratorBase.startFor" title="IteratorBase.startFor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">startFor()</span></code></a> could run further than the specified time on <a class="reference internal" href="../api/Measurements.html#HistogramLogBins" title="HistogramLogBins"><code class="xref py py-class docutils literal notranslate"><span class="pre">HistogramLogBins</span></code></a> and <a class="reference internal" href="../api/Measurements.html#FileWriter" title="FileWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileWriter</span></code></a>.</p></li>
+<li><p>WebApp: Fixed argument handling on Linux.</p></li>
+<li><p>Matlab: Supports now <a class="reference internal" href="../api/TimeTaggerLibrary.html#Resolution" title="Resolution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Resolution</span></code></a> for HighRes.</p></li>
+<li><p>Matlab: Verifies that the version of the installed backend matches the wrapper version.</p></li>
+</ul>
+</section>
+<section id="v2-10-6-16-03-2022">
+<h2>V2.10.6 - 16.03.2022<a class="headerlink" href="#v2-10-6-16-03-2022" title="Permalink to this heading"></a></h2>
+<p class="rubric">Improvements</p>
+<ul class="simple">
+<li><p>Adds support for Time Tagger Ultra with hardware revision 1.6b.</p></li>
+</ul>
+</section>
+<section id="v2-10-4-23-02-2022">
+<h2>V2.10.4 - 23.02.2022<a class="headerlink" href="#v2-10-4-23-02-2022" title="Permalink to this heading"></a></h2>
+<p class="rubric">WebApp</p>
+<ul class="simple">
+<li><p>Fixed Input Delay for negative values.</p></li>
+<li><p>Fixed adding new channels for <a class="reference internal" href="../api/Measurements.html#Countrate" title="Countrate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Countrate</span></code></a> measurement.</p></li>
+<li><p>Fixed <a class="reference internal" href="../api/Measurements.html#HistogramLogBins" title="HistogramLogBins"><code class="xref py py-class docutils literal notranslate"><span class="pre">HistogramLogBins</span></code></a> for low start times (&lt; 10ps).</p></li>
+<li><p>Fixed units for data export of <a class="reference internal" href="../api/Measurements.html#Counter" title="Counter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Counter</span></code></a>, <a class="reference internal" href="../api/Measurements.html#Correlation" title="Correlation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Correlation</span></code></a>, <a class="reference internal" href="../api/Measurements.html#Histogram2D" title="Histogram2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Histogram2D</span></code></a>, and <a class="reference internal" href="../api/Measurements.html#HistogramLogBins" title="HistogramLogBins"><code class="xref py py-class docutils literal notranslate"><span class="pre">HistogramLogBins</span></code></a> measurements.</p></li>
+</ul>
+</section>
+<section id="v2-10-2-31-12-2021">
+<h2>V2.10.2 - 31.12.2021<a class="headerlink" href="#v2-10-2-31-12-2021" title="Permalink to this heading"></a></h2>
+<p class="rubric">Improvements</p>
+<ul class="simple">
+<li><p>Added support for Python 3.10.</p></li>
+</ul>
+<p class="rubric">Fixes for issues since v2.10.0</p>
+<ul class="simple">
+<li><p>Fixed <a class="reference internal" href="../api/Measurements.html#HistogramLogBins" title="HistogramLogBins"><code class="xref py py-class docutils literal notranslate"><span class="pre">HistogramLogBins</span></code></a> in the Web Application.</p></li>
+<li><p>Fixed <a class="reference internal" href="../api/VirtualChannels.html#DelayedChannel" title="DelayedChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">DelayedChannel</span></code></a> for negative delays.</p></li>
+<li><p>Fixed an issue with <a class="reference internal" href="../api/Measurements.html#Counter.getDataTotalCounts" title="Counter.getDataTotalCounts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Counter.getDataTotalCounts()</span></code></a> not resetting to 0 on <a class="reference internal" href="../api/Measurements.html#IteratorBase.clear" title="IteratorBase.clear"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clear()</span></code></a>.</p></li>
+<li><p>Fixed some Matlab examples not being compatible with 2016b or older.</p></li>
+</ul>
+</section>
+<section id="v2-10-0-22-12-2021">
+<h2>V2.10.0 - 22.12.2021<a class="headerlink" href="#v2-10-0-22-12-2021" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>Time Tagger Network: All Time Tagger devices and the acquired data can be accessed via the network from multiple clients or locally across the different programming languages. The clients can use all TimeTagger measurement classes and may optionally control the settings of the physical Time Tagger.</p></li>
+<li><p>A new frequency stability toolbox: It offers on-the-fly evaluation of periodic signals by calculating several analysis metrics, including, for example, the Allan deviation (ADEV) and time deviation (TDEV).</p></li>
+<li><p>Software Clock: The new recommended method for using an external clock on the Time Tagger Ultra. The time tag stream is rescaled on the software side with respect to the connected clock. It allows for a broad input frequency range and also calculates phase error estimators. In addition, the input jitter of the clock channel will be averaged out, resulting in a lower jitter for measurements including the clock channel directly.</p></li>
+</ul>
+<p class="rubric">Features</p>
+<ul class="simple">
+<li><p>Counter: New <a class="reference internal" href="../api/Measurements.html#Counter.getDataObject" title="Counter.getDataObject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Counter.getDataObject()</span></code></a> returning data as an object of <a class="reference internal" href="../api/Measurements.html#CounterData" title="CounterData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CounterData</span></code></a> and allowing for continuous chunkwise data acquisition. This object contains the Counter data, timing information and overflow flags.</p></li>
+<li><p>New <a class="reference internal" href="../api/Measurements.html#HistogramND" title="HistogramND"><code class="xref py py-class docutils literal notranslate"><span class="pre">HistogramND</span></code></a> measurement, which is a multidimensional generalization of the older <a class="reference internal" href="../api/Measurements.html#Histogram2D" title="Histogram2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Histogram2D</span></code></a>.</p></li>
+<li><p>New <a class="reference internal" href="../api/Measurements.html#Sampler" title="Sampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sampler</span></code></a> measurement class for a triggered sampling of the current state of other channels.</p></li>
+<li><p>Measurement and virtual channel settings can now be requested with <a class="reference internal" href="../api/Measurements.html#IteratorBase.getConfiguration" title="IteratorBase.getConfiguration"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getConfiguration()</span></code></a> method. The settings of all measurements are also available in the return value of <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.getConfiguration" title="TimeTaggerBase.getConfiguration"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getConfiguration()</span></code></a> method.</p></li>
+</ul>
+<p class="rubric">WebApp</p>
+<ul class="simple">
+<li><p>A <cite>Time Tagger Network</cite> server can be activated in the settings.</p></li>
+<li><p>Includes the <cite>Software Clock</cite> feature.</p></li>
+<li><p>Adds <cite>Event Divider</cite> settings.</p></li>
+<li><p>Shows specified RMS jitter for each channel in HighRes mode.</p></li>
+<li><p>It is now possible to specify the integration time in a single-shot or cyclic mode (internally uses <a class="reference internal" href="../api/Measurements.html#IteratorBase.startFor" title="IteratorBase.startFor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">startFor()</span></code></a>) for all available measurement classes.</p></li>
+</ul>
+<p class="rubric">Performance</p>
+<ul class="simple">
+<li><p>Improved performance of <a class="reference internal" href="../api/Measurements.html#Counter" title="Counter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Counter</span></code></a>, <a class="reference internal" href="../api/Measurements.html#Countrate" title="Countrate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Countrate</span></code></a>, <a class="reference internal" href="../api/Measurements.html#TimeTagStream" title="TimeTagStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagStream</span></code></a>, <a class="reference internal" href="../api/VirtualChannels.html#Combiner" title="Combiner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Combiner</span></code></a>, <a class="reference internal" href="../api/VirtualChannels.html#DelayedChannel" title="DelayedChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">DelayedChannel</span></code></a> for many channels.</p></li>
+<li><p><a class="reference internal" href="../api/Measurements.html#HistogramLogBins" title="HistogramLogBins"><code class="xref py py-class docutils literal notranslate"><span class="pre">HistogramLogBins</span></code></a> with an improved algorithm, multithreading, and AVX2+AVX512 tuning.</p></li>
+<li><p><a class="reference internal" href="../api/VirtualChannels.html#Coincidences" title="Coincidences"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coincidences</span></code></a> improved for high input rates with low coincidence rates.</p></li>
+</ul>
+<p class="rubric">Behavior change</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../api/Measurements.html#TimeTagStream" title="TimeTagStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagStream</span></code></a> now always requires a list of channels.</p></li>
+<li><p><a class="reference internal" href="../api/Measurements.html#CustomMeasurement" title="CustomMeasurement"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomMeasurement</span></code></a> in Python: <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">self.mutex</span></code> replaces <code class="docutils literal notranslate"><span class="pre">self.lock</span></code> and <code class="docutils literal notranslate"><span class="pre">self.unlock</span></code>.</p></li>
+<li><p>A Synchronizer with only one Time Tagger will use the timestamps of the Synchronizer but the channel identifiers of the single device itself.</p></li>
+<li><p>No messages on the INFO level will be shown in Matlab to avoid running into deadlocks.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::invalid_argument</span></code> exceptions are now wrapped as <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> in Python.</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>New Python example to measure the maximum transfer rate and the jitter.</p></li>
+<li><p>New Python example to show coincidence counting applications.</p></li>
+<li><p>New example to show the use of the software clock and measure the frequency stability of the test signal in Python, Matlab and LabVIEW.</p></li>
+<li><p>Update the <cite>Counter</cite> example in Python and Matlab to show the use of the new <a class="reference internal" href="../api/Measurements.html#CounterData" title="CounterData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CounterData</span></code></a>.</p></li>
+</ul>
+<p class="rubric">Fixes</p>
+<ul class="simple">
+<li><p>Skips an unlikely blocking <a class="reference internal" href="../api/TimeTaggerLibrary.html#freeTimeTagger" title="freeTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">freeTimeTagger()</span></code></a> call for up to 10 seconds.</p></li>
+<li><p>Fixes the 64-bit signed integer overflow after 106 days on Linux.</p></li>
+<li><p>Stops playing the last sound of <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setSoundFrequency" title="TimeTagger.setSoundFrequency"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setSoundFrequency()</span></code></a> after <a class="reference internal" href="../api/TimeTaggerLibrary.html#freeTimeTagger" title="freeTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">freeTimeTagger()</span></code></a>.</p></li>
+<li><p>Fixes the timing of <a class="reference internal" href="../api/Measurements.html#TimeTagStreamBuffer.tGetData" title="TimeTagStreamBuffer.tGetData"><code class="xref py py-attr docutils literal notranslate"><span class="pre">TimeTagStreamBuffer.tGetData</span></code></a> in the last block of <a class="reference internal" href="../api/Measurements.html#FileReader" title="FileReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileReader</span></code></a>.</p></li>
+<li><p>Adds support for TTU HW revision 1.6 and TT20 Value.</p></li>
+<li><p>Fixes the empty configuration and channel list in <a class="reference internal" href="../api/Measurements.html#FileReader" title="FileReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileReader</span></code></a> before fetching the first time tag.</p></li>
+<li><p>Fixes a race condition on the Time Tagger Ultra, which may yield one invalid time tag after USB connection errors.</p></li>
+<li><p>Fixes a crash on using <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">CustomMeasurement()</span> <span class="pre">as</span> <span class="pre">c</span></code> in Python.</p></li>
+<li><p>Fixes incorrectly displayed units in the WebApp if measurement settings changed during a measurement.</p></li>
+<li><p>Fixes the behavior of Histogram2D if start_channel matches a stop channel.</p></li>
+<li><p>Fixes the behavior of Countrate with startFor if it ends within an overflow interval.</p></li>
+</ul>
+</section>
+<section id="v2-9-0-07-06-2021">
+<h2>V2.9.0 - 07.06.2021<a class="headerlink" href="#v2-9-0-07-06-2021" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>Reduced communication latency of all Time Taggers.</p></li>
+<li><p>Reduced Time Tagger 20 crosstalk on channel 1 and 2.</p></li>
+<li><p>Improved USB connection stability for Time Tagger 20.</p></li>
+<li><p>Optional collection and reporting of pseudonymous usage statistics. <a class="reference internal" href="UsageStatistics.html"><span class="doc">Improvement program</span></a>.</p></li>
+<li><p>Please use at least v2.9.0 for devices shipped from 2021 on.</p></li>
+</ul>
+<p class="rubric">Changes</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.getConfiguration" title="TimeTaggerBase.getConfiguration"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.getConfiguration()</span></code></a> and <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getSensorData" title="TimeTagger.getSensorData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.getSensorData()</span></code></a> return a JSON string with partially renamed sensor names.</p></li>
+<li><p>Altered <a class="reference internal" href="../api/Measurements.html#Countrate.getData" title="Countrate.getData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Countrate.getData()</span></code></a> to return <code class="docutils literal notranslate"><span class="pre">NaN</span></code> (Not a Number) for zero capture durations.</p></li>
+<li><p>Uses <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.11)"><code class="docutils literal notranslate"><span class="pre">enum.Enum</span></code></a> as base class for all enumerators in the Python wrapper (Python &gt;= 3.5).</p></li>
+<li><p>Improved the format of the Time Tagger error messages.</p></li>
+</ul>
+<p class="rubric">Features</p>
+<ul class="simple">
+<li><p>Added <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setHardwareBufferSize" title="TimeTagger.setHardwareBufferSize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setHardwareBufferSize()</span></code></a> for the Time Tagger 20.</p></li>
+<li><p>Added an example and tutorial on how to work with a remote Time Tagger using Python and the Pyro5 package.</p></li>
+<li><p>License upgrades can be flashed now for the Time Tagger 20 via the web application.</p></li>
+</ul>
+<p class="rubric">Bug fixes</p>
+<ul class="simple">
+<li><p>Fixed <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setStreamBlockSize" title="TimeTagger.setStreamBlockSize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setStreamBlockSize()</span></code></a> block size heuristic while uploading new configuration.</p></li>
+<li><p>Fixed slow performance of <a class="reference internal" href="../api/TimeTaggerLibrary.html#freeTimeTagger" title="freeTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">freeTimeTagger()</span></code></a> in overflow mode.</p></li>
+<li><p>Fixed <a class="reference internal" href="../api/Measurements.html#IteratorBase.waitUntilFinished" title="IteratorBase.waitUntilFinished"><code class="xref py py-meth docutils literal notranslate"><span class="pre">waitUntilFinished()</span></code></a> invoke nodes in LabVIEW examples.</p></li>
+<li><p>Fixed error message in the Web Application for non compatible devices.</p></li>
+<li><p>Fixed <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerVirtual.getConfiguration" title="TimeTaggerVirtual.getConfiguration"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerVirtual.getConfiguration()</span></code></a>. Now it is returning configuration data for <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerVirtual" title="TimeTaggerVirtual"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerVirtual</span></code></a> class.</p></li>
+<li><p>Fixed a possible crash on Python interpreter exit while running <a class="reference internal" href="../api/Measurements.html#CustomMeasurement" title="CustomMeasurement"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomMeasurement</span></code></a>.</p></li>
+<li><p>Fixed <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.sync" title="TimeTaggerBase.sync"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.sync()</span></code></a> signaling one block too late. The fix reduces the sync, measurement start and clear times.</p></li>
+</ul>
+</section>
+<section id="v2-8-4-04-05-2021">
+<h2>V2.8.4 - 04.05.2021<a class="headerlink" href="#v2-8-4-04-05-2021" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Fixed the initialization for a Virtual Time Tagger in the Web Application</p></li>
+</ul>
+</section>
+<section id="v2-8-2-26-04-2021">
+<h2>V2.8.2 - 26.04.2021<a class="headerlink" href="#v2-8-2-26-04-2021" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Fixed non appearing option to initialize in HighRes mode after upgrading/flashing the device in the Web Application.</p></li>
+</ul>
+</section>
+<section id="v2-8-0-29-03-2021">
+<h2>V2.8.0 - 29.03.2021<a class="headerlink" href="#v2-8-0-29-03-2021" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>High-resolution options for the Time Tagger Ultra series with a timing jitter of down to 4 ps RMS per channel.</p></li>
+<li><p>Hardware input delay on the Time Tagger Ultra series with picoseconds accuracy before the conditional filter.</p></li>
+<li><p>Reduced CPU load for Time Tagger Ultra.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The release is fully compatible with all Time Tagger 20 devices.
+It is compatible with all Time Tagger Ultra devices shipped from March 2021 and all earlier Time Tagger Ultra devices with 8 or less channels without HighRes option.
+If you received Time Tagger Ultra before March 2021 and it has more than 8 channels or HighRes, it is not compatible with the release.
+Please contact support to get a free device exchange to be fully compatible again.</p>
+</div>
+<p class="rubric">New Time Tagger Ultra features</p>
+<ul class="simple">
+<li><p>Reduced crosstalk and thermal drift on all channels.</p></li>
+<li><p>The Time Tagger hardware sound module can be activated and set via <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setSoundFrequency" title="TimeTagger.setSoundFrequency"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setSoundFrequency()</span></code></a>. It can be used, e.g., for optical alignment purposes (count rate -&gt; frequency).</p></li>
+</ul>
+<p class="rubric">Changes</p>
+<ul class="simple">
+<li><p>Split <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setInputDelay" title="TimeTaggerBase.setInputDelay"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setInputDelay()</span></code></a> into <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setDelayHardware" title="TimeTaggerBase.setDelayHardware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setDelayHardware()</span></code></a> and <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setDelaySoftware" title="TimeTaggerBase.setDelaySoftware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setDelaySoftware()</span></code></a>.</p></li>
+<li><p><a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getChannelList" title="TimeTagger.getChannelList"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.getChannelList()</span></code></a> filter enum renamed to <a class="reference internal" href="../api/TimeTaggerLibrary.html#ChannelEdge" title="ChannelEdge"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChannelEdge</span></code></a>.</p></li>
+<li><p><a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setNormalization" title="TimeTagger.setNormalization"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setNormalization()</span></code></a> can now be configured per channel.</p></li>
+<li><p>Changed the default port of the WebApp to <code class="docutils literal notranslate"><span class="pre">50120</span></code> to avoid collision with Jupiter Notebooks.</p></li>
+<li><p>Maximum input frequency of the Time Tagger Ultra is reduced to 475 MHz.</p></li>
+<li><p>The deadtime specification of the Time Tagger Ultra changed to 2.1 ns. It can detect events separated by 2 ns with possible loss of some events.</p></li>
+</ul>
+<p class="rubric">Features</p>
+<ul class="simple">
+<li><p>Added a <a class="reference internal" href="../api/VirtualChannels.html#TriggerOnCountrate" title="TriggerOnCountrate"><code class="xref py py-class docutils literal notranslate"><span class="pre">TriggerOnCountrate</span></code></a> virtual channel that generates events when a count rate crosses the given threshold value.</p></li>
+<li><p>Added support for Python 3.9.</p></li>
+<li><p><a class="reference internal" href="../api/Measurements.html#IteratorBase.waitUntilFinished" title="IteratorBase.waitUntilFinished"><code class="xref py py-meth docutils literal notranslate"><span class="pre">waitUntilFinished()</span></code></a> and sync have an optional timeout parameter.</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>Mathematica: Added example for <a class="reference internal" href="../api/Measurements.html#FileWriter" title="FileWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileWriter</span></code></a> and <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerVirtual" title="TimeTaggerVirtual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerVirtual()</span></code></a>.</p></li>
+<li><p>LabVIEW: Fixed broken example (#14) and added it to the LabVIEW project.</p></li>
+<li><p>C++: Added an example for Custom Virtual Channel.</p></li>
+</ul>
+<p class="rubric">Bug fixes</p>
+<ul class="simple">
+<li><p>Histogram can be used with <a class="reference internal" href="../api/Measurements.html#IteratorBase.waitUntilFinished" title="IteratorBase.waitUntilFinished"><code class="xref py py-meth docutils literal notranslate"><span class="pre">waitUntilFinished()</span></code></a> and <a class="reference internal" href="../api/Measurements.html#SynchronizedMeasurements" title="SynchronizedMeasurements"><code class="xref py py-class docutils literal notranslate"><span class="pre">SynchronizedMeasurements</span></code></a>. <a class="reference internal" href="../api/Measurements.html#Histogram" title="Histogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Histogram</span></code></a> is now derived from <a class="reference internal" href="../api/Measurements.html#IteratorBase" title="IteratorBase"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IteratorBase()</span></code></a>.</p></li>
+<li><p>Displaying the singleton warning of createTimeTagger just once.</p></li>
+<li><p>Fixed string conversion issue for old Matlab versions.</p></li>
+<li><p>Hide “unused argument” warnings in the TimeTagger C++ headers.</p></li>
+</ul>
+</section>
+<section id="v2-7-6-26-04-2021">
+<h2>V2.7.6 - 26.04.2021<a class="headerlink" href="#v2-7-6-26-04-2021" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Fixed RuntimeError “Got the USB error ‘UnsupportedFeature’” when calling <a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a></p></li>
+</ul>
+</section>
+<section id="v2-7-4-19-04-2021">
+<h2>V2.7.4 - 19.04.2021<a class="headerlink" href="#v2-7-4-19-04-2021" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Fixed a bug for old Time Tagger Ultras, where the Web Application could not apply the license upgrade.</p></li>
+</ul>
+</section>
+<section id="v2-7-2-22-12-2020">
+<h2>V2.7.2 - 22.12.2020<a class="headerlink" href="#v2-7-2-22-12-2020" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>Reworked <a class="reference internal" href="../api/Measurements.html#api-flim"><span class="std std-ref">Flim</span></a> implementation. Versatile high-level functionality with <a class="reference internal" href="../api/Measurements.html#Flim" title="Flim"><code class="xref py py-class docutils literal notranslate"><span class="pre">Flim</span></code></a> and low-level CPU- and memory- efficient access via <a class="reference internal" href="../api/Measurements.html#FlimBase" title="FlimBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">FlimBase</span></code></a> and callbacks.</p></li>
+<li><p>Highly improved <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerVirtual" title="TimeTaggerVirtual"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerVirtual</span></code></a> performance taking use of multithreading.</p></li>
+<li><p>Support for direct time tag stream access via <a class="reference internal" href="../api/Measurements.html#api-custommeasurements"><span class="std std-ref">Custom Measurements</span></a> in C# and Python - see examples in the installation folder.</p></li>
+</ul>
+<p class="rubric">Improvements</p>
+<ul class="simple">
+<li><p>Added AnyCPU targeted .NET Assembly for C# wrappers. Available in GAC_MSIL and the installation folder.</p></li>
+<li><p>More detailed error handling and human-readable error messages.</p></li>
+<li><p>Added <a class="reference internal" href="../InDepthGuides/ConditionalFilter.html"><span class="doc">Conditional Filter</span></a> for <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerVirtual" title="TimeTaggerVirtual"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerVirtual</span></code></a>.</p></li>
+<li><p>Removed Intel’s <cite>libmmd.dll</cite> library dependency.</p></li>
+<li><p>All measurements have the new common method <a class="reference internal" href="../api/Measurements.html#IteratorBase.waitUntilFinished" title="IteratorBase.waitUntilFinished"><code class="xref py py-meth docutils literal notranslate"><span class="pre">waitUntilFinished()</span></code></a>, which can be used with <a class="reference internal" href="../api/Measurements.html#IteratorBase.startFor" title="IteratorBase.startFor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">startFor()</span></code></a>.</p></li>
+<li><p>Warnings are printed with time information.</p></li>
+<li><p>Cleanup of the C++ measurements’ header file.</p></li>
+<li><p>Remote license upgrades can be performed via the web application.</p></li>
+<li><p>Reworked Python and C# examples.</p></li>
+</ul>
+<p class="rubric">Fixes</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../api/Measurements.html#Countrate" title="Countrate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Countrate</span></code></a> no longer clears total counts on <a class="reference internal" href="../api/Measurements.html#IteratorBase.start" title="IteratorBase.start"><code class="xref py py-meth docutils literal notranslate"><span class="pre">start()</span></code></a>.</p></li>
+<li><p>Implemented <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getChannelList" title="TimeTagger.getChannelList"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.getChannelList()</span></code></a> and <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.waitForFence" title="TimeTaggerBase.waitForFence"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.waitForFence()</span></code></a> in Matlab.</p></li>
+<li><p>Fixed <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setDeadtime" title="TimeTaggerBase.setDeadtime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setDeadtime()</span></code></a> for the TimeTaggerVirtual using <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setTestSignal" title="TimeTagger.setTestSignal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setTestSignal()</span></code></a>.</p></li>
+<li><p>Fixed a frequent crash in <a class="reference internal" href="../api/Measurements.html#FileWriter" title="FileWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileWriter</span></code></a> with high data rates and multiple files.</p></li>
+<li><p>Fixed a crash in deleting measurements still registered to <a class="reference internal" href="../api/Measurements.html#SynchronizedMeasurements" title="SynchronizedMeasurements"><code class="xref py py-class docutils literal notranslate"><span class="pre">SynchronizedMeasurements</span></code></a>.</p></li>
+<li><p>Fixed an unlikely race condition of freeing measurements.</p></li>
+</ul>
+<p class="rubric">API changes</p>
+<ul class="simple">
+<li><p>The old <a class="reference internal" href="../api/Measurements.html#flimreplacement"><span class="std std-ref">FLIM</span></a> class is replaced by a new implementation: <a class="reference internal" href="../api/Measurements.html#Flim" title="Flim"><code class="xref py py-class docutils literal notranslate"><span class="pre">Flim</span></code></a>. In case you need the old implementation, there is a 1 to 1 replacement, see <a class="reference internal" href="../api/Measurements.html#flimreplacement"><span class="std std-ref">here</span></a>.</p></li>
+<li><p>All methods and measurements now throw exceptions instead of warning on wrong arguments like invalid channels or out-of-range parameters.</p></li>
+<li><p>Automatically call freeTimeTagger on del/clear/Dispose in Python/Matlab/LabVIEW/C# .</p></li>
+<li><p>Removed the <cite>freeAllTimeTagger</cite> method.</p></li>
+<li><p>Deprecate the multiple use of <a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a> for one physical device. Pass on the timetagger object instead.</p></li>
+<li><p><cite>_Log</cite> is renamed to <cite>LogBase</cite>.</p></li>
+<li><p>Our libraries are compiled with VS 2019 now, so at least version 142 of the VC runtime is required in the final application.</p></li>
+</ul>
+</section>
+<section id="v2-7-0-01-10-2020">
+<h2>V2.7.0 - 01.10.2020<a class="headerlink" href="#v2-7-0-01-10-2020" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>New measurements are automatically synchronized to the hardware. All data analyzed is guaranteed to be temporal later than the measurement’s initialization, start, or clear. Data coming from the internal buffer, which was acquired before the measurement was initialized, started, or cleared, will not be analyzed. Before this release, the .sync() method was required for these tasks.</p></li>
+</ul>
+<p class="rubric">Fixes and improvements</p>
+<ul class="simple">
+<li><p>Added a Matlab example for SynchronizedMeasurements.</p></li>
+<li><p>Fixed a bug in Matlab, creating synced measurements via SynchronizedMeasruements and .getTagger().</p></li>
+<li><p>The last datapoint from a scope measurement is not marked as invalid any more.</p></li>
+</ul>
+</section>
+<section id="v2-6-10-07-09-2020">
+<h2>V2.6.10 - 07.09.2020<a class="headerlink" href="#v2-6-10-07-09-2020" title="Permalink to this heading"></a></h2>
+<p class="rubric">Fixes and improvements</p>
+<ul class="simple">
+<li><p>Fixes input delay, deadtime and test signal generator for the TimeTaggerVirtual.</p></li>
+<li><p>Fixes getInvertedChannel with the Swabian Synchronizer and with Time Tagger Ultra 8 devices with the old channel numbering schema.</p></li>
+<li><p>x axis is zoomable with Scope measurement.</p></li>
+<li><p>Better error handling for non-existent files with TimeTaggerVirtual and FileReader.</p></li>
+</ul>
+<p class="rubric">Python</p>
+<ul class="simple">
+<li><p>Changed the constants CoincidenceTimestamp_ to a Python enum (e.g., CoincidenceTimestamp_First is now CoincidenceTimestamp.First).</p></li>
+</ul>
+<p class="rubric">Matlab</p>
+<ul class="simple">
+<li><p>Enum for timestamp argument for Coincidence(s) is available via TTCoincidenceTimestamp.</p></li>
+</ul>
+<p class="rubric">Linux</p>
+<ul class="simple">
+<li><p>Fix for slow Linux device opening.</p></li>
+</ul>
+</section>
+<section id="v2-6-8-21-08-2020">
+<h2>V2.6.8 - 21.08.2020<a class="headerlink" href="#v2-6-8-21-08-2020" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>Support for the Time Tagger Value edition. This is an upgradeable and cost-efficient version of the Time Tagger Ultra for applications with moderate timing precision requirements.</p></li>
+</ul>
+<p class="rubric">Webapp</p>
+<ul class="simple">
+<li><p>Added <a class="reference internal" href="../api/Measurements.html#Histogram2D" title="Histogram2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Histogram2D</span></code></a> to the measurement list.</p></li>
+<li><p>Improved performance and responsiveness for large datasets.</p></li>
+<li><p>32-bit version of the Web Application works again.</p></li>
+<li><p>Fixed a bug that data of stopped measurements could not be saved.</p></li>
+<li><p>Fixed a bug that settings saved had the file extension .json instead of .ttconf ending.</p></li>
+<li><p>Fixed a bug when using falling edges for Time Tagger starting with channel 0.</p></li>
+</ul>
+<p class="rubric">Python</p>
+<ul class="simple">
+<li><p>Fixed a bug that some named arguments could not be used anymore.</p></li>
+</ul>
+<p class="rubric">API</p>
+<ul class="simple">
+<li><p>Added the method <a class="reference internal" href="../api/Measurements.html#SynchronizedMeasurements.unregisterMeasurement" title="SynchronizedMeasurements.unregisterMeasurement"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SynchronizedMeasurements.unregisterMeasurement()</span></code></a> to remove measurements from <a class="reference internal" href="../api/Measurements.html#SynchronizedMeasurements" title="SynchronizedMeasurements"><code class="xref py py-class docutils literal notranslate"><span class="pre">SynchronizedMeasurements</span></code></a>.</p></li>
+</ul>
+<p class="rubric">Backend</p>
+<ul class="simple">
+<li><p>Improved performance of the FileWriter, exceeding 100 M tags/s on high-end CPUs.</p></li>
+<li><p>Improved binning performance of all histogram measurements: Correlation, FLIM, Histogram, StartStop, TimeDifferences, TimeDifferencesND.</p></li>
+<li><p>Fixes a deadlock in the virtual Time Tagger if a measurement accesses some public methods of the Time Tagger.</p></li>
+</ul>
+</section>
+<section id="v2-6-6-10-07-2020">
+<h2>V2.6.6 - 10.07.2020<a class="headerlink" href="#v2-6-6-10-07-2020" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>Swabian Synchronizer support. The Synchronizer hardware can combine 8 Time Tagger Ultras with up to 144 channels. The combined Time Tagger can be interfaced the very same as it would be only one device.</p></li>
+<li><p>Support for custom measurements in Python. Please see the provided programming example in the installation folder for further details.</p></li>
+</ul>
+<p class="rubric">Webapp</p>
+<ul class="simple">
+<li><p>Support for the Synchronizer</p></li>
+<li><p>Showing error messages from setLogger API in a modal window</p></li>
+<li><p>Load/save settings is now supported for the Time Tagger Virtual</p></li>
+</ul>
+<p class="rubric">Time Tagger Ultra</p>
+<ul class="simple">
+<li><p>Hardware revision 1.1 now with the same performance enhancement of 500 MHz maximum sync rate, 2ns dead time and better phase stability, as introduced before for Hardware revision &gt; 1.1</p></li>
+<li><p>Dropped support for the very first Time Tagger Ultras, an error will be shown on initialization - free exchange program available</p></li>
+<li><p>More intuitive byte order of the bitmask in setLED</p></li>
+<li><p>Small modifications to the hardware channel to channel delay</p></li>
+</ul>
+<p class="rubric">Backend</p>
+<ul class="simple">
+<li><p>Coincidence and Coincideces have an optional parameter to select which timestamp should be inserted, the last/first completing the coincidence, the average of the event timestamps, or the first of the coincidence list.</p></li>
+<li><p>Fixed .net/Matlab/LabVIEW wrappers for data with empty 2D or 3D arrays</p></li>
+<li><p>Provide a globally registered .NET publisher policy for C#, avoiding the ‘wrong dll version’ message in Labview when updating the Time Tagger software</p></li>
+<li><p>setConditionalFilter throws an exception when invalid arguments are applied</p></li>
+<li><p>Hide the warning on fetching the TimeTaggerVirtual license without an internet connection</p></li>
+<li><p>DelayedChannel supports a negative delay</p></li>
+<li><p>Performance enhancements in StartStop</p></li>
+</ul>
+</section>
+<section id="v2-6-4-27-05-2020">
+<h2>V2.6.4 - 27.05.2020<a class="headerlink" href="#v2-6-4-27-05-2020" title="Permalink to this heading"></a></h2>
+<p class="rubric">WebApp</p>
+<ul class="simple">
+<li><p>Option to enable logarithmic y-axis scaling for Counter, Histogram, HistogramLogBins and Correlation</p></li>
+<li><p>Redesign “Create measurement” dialog with links to the online documentation</p></li>
+<li><p>Fixed flickering when switching between plots</p></li>
+<li><p>Fixed plotting wrong data range when changing the number of data points</p></li>
+<li><p>Added the basic functionality of the TimeTaggerVirtual (test signal only)</p></li>
+</ul>
+<p class="rubric">New features and improvements</p>
+<ul class="simple">
+<li><p>Added the test signal to TimeTaggerVirtual</p></li>
+<li><p>Support for Ubuntu 20.04 and CentOS 8</p></li>
+<li><p>LabVIEW example for FileWriter and FileReader</p></li>
+<li><p>Improved Matlab API for VirtualTimeTagger, adding optional parameters</p></li>
+<li><p>Make the data transfer size configurable by .setStreamBlockSize</p></li>
+<li><p>Performance improvements for HistogramLogBins</p></li>
+<li><p>Slightly improved timing jitter at large time differences for the Time Tagger 20</p></li>
+<li><p>Time Tagger Application works again with 32 bit operating systems</p></li>
+<li><p>Connection errors are shown in the Matlab console or can be handled with the new logger functionality</p></li>
+<li><p>Added custom logger examples for Matlab/Python/C#</p></li>
+</ul>
+<p class="rubric">Changes</p>
+<ul class="simple">
+<li><p>Updated the USB library</p></li>
+<li><p>Stop measurements when freeTimeTagger is called (e.g. closes files on dump, isRunning now returns false)</p></li>
+<li><p>Reduced polling rate (0.1s) for USB reconnections</p></li>
+</ul>
+<p class="rubric">API changes</p>
+<ul class="simple">
+<li><p>Added .setLogger() to attach a callback function for custom info/error logging</p></li>
+<li><p>Rename of enumeration ErrorLevel to LogLevel</p></li>
+<li><p>Rename of log level constants and with new corresponding integer values</p></li>
+</ul>
+</section>
+<section id="v2-6-2-10-03-2020">
+<h2>V2.6.2 - 10.03.2020<a class="headerlink" href="#v2-6-2-10-03-2020" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>TimeTaggerVirtual, FileWriter, and FileReader have reached a stable state</p></li>
+<li><p>Improved Linux support (documentation, compiling custom Python wrappers)</p></li>
+</ul>
+<p class="rubric">New features</p>
+<ul class="simple">
+<li><p>Added setInputDelay, setDeadtime, getOverflows, and more to the TimeTaggerVirtual</p></li>
+<li><p>Add an optional parameter in setConditionalFilter for disabling the hardware delay compensation</p></li>
+<li><p>Infinite dumping in Dump for negative max_count</p></li>
+<li><p>Create a freeAllTimeTagger() method, which is called by Python atexit</p></li>
+<li><p>Reimplement SynchronizedMeasurements as a proxy tagger object, which auto registers new measurements without starting them</p></li>
+<li><p>The new SynchronizedMeasurements.isRunning() method returns if any measurement is still running</p></li>
+<li><p>Python: Distribute the generated C++ wrapper source for supporting future Python revisions</p></li>
+<li><p>C++: New IteratorBase.getLock method returning a std::unique_lock</p></li>
+<li><p>C++: Improved exception handling for custom measurements: exceptions now stop the measurement, runSynchronized forwards exceptions to the caller</p></li>
+</ul>
+<p class="rubric">API changes</p>
+<ul class="simple">
+<li><p>TimeTagger.getVersion return value is changed to a string</p></li>
+<li><p>C++: Use 64 bit integers for the dimensions in the array_out helpers</p></li>
+<li><p>C++: Rename the base class for custom measurements from _Iterator to IteratorBase</p></li>
+<li><p>C++: Constructors of custom measurements shall call finishInitialization instead of IteratorBase.start</p></li>
+<li><p>Python 2.7: Update the numpy C headers to 1.16.1</p></li>
+</ul>
+<p class="rubric">Examples and documentation</p>
+<ul class="simple">
+<li><p>Improved Histogram2D example</p></li>
+<li><p>Clarify setInputDelay vs DelayedChannel</p></li>
+</ul>
+<p class="rubric">Bug fixes</p>
+<ul class="simple">
+<li><p>Relax the voltage supply check in the Time Tagger Ultra hardware revision 1.4</p></li>
+<li><p>Use a 1 MB buffer for Dump, FileWriter, and FileReader to achieve full speed especially on network devices</p></li>
+<li><p>Fix getTimeTaggerModel on an active device</p></li>
+<li><p>Fix deadlock within sync() while the device is disconnected</p></li>
+<li><p>Provide the documentation on Linux</p></li>
+<li><p>Several fixes and improvements for the FileWriter and TimeTaggerVirtual</p></li>
+</ul>
+<p class="rubric">WebApp</p>
+<ul class="simple">
+<li><p>Improved default names for measurements</p></li>
+<li><p>Not relying on data stored within the browser any more</p></li>
+<li><p>Disabling mouse scrolling within numeric inputs</p></li>
+<li><p>Various buxfixes</p></li>
+</ul>
+</section>
+<section id="v2-6-0-23-12-2019">
+<h2>V2.6.0 - 23.12.2019<a class="headerlink" href="#v2-6-0-23-12-2019" title="Permalink to this heading"></a></h2>
+<p class="rubric">Highlights</p>
+<ul class="simple">
+<li><p>FileWriter: New space-efficient file writer for storing time tag stream on a disk. The file size is reduced by a factor of 4 to 8. Replaces the Dump function.</p></li>
+<li><p>Virtual Time Tagger allows to replay previously dumped events back into the Time Tagger software engine.</p></li>
+<li><p>Improved behavior in the overflow mode. The hardware now also reports the amount of missed events per input channel and provides the start and the end timestamps of the overflow interval.</p></li>
+<li><p>New tutorial on how to implement the data acquisition for a confocal microscope</p></li>
+<li><p>New measurement Histogram2D for 2-dimensional histogramming with examples</p></li>
+<li><p>Web App: Selectable input units (s/ms/µs/ps) instead of ps only</p></li>
+</ul>
+<p class="rubric">Known issues</p>
+<ul class="simple">
+<li><p>FileWriter and FileReader have a low performance on network devices</p></li>
+</ul>
+<p class="rubric">API changes</p>
+<ul class="simple">
+<li><p>deprecated TimeTagStreamBuffer.getOverflows() – use .getEventTypes() instead</p></li>
+<li><p>renamed HistogramLogBin.getDataNormalized() to .getDataNormalizedCountsPerPs()</p></li>
+<li><p>removed deprecated TimeTagger.getChannels() - use .getChannelList() instead</p></li>
+<li><p>removed deprecated CHANNEL_INVALID - use CHANNEL_UNUSED instead</p></li>
+<li><p>removed deprecated TimeTagger.setFilter() and TimeTagger.getFilter() - use .setConditionalFilter(), .getConditionalFilter(), and .clearConditionalFilter() instead</p></li>
+<li><p>C++: All custom measurement class constructors must be modified, such that the parameter containing the Time Tagger is of the type TimeTaggerBase. This allows for using the custom measurement within a real Time Tagger object and the Time Tagger Virtual.</p></li>
+<li><p>C++: The struct Tag includes the type of event and the amount of missed events. They have replaced the overflow field.</p></li>
+<li><p>C++/Windows: We additionally distribute binaries for the debug runtime (/MDd)</p></li>
+<li><p>Matlab: TimeTagger.free() is now deprecated, use .freeTimeTagger()</p></li>
+</ul>
+<p class="rubric">New features</p>
+<ul class="simple">
+<li><p>Web App: Normalization (counts/s) for the Counter measurement</p></li>
+<li><p>getConfiguration returns the current hardware configuration as a JSON string</p></li>
+<li><p>added g2 normalization for HistogramLogBins with getDataNormalizedG2</p></li>
+<li><p>improved overflow behavior for Countrate due to the missed event counters</p></li>
+<li><p>improved overflow handling for the g2 normalization of Correlation and HistogramLogBin</p></li>
+<li><p>support for Python version 3.8</p></li>
+<li><p>smaller latency on low data rates due to adaptive chunk sizes of &lt;= 20 ms</p></li>
+<li><p>support for the Time Tagger Ultra hardware revision 1.4</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>Matlab: Faster loading of events from disk for now deprecated Dump file format</p></li>
+<li><p>C++: Loading events from disk stored in the new data format</p></li>
+<li><p>Labview: Scope example, .NET version redirection</p></li>
+<li><p>Mathematica: Improved example</p></li>
+<li><p>Python: Added “Stop” button to the countrate figure.</p></li>
+</ul>
+<p class="rubric">Bug fixes</p>
+<ul class="simple">
+<li><p>fixed static input delay error with conditional filter enabled since v2.2.4</p></li>
+<li><p>added missing TimeTagger.getTestSignalDivider() method</p></li>
+<li><p>Scope: Fix the output if one channel has had no events</p></li>
+<li><p>resolve overflows after the initialization of the Time Tagger 20</p></li>
+<li><p>fixes an issue with wrongly sorted events on the reconfiguration of input delays</p></li>
+<li><p>always emit an error event on plugging an external clock source</p></li>
+<li><p>fixes an unlikely case when the synchronization of the external clock got lost</p></li>
+<li><p>the new USB driver version fixes some random data abruption</p></li>
+<li><p>TTU1.3: Fix a bug which may select a wrong clock source in the first 21 seconds and wrongly activated ext clock LED</p></li>
+<li><p>Matlab: SynchronizedMeasurements work now in Matlab, too</p></li>
+<li><p>different improvements within the python and C# wrappers</p></li>
+<li><p>LED turns off and not red after freeing a Time Tagger</p></li>
+<li><p>Dump now releases the file handle after the end of the startFor duration</p></li>
+<li><p>Web App: Removed caching issues when up or downgrading the software</p></li>
+</ul>
+</section>
+<section id="v2-4-4-29-07-2019">
+<h2>V2.4.4 - 29.07.2019<a class="headerlink" href="#v2-4-4-29-07-2019" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>reduced crosstalk between nonadjacent channels of the Time Tagger Ultra</p></li>
+<li><p>fixed a bug leading to high crosstalk with V2.4.2 for specific channels</p></li>
+<li><p>fixed a rare clock selection issue on the Time Tagger 20</p></li>
+<li><p>improved and more detailed documentation</p></li>
+<li><p>new method <a class="reference internal" href="../api/Measurements.html#Countrate.getCountsTotal" title="Countrate.getCountsTotal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Countrate.getCountsTotal()</span></code></a>, which returns the absolute number of events counted</p></li>
+<li><p>new Mathematica quickstart example</p></li>
+<li><p>new <a class="reference internal" href="../api/Measurements.html#Scope" title="Scope"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scope</span></code></a> example for LabVIEW</p></li>
+<li><p>support of the Time Tagger 20 series with hardware revision 2.3</p></li>
+<li><p>release the Python GIL while in the Time Tagger engine code</p></li>
+<li><p>fixed a bug in <a class="reference internal" href="../api/VirtualChannels.html#ConstantFractionDiscriminator" title="ConstantFractionDiscriminator"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConstantFractionDiscriminator</span></code></a>, which could cause that no virtual tags were generated</p></li>
+</ul>
+</section>
+<section id="v2-4-2-12-05-2019">
+<h2>V2.4.2 - 12.05.2019<a class="headerlink" href="#v2-4-2-12-05-2019" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>support of the Time Tagger Ultra series with hardware revision 1.3</p></li>
+<li><p>improve performance of short pulse sequences on the Time Tagger 20 series</p></li>
+<li><p>improve overflow behavior at too high input data rates</p></li>
+<li><p>fix the name of the ‘SynchronizedMeasurements’ measurement class</p></li>
+</ul>
+</section>
+<section id="v2-4-0-10-04-2019">
+<h2>V2.4.0 - 10.04.2019<a class="headerlink" href="#v2-4-0-10-04-2019" title="Permalink to this heading"></a></h2>
+<p class="rubric">Libraries</p>
+<ul class="simple">
+<li><p>32 bit C++ library added</p></li>
+<li><p>C++ and .NET libraries renamed and registered globally</p></li>
+</ul>
+<p class="rubric">API</p>
+<ul class="simple">
+<li><p>virtual constant fraction discriminator channel ‘ConstantFractionDiscriminator’ added</p></li>
+<li><p>‘TimeDifferenceND’ added for multidimensional time differences measurements</p></li>
+<li><p>faster binning in ‘TimeDifferences’ and ‘Correlation’ measurements</p></li>
+<li><p>improved memory handling for ‘TimeTageStream’</p></li>
+<li><p>improved Python library include</p></li>
+<li><p>fixed ‘.getNormalizedData’ for ‘Correlation’ measurements</p></li>
+<li><p>various minor bug fixes and improvements</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>LabVIEW project for 32 and 64 bit</p></li>
+<li><p>improved LabVIEW examples</p></li>
+</ul>
+<p class="rubric">Time Tagger Ultra</p>
+<ul class="simple">
+<li><p>10 MHz EXT input clock detection enabled</p></li>
+<li><p>internal buffer size can be increased from 40 MTags to 512 MTags with ‘setHardwareBufferSize’</p></li>
+<li><p>reduced crosstalk and timing jitter</p></li>
+<li><p>increased maximum transfer rate to above 65 MTags/s (Intel 5 GHz CPU on 64 bit)</p></li>
+<li><p>various performance improvements</p></li>
+<li><p>reduced deadtime to 2 ns on hardware revision &gt;= 1.2</p></li>
+</ul>
+<p class="rubric">Time Tagger 20</p>
+<ul class="simple">
+<li><p>166.6 MHz EXT input clock detection enabled</p></li>
+</ul>
+<p class="rubric">Operating systems</p>
+<ul class="simple">
+<li><p>equivalent support for Windows 32 and 64 bit, Ubuntu 16.04 and 18.04 64 bit, CentOS 7 64 bit</p></li>
+</ul>
+</section>
+<section id="v2-2-4-29-01-2019">
+<h2>V2.2.4 - 29.01.2019<a class="headerlink" href="#v2-2-4-29-01-2019" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>fix the conditional filter with filter and trigger events arriving within one clock cycle</p></li>
+<li><p>fix issue with negative input delays</p></li>
+<li><p>calling .stop() while dumping data stops the dump and closes the file</p></li>
+<li><p>fix device selection on reconnection after transfer errors</p></li>
+<li><p>synchronize tags of falling edges to their rising ones</p></li>
+</ul>
+</section>
+<section id="v2-2-2-13-11-2018">
+<h2>V2.2.2 - 13.11.2018<a class="headerlink" href="#v2-2-2-13-11-2018" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Removed not required Microsoft prerequisites.</p></li>
+<li><p>32 bit version available</p></li>
+</ul>
+</section>
+<section id="v2-2-0-07-11-2018">
+<h2>V2.2.0 - 07.11.2018<a class="headerlink" href="#v2-2-0-07-11-2018" title="Permalink to this heading"></a></h2>
+<p class="rubric">General improvements</p>
+<ul class="simple">
+<li><p>support for devices starting with channel 1 instead of 0</p></li>
+<li><p>under certain circumstances, the crosstalk for the Time Tagger 20 of channel 0-2, 0-3, 1-2, and 1-3 was highly increased, which has been fixed now</p></li>
+<li><p>updated and extended examples for all programming languages (Python, Matlab, C#, C++, LabVIEW)</p></li>
+<li><p>C++ examples for Visual Studio 2017, with debug support</p></li>
+<li><p>documentation for virtual channels</p></li>
+<li><p>Web app included in the 32 bit installer</p></li>
+<li><p>Linux package available for Ubuntu 16.04</p></li>
+<li><p>Support for Python 3.7</p></li>
+</ul>
+<p class="rubric">API</p>
+<ul class="simple">
+<li><p>‘HistogramLogBin’ allows analyzing incoming tags with logarithmic bin sizes.</p></li>
+<li><p>‘FrequencyMultiplier’ virtual channel class for upscaling a signal attached to the Time Tagger. This method can be used as an alternative to the ‘Conditonal Filter’.</p></li>
+<li><p>‘SynchronizedMeasurements’ class available to fully synchronize start(), stop(), clear() of different measurements.</p></li>
+<li><p>Second parameter from ‘setConditionalFilter’ changed from ‘filter’ to ‘filtered’.</p></li>
+</ul>
+<p class="rubric">Web application</p>
+<ul class="simple">
+<li><p>full ‘setConditionalFilter’ functionality available from the backend within the Web application</p></li>
+</ul>
+</section>
+<section id="v2-1-6-17-05-2018">
+<h2>V2.1.6 - 17.05.2018<a class="headerlink" href="#v2-1-6-17-05-2018" title="Permalink to this heading"></a></h2>
+<p>fixed an error with getBinWidths from CountBetweenMarkers returning wrong values</p>
+</section>
+<section id="v2-1-4-21-03-2018">
+<h2>V2.1.4 - 21.03.2018<a class="headerlink" href="#v2-1-4-21-03-2018" title="Permalink to this heading"></a></h2>
+<p>fixed bin equilibration error appearing since V2.1.0</p>
+</section>
+<section id="v2-1-2-14-03-2018">
+<h2>V2.1.2 - 14.03.2018<a class="headerlink" href="#v2-1-2-14-03-2018" title="Permalink to this heading"></a></h2>
+<p>fixed issue installing the Matlab toolbox</p>
+</section>
+<section id="v2-1-0-06-03-2018">
+<h2>V2.1.0 - 06.03.2018<a class="headerlink" href="#v2-1-0-06-03-2018" title="Permalink to this heading"></a></h2>
+<p class="rubric">Time Tagger Ultra</p>
+<ul class="simple">
+<li><p>efficient buffering of up to 60 MTags within the device to avoid overflows</p></li>
+</ul>
+</section>
+<section id="v2-0-4-01-02-2018">
+<h2>V2.0.4 - 01.02.2018<a class="headerlink" href="#v2-0-4-01-02-2018" title="Permalink to this heading"></a></h2>
+<p class="rubric">Bug fixes</p>
+<ul class="simple">
+<li><p>Closing the web application server window works properly now</p></li>
+</ul>
+</section>
+<section id="v2-0-2-17-01-2018">
+<h2>V2.0.2 - 17.01.2018<a class="headerlink" href="#v2-0-2-17-01-2018" title="Permalink to this heading"></a></h2>
+<p class="rubric">Improvements</p>
+<ul class="simple">
+<li><p>Matlab GUI example added</p></li>
+<li><p>Matlab dump/load example added</p></li>
+</ul>
+<p class="rubric">Bug fixes</p>
+<ul class="simple">
+<li><p>dump class writing tags multiple times when the optional channel parameter is used</p></li>
+<li><p>Counter and Countrate skip the time in between a .stop() and a .start() call</p></li>
+<li><p>The Counter class now handles overflows properly. As soon as an overflow occurs the lost data junk is skipped and the Counter resumes with the new tags arriving with no gap on the time axis.</p></li>
+</ul>
+</section>
+<section id="v2-0-0-14-12-2017">
+<h2>V2.0.0 - 14.12.2017<a class="headerlink" href="#v2-0-0-14-12-2017" title="Permalink to this heading"></a></h2>
+<p class="rubric">Release of the Time Tagger Ultra</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The input delays might be shifted (up to a few hundred ps) compared to older driver versions.</p>
+</div>
+<p class="rubric">Documentation changes</p>
+<ul class="simple">
+<li><p>new section ‘In Depth Guides’ explaining the hardware event filter</p></li>
+</ul>
+<p class="rubric">Webapp</p>
+<ul class="simple">
+<li><p>fixed a bug setting the input values to 0 when typing in a new value</p></li>
+<li><p>new server launcher screen which stops the server reliably when the application is closed</p></li>
+</ul>
+</section>
+<section id="v1-0-20-24-10-2017">
+<h2>V1.0.20 - 24.10.2017<a class="headerlink" href="#v1-0-20-24-10-2017" title="Permalink to this heading"></a></h2>
+<p class="rubric">Virtual Channels</p>
+<ul class="simple">
+<li><p>DelayedChannel clones and optionally delays a stream of time tags from an input channel</p></li>
+<li><p>GatedChannel clones an input stream, which is gated via a start and stop channel (e.g. rising and falling edge of another physical channel)</p></li>
+</ul>
+<p class="rubric">API</p>
+<ul class="simple">
+<li><p>startFor(duration) method implemented for all measurements to acquire data for a predefined duration</p></li>
+<li><p>getCaptureDuration() available for all measurements to return the current capture duration</p></li>
+<li><p>getDataNormalized() available for Correlation</p></li>
+<li><p>setEventDivider(channel, divider) also transmits every nth event (divider) on channel defined</p></li>
+</ul>
+<p class="rubric">Webapp</p>
+<ul class="simple">
+<li><p>label for 0 on the x-axis is now 0 instead of a tiny value</p></li>
+</ul>
+<p class="rubric">C++ API:</p>
+<ul class="simple">
+<li><p>internal change so that clear_impl() and next_impl() must be overwritten instead of clear() and next()</p></li>
+</ul>
+<p class="rubric">Other bug fixes/improvements</p>
+<ul class="simple">
+<li><p>improved documentation and examples</p></li>
+</ul>
+</section>
+<section id="v1-0-6-16-03-2017">
+<h2>V1.0.6 - 16.03.2017<a class="headerlink" href="#v1-0-6-16-03-2017" title="Permalink to this heading"></a></h2>
+<p class="rubric">Web application (GUI)</p>
+<ul class="simple">
+<li><p>load/save settings available for the Time Tagger and the measurements</p></li>
+<li><p>correct x-axis scaling</p></li>
+<li><p>input channels can be labeled</p></li>
+<li><p>save data as tab separated output file (for Matlab, Excel, … import)</p></li>
+<li><p>fixed: saving measurement data now works reliably</p></li>
+<li><p>fixed: ‘Initialize’ button of measurements works now with tablets and phones</p></li>
+</ul>
+<p class="rubric">API</p>
+<ul class="simple">
+<li><p>direct time stream access possible with new class TimeTagStream (before the stream could be only dumped with Dump)</p></li>
+<li><p>Python 3.6 support</p></li>
+<li><p>better error handling (throwing exceptions) when libraries not found or no Time Tagger attached</p></li>
+<li><p>setTestSignal(…) can be used with a vector of channels instead of a single channel only</p></li>
+<li><p>Dump(…) now with an optional vector of channels to explicitly dump the channels passed</p></li>
+<li><p>CHANNEL_INVALID is deprecated - use CHANNEL_UNUSED instead</p></li>
+<li><p>Coincidences class (multiple Coincidences) can be used now within Matlab/LabVIEW</p></li>
+</ul>
+<p class="rubric">Documentation changes</p>
+<ul class="simple">
+<li><p>documentation of every measurement now includes a figure</p></li>
+<li><p>update and include web application in the quickstart section</p></li>
+</ul>
+<p class="rubric">Other bug fixes/improvements</p>
+<ul class="simple">
+<li><p>no internal test tags leaking through from the initialization of the Time Tagger</p></li>
+<li><p>Counter class not clearing the data buffer in time when no tags arrive</p></li>
+<li><p>search path for bitfile and libraries in Linux now work as they should</p></li>
+<li><p>installer for 32 bit OS available</p></li>
+</ul>
+</section>
+<section id="v1-0-4-24-11-2016">
+<h2>V1.0.4 - 24.11.2016<a class="headerlink" href="#v1-0-4-24-11-2016" title="Permalink to this heading"></a></h2>
+<p class="rubric">Hardware changes</p>
+<ul class="simple">
+<li><p>extended event filter to multiple conditions and filter channels</p></li>
+<li><p>improved jitter for channel 0</p></li>
+<li><p>channel delays might be different from the previous version (&lt; 1 ns)</p></li>
+</ul>
+<p class="rubric">API changes</p>
+<ul class="simple">
+<li><p>new function setConditionalFilter allows for multiple filter and event channels (replaces setFilter)</p></li>
+<li><p>Scope class implements functionality to use the Time Tagger as a 50 GHz digitizer</p></li>
+<li><p>Coincidences class now can handle multiple coincidence groups which is much faster than multiple instances of Coincidence</p></li>
+<li><p>added examples for C++ and .net</p></li>
+</ul>
+<p class="rubric">Software changes</p>
+<ul class="simple">
+<li><p>improved GUI (Web application)</p></li>
+</ul>
+<p class="rubric">Bug fixes</p>
+<ul class="simple">
+<li><p>Matlab/LabVIEW is not required to have the Visual Studio Redistributable package installed</p></li>
+</ul>
+</section>
+<section id="v1-0-2-28-07-2016">
+<h2>V1.0.2 - 28.07.2016<a class="headerlink" href="#v1-0-2-28-07-2016" title="Permalink to this heading"></a></h2>
+<p class="rubric">Major changes:</p>
+<ul class="simple">
+<li><p>LabVIEW support including various example VIs</p></li>
+<li><p>Matlab support including various example scripts</p></li>
+<li><p>.net assembly / class library provided (32 and 64 bit)</p></li>
+<li><p>WebApp graphical user interface to get started without writing a single line of code</p></li>
+<li><p>Improved performance (multicore CPUs are supported)</p></li>
+</ul>
+<p class="rubric">API changes:</p>
+<ul class="simple">
+<li><p>reset() function added to reset a Time Tagger device to the startup state</p></li>
+<li><p>getOverflowsAndClear() and clearOverflows() introduced to be able to reset the overflow counter</p></li>
+<li><p>support for python 3.5 (32 and 64 bit) instead of 3.4</p></li>
+</ul>
+</section>
+<section id="v1-0-0">
+<h2>V1.0.0<a class="headerlink" href="#v1-0-0" title="Permalink to this heading"></a></h2>
+<p>initial release supporting python</p>
+</section>
+<section id="channel-number-schema-0-and-1">
+<span id="channel-number-schema"></span><h2>Channel Number Schema 0 and 1<a class="headerlink" href="#channel-number-schema-0-and-1" title="Permalink to this heading"></a></h2>
+<p>The Time Taggers delivered before mid 2018 started with channel number 0, which is very convenient for most of the programming languages.</p>
+<p>Nevertheless, with the introduction of the Time Tagger Ultra and negative trigger levels, the falling edges became more and more important, and with the old channel schema, it was not intuitive to get the channel number of the falling edge.</p>
+<p>This is why we decided to make a profound change, and we switched to the channel schema which starts with channel 1 instead of 0. The falling edges can be accessed via the corresponding negative channel number, which is very intuitive to use.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head" colspan="2"><p>Time Tagger 20 and  Ultra 8</p></th>
+<th class="head" colspan="2"><p>Time Tagger Ultra 18</p></th>
+<th class="head"><p>Schema</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td></td>
+<td><p>rising</p></td>
+<td><p>falling</p></td>
+<td><p>rising</p></td>
+<td><p>falling</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>old</p></td>
+<td><p>0 to  7</p></td>
+<td><p>8 to  15</p></td>
+<td><p>0 to 17</p></td>
+<td><p>18 to  35</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TT_CHANNEL_NUMBER_SCHEME_ZERO</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>new</p></td>
+<td><p>1 to  8</p></td>
+<td><p>-1 to -8</p></td>
+<td><p>1 to 18</p></td>
+<td><p>-1 to -18</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TT_CHANNEL_NUMBER_SCHEME_ONE</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>With release V2.2.0, the channel number is detected automatically for the device in use. It will be according to the labels on the device.</p>
+<p>In case another channel schema is required, please use <code class="docutils literal notranslate"><span class="pre">setTimeTaggerChannelNumberScheme(int</span> <span class="pre">scheme)</span></code> before the first Time Tagger is initialized. If several devices are used within one instance, the first Time Tagger initialized defines the channel schema.</p>
+<p><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">getInvertedChannel(int</span> <span class="pre">channel)</span></code> was introduced to get the opposite edge of a given <code class="docutils literal notranslate"><span class="pre">channel</span></code> independent of the channel schema.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="UsageStatistics.html" class="btn btn-neutral float-left" title="Usage Statistics Collection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Swabian Instruments.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

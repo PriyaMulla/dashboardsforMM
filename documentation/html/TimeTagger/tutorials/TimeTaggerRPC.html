@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Remote Time Tagger with Python &mdash; Time Tagger User Manual 2.16.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/iconTT.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Synchronizer" href="../synchronizer/index.html" />
+    <link rel="prev" title="Confocal Fluorescence Microscope" href="ConfocalMicroscope.html" />
+ 
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXS6LN3');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXS6LN3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Time Tagger User Manual
+              <img src="../_static/logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.16.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<div id="link_documentation_pdf" style="margin-top:20px;">
+    <a style="font-weight:normal;color:#fcfcfc" target="_blank" href="/static/downloads/TimeTagger_User_Manual.pdf">
+<svg version="1.1"  width="13px" height="14px" viewBox="0 0 13 14" xmlns="http://www.w3.org/2000/svg">
+<g id="Download" fill="#fff">
+<path d="m10 6.5-0.74-0.76-2.4 2.4v-8.2h-1.1v8.2l-2.4-2.4-0.74 0.76 3.6 3.6z"></path>
+<path d="m1.1 13v-2.7h-1.1v3.8h13v-3.9h-1.1v2.9z"></path>
+</g>
+</svg>
+        Documentation as pdf
+    </a>
+</div>
+<script>
+    // Hide the pdf download link when we detect that the file is served from the local file system.
+    // Mostly likly to identify the ttlab offline documentation browser
+    if(window.location.protocol === "file:") {
+        document.getElementById("link_documentation_pdf").style.display = "none";
+    }
+</script>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sections/gettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/installation.html">Installation instructions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ConfocalMicroscope.html">Confocal Fluorescence Microscope</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Remote Time Tagger with Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sharing-a-time-tagger-with-network-time-tagger">Sharing a Time Tagger with Network Time Tagger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#remote-control-of-a-time-tagger-with-pyro">Remote control of a Time Tagger with Pyro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#remote-procedure-call">Remote procedure call</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initial-setup">Initial setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minimal-example">Minimal example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-the-time-tagger">Creating the Time Tagger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#measurements-and-virtual-channels">Measurements and virtual channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#working-example">Working example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-next">What is next?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronizer/index.html">Synchronizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/software.html">Software Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Application Programmer’s Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../InDepthGuides/index.html">In Depth Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/UsageStatistics.html">Usage Statistics Collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/changelog.html">Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Time Tagger User Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Remote Time Tagger with Python</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="remote-time-tagger-with-python">
+<h1>Remote Time Tagger with Python<a class="headerlink" href="#remote-time-tagger-with-python" title="Permalink to this heading"></a></h1>
+<a class="reference internal image-reference" href="../_images/timetagger-pyro5-banner.svg"><img alt="../_images/timetagger-pyro5-banner.svg" class="align-center" src="../_images/timetagger-pyro5-banner.svg" width="90%" /></a>
+<p>The <a class="reference external" href="https://www.swabianinstruments.com/time-tagger/">Time Tagger</a> is a great instrument for data acquisition whenever you detect, count, or analyze single photons.
+You can quickly set up a time correlation measurement, coincidence analysis, and much more.
+However, at some point in your project, you may want to control your experiment remotely.
+One option is to use remote desktop software like VNC, TeamViewer, Windows Remote Desktop, etc.
+What if you want to control your remote experiment programmatically? Are you using multiple computers and want to collect data from many of them at the same time?
+The solution for this is a remote control interface.
+Luckily, this task is very common and many software libraries cover the challenge of dealing with network sockets and messaging protocols.</p>
+<p>In the following, we want to demonstrate two ways of connecting to a Time Tagger over a network:
+<a class="reference internal" href="../api/TimeTagger.html#time-tagger-network"><span class="std std-ref">Network Time Tagger</span></a> and <a class="reference external" href="https://pyro5.readthedocs.io/en/latest/index.html" title="(in Pyro v5.14)"><span class="xref std std-doc">Pyro5</span></a>.</p>
+<p>Network Time Tagger is an ideal solution for sharing a Time Tagger between different computers.
+By using Network Time Tagger, a remote computer has direct access to the Time Tag stream and can perform measurements locally, as if the Time Tagger was directly connected over USB.
+Pyro on the other hand can be used to access a Time Tagger remotely.
+From a remote computer, Pyro can start measurements on the computer connected to the time tagger and return the results.</p>
+<section id="sharing-a-time-tagger-with-network-time-tagger">
+<h2>Sharing a Time Tagger with Network Time Tagger<a class="headerlink" href="#sharing-a-time-tagger-with-network-time-tagger" title="Permalink to this heading"></a></h2>
+<p>From Time Tagger software version 2.10 onward, Time Tagger supports remote operation ‘out-of-the-box’ with <a class="reference internal" href="../api/TimeTagger.html#time-tagger-network"><span class="std std-ref">Network Time Tagger</span></a>.
+Network Time Tagger implements a server on a computer connected to a Time Tagger and sends the Time Tag stream directly to the clients.
+Clients can then connect to the server and run arbitrary measurements independently on their own computers as if they are directly connected to the hardware device.</p>
+<p>The server can be set up with the Time Tagger Graphical User Interfaces (Time Tagger Lab or Web Application) or the Time Tagger API through <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.startServer" title="TimeTagger.startServer"><code class="xref py py-func docutils literal notranslate"><span class="pre">TimeTagger.startServer()</span></code></a>.
+When setting up the server, the host can decide on the level of access for the clients.
+With <a class="reference internal" href="../api/TimeTaggerLibrary.html#AccessMode.Control" title="AccessMode.Control"><code class="xref py py-func docutils literal notranslate"><span class="pre">AccessMode.Control()</span></code></a>, the clients have full access to data from all channels and can change the settings of the Time Tagger.
+With <a class="reference internal" href="../api/TimeTaggerLibrary.html#AccessMode.Listen" title="AccessMode.Listen"><code class="xref py py-func docutils literal notranslate"><span class="pre">AccessMode.Listen()</span></code></a>, the host can decide to only share data from specific channels.</p>
+<p>Clients can connect to the server using the Time Tagger API with <a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTaggerNetwork" title="createTimeTaggerNetwork"><code class="xref py py-func docutils literal notranslate"><span class="pre">createTimeTaggerNetwork()</span></code></a>.
+Once connected, measurements can be performed directly on the client side.
+Function calls are identical to the ones used to control a Time Tagger locally.
+Therefore, programs written with the Time Tagger API can be easily adapted to run on a remote computer.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Network Time Tagger can also be used to access a Time Tagger with different programming languages at the same time, both locally or on a remote computer.
+With <a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTaggerNetwork" title="createTimeTaggerNetwork"><code class="xref py py-func docutils literal notranslate"><span class="pre">createTimeTaggerNetwork()</span></code></a>, it is for example possible to run simultaneous measurements with Matlab and Python.</p>
+</div>
+<p>Below is a minimal working example for setting up a Network Time Tagger server and client with Python 3.6.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Starting a Network Time Tagger server</span><a class="headerlink" href="#id1" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">TimeTagger</span>
+
+<span class="n">tagger</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">createTimeTagger</span><span class="p">()</span>
+<span class="c1">#connect to the Time Tagger via USB</span>
+
+<span class="n">tagger</span><span class="o">.</span><span class="n">startServer</span><span class="p">(</span><span class="n">access_mode</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">AccessMode</span><span class="o">.</span><span class="n">Control</span><span class="p">,</span><span class="n">port</span><span class="o">=</span><span class="mi">41101</span><span class="p">)</span>
+<span class="c1"># Start the Server. TimeTagger.AccessMode sets the access rights for clients. Port defines the network port to be used</span>
+<span class="c1"># The server keeps running until the command tagger.stopServer() is called or until the program is terminated</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Connecting to a Network Time Tagger server</span><a class="headerlink" href="#id2" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">TimeTagger</span>
+
+<span class="n">tagger</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">createTimeTaggerNetwork</span><span class="p">(</span><span class="s1">&#39;ip:port&#39;</span><span class="p">)</span>
+<span class="c1"># Connect to the Time Tagger server. &#39;ip&#39; is the IP address of the server and &#39;port&#39; is the port defined by the server. The default port is 41101</span>
+
+<span class="n">correlation</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">Correlation</span><span class="p">(</span><span class="n">tagger</span><span class="o">=</span><span class="n">tagger</span><span class="p">,</span> <span class="n">channel_1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">channel_2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="c1"># tagger can be used to perform measurements as if the client was connected to the TimeTagger via USB. In this case, the client starts a correlation measurement.</span>
+<span class="c1"># After a measurement is finished, the client can disconnect with TimeTagger.freeTimeTagger(tagger)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="remote-control-of-a-time-tagger-with-pyro">
+<h2>Remote control of a Time Tagger with Pyro<a class="headerlink" href="#remote-control-of-a-time-tagger-with-pyro" title="Permalink to this heading"></a></h2>
+<p><a class="reference external" href="https://pyro5.readthedocs.io/en/latest/index.html" title="(in Pyro v5.14)"><span class="xref std std-doc">Pyro5</span></a> is a Python library that allows operation of a Time Tagger from a remote computer.
+It is able to send API commands to the remote Time Tagger and to obtain their return values.
+In the following, we describe how to use Pyro5 and achieve seamless access to the <a class="reference internal" href="../api/index.html"><span class="doc">Time Tagger’s API</span></a> remotely.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Teaser code</span><a class="headerlink" href="#id3" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">Pyro5.api</span> <span class="kn">import</span> <span class="n">Proxy</span>
+
+<span class="n">TimeTagger</span> <span class="o">=</span> <span class="n">Proxy</span><span class="p">(</span><span class="s2">&quot;PYRO:TimeTagger@server:23000&quot;</span><span class="p">)</span>
+<span class="n">tagger</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">createTimeTagger</span><span class="p">()</span>
+
+<span class="n">hist</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">Correlation</span><span class="p">(</span><span class="n">tagger</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">hist</span><span class="o">.</span><span class="n">startFor</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">10e12</span><span class="p">),</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">hist</span><span class="o">.</span><span class="n">getIndex</span><span class="p">()</span>
+<span class="k">while</span> <span class="n">hist</span><span class="o">.</span><span class="n">isRunning</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">hist</span><span class="o">.</span><span class="n">getData</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="remote-procedure-call">
+<h2>Remote procedure call<a class="headerlink" href="#remote-procedure-call" title="Permalink to this heading"></a></h2>
+<p>Remote procedure call (RPC) is a technology that allows interaction with remote programs
+by calling their procedures and receiving the responses.
+This involves a real code execution on one computer (server),
+while the client computer has only a substitute object (proxy) that mimics the real object running on the server.
+The proxy object knows how to send requests and data to the server
+and the server knows how to interpret these requests and how to execute the real code.</p>
+<p>In the case of <code class="docutils literal notranslate"><span class="pre">Pyro5</span></code>, the proxy object and server code are provided by the library
+and we only need to tell <code class="docutils literal notranslate"><span class="pre">Pyro5</span></code> what we want to become available remotely.</p>
+</section>
+<section id="initial-setup">
+<h2>Initial setup<a class="headerlink" href="#initial-setup" title="Permalink to this heading"></a></h2>
+<p>You will need to have a Python 3.6 or newer installed on your computer.
+We recommend using Anaconda distribution.</p>
+<p>Install the <a class="reference external" href="https://www.swabianinstruments.com/time-tagger/downloads/">Time Tagger software</a> if you have not done it yet.
+The description below assumes that you have the Time Tagger hardware and are familiar with the <a class="reference internal" href="../api/index.html"><span class="doc">Time Tagger API</span></a>.</p>
+<p>The last missing part, the Pyro5 package, you can install from <a class="reference external" href="https://pypi.org/project/Pyro5/">PyPi</a> as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">Pyro5</span>
+</pre></div>
+</div>
+</section>
+<section id="minimal-example">
+<h2>Minimal example<a class="headerlink" href="#minimal-example" title="Permalink to this heading"></a></h2>
+<p>Here we start from the simplest functional example and demonstrate working remote communication.
+The example consists of two parts: the server and the client code.
+You will need to run those in two separate command windows.</p>
+<p class="rubric">Server code</p>
+<p>We need to create an adapter class with methods that we want to access remotely and decorate it with
+<a class="reference external" href="https://pyro5.readthedocs.io/en/latest/api/api.html#Pyro5.api.expose" title="(in Pyro v5.14)"><code class="docutils literal notranslate"><span class="pre">Pyro5.api.expose()</span></code></a>.
+The following code is very simple. Later, we will extend it to expose more of the Time Tagger’s functionality.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Pyro5.api</span>
+<span class="kn">import</span> <span class="nn">TimeTagger</span> <span class="k">as</span> <span class="nn">TT</span>
+
+<span class="nd">@Pyro5</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">expose</span>
+<span class="k">class</span> <span class="nc">TimeTaggerRPC</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for the Time Tagger Library&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">scanTimeTagger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This method will become available remotely.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">TT</span><span class="o">.</span><span class="n">scanTimeTagger</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Start server and expose the TimeTaggerRPC class</span>
+    <span class="k">with</span> <span class="n">Pyro5</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">Daemon</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">23000</span><span class="p">)</span> <span class="k">as</span> <span class="n">daemon</span><span class="p">:</span>
+        <span class="c1"># Register class with Pyro</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="n">daemon</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">TimeTaggerRPC</span><span class="p">,</span> <span class="s1">&#39;TimeTagger&#39;</span><span class="p">)</span>
+        <span class="c1"># Print the URI of the published object</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+        <span class="c1"># Start the server event loop</span>
+        <span class="n">daemon</span><span class="o">.</span><span class="n">requestLoop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="rubric">Client code</p>
+<p>On the client side, we need to know the unique identifier of the exposed object, which was printed when you started the server.
+In Pyro5, every object is identified by a special string (URI) that contains the object identity string and the server address.
+As you can see in the code below, we do not use the Time Tagger software directly but rather communicate to the server that has it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Pyro5.api</span>
+
+<span class="c1"># Connect to the TimeTaggerRPC object on the server</span>
+<span class="c1"># This line is all we need to establish remote communication</span>
+<span class="n">TimeTagger</span> <span class="o">=</span> <span class="n">Pyro5</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">Proxy</span><span class="p">(</span><span class="s2">&quot;PYRO:TimeTagger@localhost:23000&quot;</span><span class="p">)</span>
+
+<span class="c1"># Now, we can call methods that will be executed on the server.</span>
+<span class="c1"># Lets check what Time Taggers are available at the server</span>
+<span class="n">timetaggers</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">scanTimeTagger</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">timetaggers</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;</span> <span class="p">[</span><span class="s1">&#39;1740000ABC&#39;</span><span class="p">,</span> <span class="s1">&#39;1750000ABC&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Congratulations! Now you have a very simple but functional communication to your remote Time Tagger software.</p>
+</section>
+<section id="creating-the-time-tagger">
+<h2>Creating the Time Tagger<a class="headerlink" href="#creating-the-time-tagger" title="Permalink to this heading"></a></h2>
+<p>By now, our code can communicate over a network and can only report the serial numbers of the connected Time Taggers.
+In this section, we will expand the server code and make it more useful.
+The next most important feature of the server is to expose the <a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a> method
+to tell the server to initialize the Time Tagger hardware.</p>
+<p>You may be tempted to extend the <cite>TimeTaggerRPC</cite> class as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@Pyro5</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">expose</span>
+<span class="k">class</span> <span class="nc">TimeTaggerRPC</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for the Time Tagger Library&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">scanTimeTagger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the serial numbers of the available Time Taggers.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">TT</span><span class="o">.</span><span class="n">scanTimeTagger</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">createTimeTagger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the Time Tagger.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">TT</span><span class="o">.</span><span class="n">createTimeTagger</span><span class="p">()</span>  <span class="c1"># This will fail! :(</span>
+</pre></div>
+</div>
+<p>To our great disappointment, the <cite>createTimeTagger</cite> method will fail when you try to access it from the client.
+The reason is in how the RPC communication works.
+The data and the program code have a certain format in which it is stored in the computer’s memory,
+and this memory cannot be easily or safely accessed from a remote computer.
+The RPC communication overcomes this problem using data serialization, i.e.,
+converting the data into a generalized format suitable for sending over a network
+and understandable by a client system.</p>
+<p>The <cite>Pyro5</cite>, more specifically the <cite>serpent</cite> serializer it employs by default,
+knows how to serialize the standard Python data types like a list of strings returned by <a class="reference internal" href="../api/TimeTaggerLibrary.html#scanTimeTagger" title="scanTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">scanTimeTagger()</span></code></a>.
+However, it has no idea how to interpret the <a class="reference internal" href="../api/TimeTagger.html#TimeTagger" title="TimeTagger"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagger</span></code></a> object returned by the <a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a>.
+Moreover, instead of sending the <a class="reference internal" href="../api/TimeTagger.html#TimeTagger" title="TimeTagger"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagger</span></code></a> object to the client,
+we want to send a proxy object which allows the client to talk to the <a class="reference internal" href="../api/TimeTagger.html#TimeTagger" title="TimeTagger"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagger</span></code></a> object on the server.</p>
+<p>For the <a class="reference internal" href="../api/TimeTagger.html#TimeTagger" title="TimeTagger"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagger</span></code></a>, we define an adapter class. Then we modify the <cite>TimeTaggerRPC.createTimeTagger</cite>
+to create an instance of the adapter class, register it with Pyro, and return it.
+Pyro will automatically take care of creating a proxy object for the client.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@Pyro5</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">expose</span>
+<span class="k">class</span> <span class="nc">TimeTagger</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for the Time Tagger object&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span> <span class="o">=</span> <span class="n">TT</span><span class="o">.</span><span class="n">createTimeTagger</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setTestSignal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">setTestSignal</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getSerial</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">getSerial</span><span class="p">()</span>
+
+    <span class="c1"># ... Other methods of the TT.TimeTagger class are omitted here.</span>
+
+
+<span class="nd">@Pyro5</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">expose</span>
+<span class="k">class</span> <span class="nc">TimeTaggerRPC</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for the Time Tagger Library&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">scanTimeTagger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the serial numbers of the available Time Taggers.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">TT</span><span class="o">.</span><span class="n">scanTimeTagger</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">createTimeTagger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the Time Tagger.&quot;&quot;&quot;</span>
+        <span class="n">tagger</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyroDaemon</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">tagger</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tagger</span>
+        <span class="c1"># Pyro will automatically create and send a proxy object</span>
+        <span class="c1"># to the client.</span>
+
+    <span class="k">def</span> <span class="nf">freeTimeTagger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tagger_proxy</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Free Time Tagger. &quot;&quot;&quot;</span>
+        <span class="c1"># Client only has a proxy object.</span>
+        <span class="n">objectId</span> <span class="o">=</span> <span class="n">tagger_proxy</span><span class="o">.</span><span class="n">_pyroUri</span><span class="o">.</span><span class="n">object</span>
+        <span class="c1"># Get adapter object from the server.</span>
+        <span class="n">tagger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyroDaemon</span><span class="o">.</span><span class="n">objectsById</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">objectId</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyroDaemon</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="n">tagger</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">TT</span><span class="o">.</span><span class="n">freeTimeTagger</span><span class="p">(</span><span class="n">tagger</span><span class="o">.</span><span class="n">_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="measurements-and-virtual-channels">
+<h2>Measurements and virtual channels<a class="headerlink" href="#measurements-and-virtual-channels" title="Permalink to this heading"></a></h2>
+<p>By now, we can list available Time Tagger devices and create TimeTagger objects.
+The remaining part is to implement access to the measurements and virtual channels.
+We will use the same approach as with the TimeTagger class and create adapter classes for them.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@Pyro5</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">expose</span>
+<span class="k">class</span> <span class="nc">Correlation</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter class for Correlation measurement.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tagger</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span> <span class="o">=</span> <span class="n">TT</span><span class="o">.</span><span class="n">Correlation</span><span class="p">(</span><span class="n">tagger</span><span class="o">.</span><span class="n">_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">startFor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">capture_duration</span><span class="p">,</span> <span class="n">clear</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">startFor</span><span class="p">(</span><span class="n">capture_duration</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="n">clear</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">isRunning</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">isRunning</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">getIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">getIndex</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">getData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">getData</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+
+<span class="nd">@Pyro5</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">expose</span>
+<span class="k">class</span> <span class="nc">DelayedChannel</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter class for DelayedChannel.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tagger</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span> <span class="o">=</span> <span class="n">TT</span><span class="o">.</span><span class="n">DelayedChannel</span><span class="p">(</span><span class="n">tagger</span><span class="o">.</span><span class="n">_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getChannel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="o">.</span><span class="n">getChannel</span><span class="p">()</span>
+
+
+<span class="nd">@Pyro5</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">expose</span>
+<span class="k">class</span> <span class="nc">TimeTaggerRPC</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter class for the Time Tagger Library&quot;&quot;&quot;</span>
+
+    <span class="c1">#  Earlier code omitted (...)</span>
+
+    <span class="k">def</span> <span class="nf">Correlation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tagger_proxy</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create Correlation measurement.&quot;&quot;&quot;</span>
+        <span class="n">objectId</span> <span class="o">=</span> <span class="n">tagger_proxy</span><span class="o">.</span><span class="n">_pyroUri</span><span class="o">.</span><span class="n">object</span>
+        <span class="n">tagger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyroDaemon</span><span class="o">.</span><span class="n">objectsById</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">objectId</span><span class="p">)</span>
+        <span class="n">pyro_obj</span> <span class="o">=</span> <span class="n">Correlation</span><span class="p">(</span><span class="n">tagger</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyroDaemon</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">pyro_obj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pyro_obj</span>
+
+    <span class="k">def</span> <span class="nf">DelayedChannel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tagger_proxy</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create DelayedChannel.&quot;&quot;&quot;</span>
+        <span class="n">objectId</span> <span class="o">=</span> <span class="n">tagger_proxy</span><span class="o">.</span><span class="n">_pyroUri</span><span class="o">.</span><span class="n">object</span>
+        <span class="n">tagger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pyroDaemon</span><span class="o">.</span><span class="n">objectsById</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">objectId</span><span class="p">)</span>
+        <span class="n">pyro_obj</span> <span class="o">=</span> <span class="n">DelayedChannel</span><span class="p">(</span><span class="n">tagger</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pyroDaemon</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">pyro_obj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pyro_obj</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The methods <a class="reference internal" href="../api/Measurements.html#Correlation.getIndex" title="Correlation.getIndex"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Correlation.getIndex()</span></code></a> and <a class="reference internal" href="../api/Measurements.html#Correlation.getData" title="Correlation.getData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Correlation.getData()</span></code></a> return <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> arrays.
+Pyro5 does not know how to serialize <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, therefore for simplicity of the example,
+we convert them to the Python lists.</p>
+<p>More efficient approach would be to register custom serializer functions for
+<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> on both, server and client sides,
+see <a class="reference external" href="https://pyro5.readthedocs.io/en/latest/clientcode.html#customizing-serialization" title="(in Pyro v5.14)"><span>Customizing serialization</span></a> section of the Pyro5 documentation.</p>
+</div>
+</section>
+<section id="working-example">
+<h2>Working example<a class="headerlink" href="#working-example" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>Download the complete source files</dt><dd><ul class="simple">
+<li><p><a class="reference download internal" download="" href="../_downloads/3b7baa87289beff52e13319051a0f9b8/simple_server.py"><code class="xref download docutils literal notranslate"><span class="pre">simple_server.py</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="../_downloads/25fc45a4cfd7f0948496fa32a7f18660/simple_example.py"><code class="xref download docutils literal notranslate"><span class="pre">simple_example.py</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<p>Start the server in a terminal window:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">simple_server</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Now open a second terminal window and run the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">simple_example</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Let us take a look at the source code of the example (shown below).
+You may recognize that it is practically the same as using the Time Tagger package directly.
+The only difference is that the import statement <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">TimeTagger</span></code> is replaced by the proxy object creation
+<code class="docutils literal notranslate"><span class="pre">TimeTagger</span> <span class="pre">=</span> <span class="pre">Pyro5.api.Proxy(&quot;PYRO:TimeTagger&#64;localhost:23000&quot;)</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">simple_example.py</span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">Pyro5.api</span>
+
+<span class="n">TimeTagger</span> <span class="o">=</span> <span class="n">Pyro5</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">Proxy</span><span class="p">(</span><span class="s2">&quot;PYRO:TimeTagger@localhost:23000&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create Time Tagger</span>
+<span class="n">tagger</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">createTimeTagger</span><span class="p">()</span>
+<span class="n">tagger</span><span class="o">.</span><span class="n">setTestSignal</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">tagger</span><span class="o">.</span><span class="n">setTestSignal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Time Tagger serial:&#39;</span><span class="p">,</span> <span class="n">tagger</span><span class="o">.</span><span class="n">getSerial</span><span class="p">())</span>
+
+<span class="n">hist</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">Correlation</span><span class="p">(</span><span class="n">tagger</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">hist</span><span class="o">.</span><span class="n">startFor</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">10e12</span><span class="p">),</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="c1"># The time vector is fixed. No need to read it on every iteration.</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hist</span><span class="o">.</span><span class="n">getIndex</span><span class="p">())</span>
+<span class="n">line</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time (ps)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Counts&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Correlation histogram via Pyro-RPC&#39;</span><span class="p">)</span>
+<span class="k">while</span> <span class="n">hist</span><span class="o">.</span><span class="n">isRunning</span><span class="p">():</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">hist</span><span class="o">.</span><span class="n">getData</span><span class="p">()</span>
+    <span class="n">line</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="c1"># Cleanup</span>
+<span class="n">TimeTagger</span><span class="o">.</span><span class="n">freeTimeTagger</span><span class="p">(</span><span class="n">tagger</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">hist</span>
+<span class="k">del</span> <span class="n">tagger</span>
+<span class="k">del</span> <span class="n">TimeTagger</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>The Time Tagger software installer includes more complete examples of the RPC server
+that includes more measurements, virtual channels and implements custom serialization of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> types.
+You can usually find the example files in the <code class="docutils literal notranslate"><span class="pre">C:\Program</span> <span class="pre">Files\Swabian</span> <span class="pre">Instruments\Time</span> <span class="pre">Tagger\examples\python\7-Remote-TimeTagger-with-Pyro5</span></code>.</p>
+</div>
+</section>
+<section id="what-is-next">
+<h2>What is next?<a class="headerlink" href="#what-is-next" title="Permalink to this heading"></a></h2>
+<p>One can follow the ideas presented in this tutorial and implement a fully featured Python package.
+You can find an experimental version of such package at <a class="reference external" href="https://pypi.org/project/TimeTaggerRPC/">PyPi</a>.
+Instead of manually wrapping every class and function of the Time Tagger API, the package employs metaprogramming and
+automatically generates adapter classes.</p>
+<p><a class="reference external" href="https://www.swabianinstruments.com/contact/">Let us know</a> if you have any questions about RPC interface for the Time Tagger.</p>
+<p>You can expand on the ideas presented in this tutorial, and implement remote control for your complete experiment.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ConfocalMicroscope.html" class="btn btn-neutral float-left" title="Confocal Fluorescence Microscope" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../synchronizer/index.html" class="btn btn-neutral float-right" title="Synchronizer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Swabian Instruments.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

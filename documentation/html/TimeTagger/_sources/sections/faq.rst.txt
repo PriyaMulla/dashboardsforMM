@@ -1,0 +1,61 @@
+
+.. _faq:
+
+*****************************
+Frequently Asked Questions
+*****************************
+
+--------------------------------------------------------------------------------
+How to detect falling edges of a pulse?
+--------------------------------------------------------------------------------
+
+On the software level, the rising and falling edges are independent channels. In the Graphical User Interfaces, these are marked explicitly. In the software libraries, the number of a falling edge channel is a negative number of the physical channel, e.g., the falling edges of the physical channel `2` correspond to the software channel `-2`. You can also use convenience method :meth:`~TimeTaggerBase.getInvertedChannel` to find inverted channel number for your specific hardware revision.
+
+.. note::
+    Time Taggers delivered before mid-2018 had different channel labeling scheme. For more details, please see section :ref:`channel_number_schema`.
+
+
+--------------------------------------------------------------------------------
+What value should I pass to an optional channel?
+--------------------------------------------------------------------------------
+
+You can specify a special integer value explicitly, but this is not recommended. Use the predefined constant :const:`CHANNEL_UNUSED` instead. For C++, the constant is defined in `TimeTagger.h`  and is called `CHANNEL_UNUSED`. 
+In python, it is `TimeTagger.CHANNEL_UNUSED`.
+
+
+--------------------------------------------------------------------------------
+Is it possible to use the same channel in multiple measurement classes?
+--------------------------------------------------------------------------------
+
+Yes, absolutely. All measurement objects that you create are able to 
+access the same time tag stream and get the same event information. This 
+is by design of our API. Every measurement runs in its own separate thread and 
+only the power of your CPU (clock, number of cores) and memory will limit how many of them you can create. For example, in our demonstration setup that we show on trade fairs, we run about 10 simultaneous measurements on a Microsoft 
+Surface tablet PC without a problem. Please note that the processing 
+power required also depends on the event rate on physical channels.
+
+
+--------------------------------------------------------------------------------
+How do I choose a binwidth for a histogram?
+--------------------------------------------------------------------------------
+
+With our Time Tagger you can choose any binwidth in the range from 1 ps to more than a day, all this range is defined in 1 picosecond steps. Together with the number of bins this will define maximum time difference you will be able to measure. Such a great flexibility lets you choose a proper binwidth purely based on the requirements of your experiment.
+
+The following list of questions may help you to identify and decide on what binwidth value to choose.
+
+1. What is the maximal time difference you want to measure?
+
+    .. code::
+
+        histogram_span = binwidth * n_bins
+
+    Large values of `n_bins` require more memory and you may want to trade off binwidth for the smaller n_bins in case you want to measure very long time differences. `n_bins < 1e7` are usually fine if you create measurements in MATLAB/Python/LabView/C++/C# etc. With the Time Tagger Web App, the values of `n_bins > 10000` may result in CPU load, due to transmitting larger amount of data to the browser and refreshing the plot.
+
+2. What time resolution do you expect from your measurement?
+
+    Smaller binwidth will give you finer time resolution of a histogram, however, keep in mind that the real resolution is defined by the uncertainty of time measurement (timing jitter), which is |tt20-jitter| RMS for Time Tagger 20, |ttu-jitter| RMS for Time Tagger Ultra and |ttx-jitter| RMS for Time Tagger X. Also, the timing jitter of your detectors will introduce additional timing uncertainty to your measurement. Therefore, you may want to choose a binwidth that is somewhat smaller than the measurement uncertainty of your experiment. For example, with Time Tagger 20 the binwidth of  >=10 ps is a good choice.
+
+3. What signal-to-noise ratio (SNR) you would like to achieve and in what time?
+
+    Smaller binwidth will require a longer time to accumulate the sufficient number of counts to achieve desired noise level compared to larger binwidth. This is referring to a shot-noise that is proportional to :math:`1/sqrt(N)` where :math:`N` is a number of counts in a single bin. This is the very same concept as SNR improvement by averaging. Larger binwidths will naturally get larger counts per bin in a shorter time for the same signal rates.
+

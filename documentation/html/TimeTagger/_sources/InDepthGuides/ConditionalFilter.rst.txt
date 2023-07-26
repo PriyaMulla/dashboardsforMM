@@ -1,0 +1,269 @@
+
+===================
+Conditional Filter
+===================
+
+The Conditional Filter is a hardware feature that allows you to remove irrelevant time tags carrying no information. 
+In a typical use case, you have a high-frequency signal applied to at least one channel. 
+Examples include fluorescence lifetime measurements or optical quantum information and cryptography where you want to capture synchronization clicks from a high repetition rate excitation laser.
+
+The Conditional Filter distinguishes between *trigger* channels and *filtered* channels.
+All input channels of your Time Tagger are fully equivalent and can be used as both, trigger or filtered channels.
+The data rate of the filtered channels will be reduced.
+The reduction is controlled by the trigger channels:
+Every trigger opens the gate for an event of the filtered channel.
+All other events in the filtered channels will be discarded on the Time Tagger and do not need to be transferred via the USB connection.
+
+Being a hardware feature, the Conditional Filter is not controlled on the level of individual measurements.
+It is enabled on the level of your physical device with a typical Python code looking like
+
+::
+
+  import TimeTagger
+  tagger = TimeTagger.createTimeTagger()
+  tagger.setConditionalFilter(trigger=[1], filtered=[8])
+
+The details will be explained in the `Setup of the Conditional Filter`_ section.
+
+Example configurations
+----------------------
+
+One trigger and one filtered channel
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The most fundamental case involves one filtered-channel and one trigger-channel:
+
+::
+
+  tagger.setConditionalFilter(trigger=[1], filtered=[8])
+
+.. plot:: figures_engine/ConditionalFilter_11.py
+    :align: center
+
+The Conditional Filter discards by default all signals of the filtered-channel.
+Only the very next event is transmitted after an event on the trigger-channel.
+In the example, click 2 opens the gate for click 3.
+When click 3 passes, it closes the gate and the subsequent events will be discarded until another event (click 8) occurs in the trigger channel.
+
+Multiple trigger-channels
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+There is the option to define more than one trigger-channel for the Conditional Filter.
+As a consequence, the next event on the filtered-channel is transmitted when there was a event at *any* of the trigger-channels:
+
+::
+
+  tagger.setConditionalFilter(trigger=[1, 2], filtered=[8])
+
+.. plot:: figures_engine/ConditionalFilter_21.py
+    :context: reset
+    :align: center
+  
+This is the typical use case when you detect photons with multiple detectors and want to correlate both with the common excitation laser.
+
+Multiple filtered channels
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is also possible to use the Conditional Filter with one trigger-channel and several filtered-channels:
+
+::
+
+  tagger.setConditionalFilter(trigger=[1], filtered=[7, 8])
+
+.. plot:: figures_engine/ConditionalFilter_12.py
+    :align: center
+
+
+Multiple trigger and filtered channels
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In general, you can also combine multiple trigger-channels and multiple filtered-channels:
+
+::
+
+  tagger.setConditionalFilter(trigger=[1, 2], filtered=[7, 8])
+
+.. plot:: figures_engine/ConditionalFilter_22.py
+    :align: center
+
+This scheme shows two different high-frequency signals on channels #7 and #8.
+Such cases can occur when you want to run two completely independent experiments on a single Time Tagger.
+For instance, channels #1/#7 and #2/#8 may represent the two experiments.
+It is not possible to set up two independent Conditional Filters for these groups.
+The scheme shown is the only way to apply the Conditional Filter in this case - with the drawback that channel #1 (#2) may also trigger channel #8 (#7), making the filtering less efficient.
+
+
+Understanding the filtering mechanism
+-------------------------------------
+The Conditional Filter is a hardware feature that is embedded in a sequence of processing stages.
+It is important to understand the order of these stages.
+Some unexpected results can occur when you are not aware of these mechanisms, so read the following section with care.
+
+Terms
+^^^^^
+
+.. glossary::
+  
+  Input time stamp
+    This is the time stamp *you* are interested in: It refers to the time when the input signal transits the trigger level at the input connector.
+  
+  TDC time stamp
+    This is the time stamp *the Time Tagger* is interested in: It is the raw 64 bit integer the FPGA attributes to a pulse edge.
+  
+  Hardware delay
+    The signal entering the input connector is routed through the Time Tagger into the FPGA where the time to digital conversion is performed. This route differs from channel to channel and so does the accumulated delay. Because of this, we need to distinguish between :term:`Input time stamp` and :term:`TDC time stamp`. The :term:`hardware delay <Hardware delay>` cannot be controlled by the user, it is defined by the design of the Time Tagger hardware and the FPGA configuration (this can vary from software release to software release). But don't worry, the Time Tagger is calibrated to compensate for this delay. This compensation is done on the device in case of the Time Tagger Ultra and the Time Tagger X. The Time Tagger 20 can only apply the delay in software (see details below). Except for the purpose of understanding the Conditional Filter, you do not need to care about the difference. 
+  
+  External delay
+    Any delay introduced before the Time Tagger, e.g. by cable lengths or optical pathways.
+
+Processing stages
+^^^^^^^^^^^^^^^^^
+
+.. _stage-input:
+
+1. **Pulse enters the Time Tagger:** Up to the input connector, the user is in charge of the :term:`external delays <External delay>`. They can be controlled by changing cable lengths or optical pathways. The time tag generated by the Time Tagger should therefore represent the temporal order at the input connectors. This is the :term:`input time stamp <Input time stamp>`.
+
+.. _stage-tdc:
+
+2. **Time to digital conversion:** The pulses propagate through the Time Tagger. They are compared to the trigger level of the input stage. This results in a high or low logic level. This is still analog information that propagates to the FPGA. Here, the :term:`TDC time stamp` is attributed to the pulse edge. The propagation length up to this time to digital conversion (TDC) differs from channel to channel. It can be compensated in one of the later stages.
+
+.. _stage-hardware-delay:
+
+3. **Adjustable hardware delay (TT Ultra and TTX only!):** From software version 2.8.0 on, the Time Tagger Ultra is able to buffer and reorder the tags before the Conditional Filter. For Time Tagger X, this feature is available from software version 2.12.0 on. You can set an individual delay for every input stage by :meth:`TimeTaggerBase.setDelayHardware()`. This behaves like an adjustable hardware delay and is calibrated by default to compensate for the physical hardware delay. It changes the behavior of the Conditional Filter tremendously, as you will see in the next stages. 
+
+.. _stage-deadtime:
+
+4. **Adjustable deadtime:** As a first filter stage, the adjustable deadtime is applied. It acts only on the channel itself, considering rising and falling edges as two separate channels. After an event in one of the channels occurred, no other event can appear in the same channel for the defined deadtime. The deadtime can only be set in integer multiples of the FPGA clock cycle (TT20: 6000 ps, TT Ultra: 2000 ps, TTX: 1333 ps) with a technically required minimum of one cycle.
+
+.. _stage-conditional-filter:
+
+5. **Conditional Filter:** As a second filter stage, the Conditional Filter is applied. The time tags of trigger channels and filtered channels are compared. If your device is able to introduce :ref:`Adjustable hardware delay<stage-hardware-delay>`, this happens based on the timestamp including the :term:`Hardware delay` compensation and the additional delay set by :meth:`TimeTaggerBase.setDelayHardware`. Otherwise, the raw :term:`TDC time stamp` is used. In both cases, the time order of these stamps can deviate from the order of the :term:`input time stamps <Input time stamp>` that you are dealing with usually. Note: In the edge case of events arriving at the same time (dt=0) on a trigger and filtered channel, it is not specified whether the event on the filtered channel at dt=0 is passed through, or the subsequent, or both.
+
+.. _stage-event-divider:
+
+6. **Event Divider:** As a third filter stage, the Event Divider can be applied. Only every n-th time tag of the respective channel is transmitted, all others are dismissed.
+
+.. _stage-usb:
+
+7. **The bottleneck - USB transfer:** The time tags are buffered and transmitted to the PC. At this point, after applying Conditional Filter and Event Divider, it is important that the resulting data rate on average does not exceed the maximum data rate.
+
+.. _stage-input-delay-compensation:
+
+8. **setDelaySoftware:** From now on, the Time Tagger hardware is not involved anymore. If your device does not provide an adjustable hardware delay, the software compensates now the :term:`TDC time stamp` for the :term:`hardware delay <Hardware delay>` to provide you the :term:`input time stamp <Input time stamp>` (it is possible to disable the hardware delay compensation, see `Control hardware delay compensation`_). In any case, you can modify this compensation by :meth:`TimeTaggerBase.setDelaySoftware`.
+
+.. _stage-DelayedChannel:
+
+9. **Delayed Channel:** The most flexible way to control the relative delay of your signals are Virtual Channels. 
+
+
+Consequences
+^^^^^^^^^^^^
+
+The nature of the filtering process can produce counterintuitive results that need to be handled.
+We will explore these cases based on the example of a fluorescence lifetime measurement.
+The sample is excited by a pulsed laser with a repetition rate of 80 MHz (period of 12.5 ns), the laser synchronization signal is connected to channel #8.
+So channel #8 is the high-frequency input that needs to be filtered.
+Fluorescence photons are collected by a single-photon detector connected to channel #1 that will trigger the Conditional Filter.
+We set up a correlation measurement and look at different cases:
+
+::
+
+  TimeTagger.Correlation(tagger, 1, 8)
+
+.. plot:: figures_engine/ConditionalFilter_signal.py
+    :align: center
+
+**Case 1:** Without the Conditional Filter set up, the Correlation measurement class provides a periodic signal.
+The periodicity is a result of the multi-start/multi-stop approach of the Correlation measurement:
+A click on the detector will contribute together with any laser synchronization pulse to the correlation, not only with the one that actually stimulated the photon.
+Without the Conditional Filter, there will be a laser time tag every 12.5 ns.
+Because this high frequency cannot be transferred for a long time, buffer overflows will lead to discarded data.
+
+
+**Case 2:** With the Conditional Filter on, the data rate is highly reduced at the cost of losing the full periodicity of the signal:
+
+::
+
+  tagger.setConditionalFilter(trigger=[1], filtered=[8])
+
+Now we observe that the majority of the events is in the range of a few nanoseconds.
+However, the signal does not look like expected:
+Instead of a signal resembling one of the peaks from Case 1, a double peak appears.
+If you look carefully at the signal, you can see that the lifetime curve is cut along the dotted line and one part is shifted by one period.
+This indicates that the physical delay between the input channels is not designed properly.
+The scheme illustrates the problem:
+
+.. plot:: figures_engine/ConditionalFilter_order.py
+    :align: center
+
+The dashed line indicates which pulse excited the sample. If the photon is emitted early by the sample (click 2), it will trigger the first pulse (click 3) after the stimulating one (click 1).
+In the second case, the photon is emitted late and the subsequent laser pulse (click 7) has already passed.
+In this case, click 9 is passed and click 8 seems to be very early, although it is quite late, in fact.
+
+**Case 3:** To align the signal properly, having the signal in between two laser events, the strategy depends on your device:
+With Time Tagger Ultra (with software version 2.8.0 and later) and Time Tagger X (with software version 2.12.0 and later), you can use :meth:`TimeTaggerBase.setDelayHardware` to align your signals. 
+In the case of a Time Tagger 20, however, you need to adjust your :term:`external delays <External delay>`.
+You might either modify optical path lengths or use cables of different lengths.
+
+**Case 4:** This case illustrates that the height of the higher-order peaks is determined by the count rate of your detector.
+The relative height (compared to the center peak) is proportional to the probability for a laser synchronization pulse to pass the Conditional Filter in the higher-order period.
+This probability is given by the probability that a detector click occurs in the respective period and gates the synchronization click.
+In Case 1, without the Conditional Filter, the probability is 100% - every synchronization pulse is passed.
+For Case 2 and Case 3, the probability has been set to 10%, in Case 4 it has been increased to 40%.
+
+.. note::
+
+  In Cases 3 and 4, with :term:`external delays <External delay>` well adjusted to each other, you can see a signal at negative times.
+  How is this possible?
+  Wouldn't this mean that the laser synchronization click arrived earlier than the photon click that gated it?
+  Does my Time Tagger violate causality?
+
+  The answer is: No, it does not.
+  The occurrence of negative delays is caused by the difference between the :term:`input time stamps <Input time stamp>` and the :term:`TDC time stamps <TDC time stamp>`.
+  Negative delays occur in :term:`input time stamps <Input time stamp>`, but causality must only be obeyed in :term:`TDC time stamps <TDC time stamp>` (plus :ref:`adjustable onboard delays<stage-hardware-delay>`, if available).
+  The occurrence of negative delays indicates that the :term:`hardware delay <Hardware delay>` of channel #8 (laser synchronization) is larger than that of channel #1 (detector).
+
+Setup of the Conditional Filter
+-------------------------------
+
+The :meth:`TimeTagger.setConditionalFilter` method expects two arguments, `trigger` and `filtered`, and accepts the optional boolean argument `hardwareDelayCompensation`:
+
+.. code-block:: python
+
+  tagger.setConditionalFilter(trigger: list[int],
+                              filtered: list[int],
+                              hardwareDelayCompensation: bool = True)
+
+The effect of `trigger` and `filter` can be reviewed in the `Example configurations`_ section.
+
+Control hardware delay compensation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+With the argument `hardwareDelayCompensation` you can decide whether the :term:`hardware delay <Hardware delay>` is compensated or not.
+This means, in fact, that you can decide whether you work with :term:`input time stamps <Input time stamp>` or with :term:`TDC time stamps <TDC time stamp>`. If your device supports :ref:`adjustable onboard delays<stage-hardware-delay>`, you should never set this value to False and you can ignore this section.
+
+hardwareDelayCompensation = True (default)
+  Pros
+    * Time tags are provided in the way you are used to it
+    * The signal position will not depend on the software version
+  Cons
+    * Negative time differences can occur between trigger-channel and filtered-channel and seemingly violate causality
+
+hardwareDelayCompensation = False
+  Pros
+    * Provided Time tags will be in the same temporal order as for the ConditionalFilter, no negative time differences will occur
+  Cons
+    * Signal positions may change upon software update
+    * Affects all channels, not only the ones listed in `trigger` and `filtered`.
+
+
+Disable the Conditional Filter
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To disable the Conditional Filter, you can either pass an empty lists or use the :meth:`TimeTagger.clearConditionalFilter` method:
+
+.. code-block:: python
+
+  tagger.setConditionalFilter([], [])
+  # or
+  tagger.clearConditionalFilter()

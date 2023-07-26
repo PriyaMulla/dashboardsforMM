@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The TimeTagger Library &mdash; Time Tagger User Manual 2.16.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/iconTT.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TimeTagger classes" href="TimeTagger.html" />
+    <link rel="prev" title="Examples" href="examples.html" />
+ 
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXS6LN3');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXS6LN3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Time Tagger User Manual
+              <img src="../_static/logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.16.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<div id="link_documentation_pdf" style="margin-top:20px;">
+    <a style="font-weight:normal;color:#fcfcfc" target="_blank" href="/static/downloads/TimeTagger_User_Manual.pdf">
+<svg version="1.1"  width="13px" height="14px" viewBox="0 0 13 14" xmlns="http://www.w3.org/2000/svg">
+<g id="Download" fill="#fff">
+<path d="m10 6.5-0.74-0.76-2.4 2.4v-8.2h-1.1v8.2l-2.4-2.4-0.74 0.76 3.6 3.6z"></path>
+<path d="m1.1 13v-2.7h-1.1v3.8h13v-3.9h-1.1v2.9z"></path>
+</g>
+</svg>
+        Documentation as pdf
+    </a>
+</div>
+<script>
+    // Hide the pdf download link when we detect that the file is served from the local file system.
+    // Mostly likly to identify the ttlab offline documentation browser
+    if(window.location.protocol === "file:") {
+        document.getElementById("link_documentation_pdf").style.display = "none";
+    }
+</script>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sections/gettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/installation.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronizer/index.html">Synchronizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/software.html">Software Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Application Programmer’s Interface</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The TimeTagger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#units-of-measurement">Units of measurement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#channel-numbers">Channel numbers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unused-channels">Unused channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constants">Constants</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#CHANNEL_UNUSED"><code class="docutils literal notranslate"><span class="pre">CHANNEL_UNUSED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#enumerations">Enumerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#AccessMode"><code class="docutils literal notranslate"><span class="pre">AccessMode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ChannelEdge"><code class="docutils literal notranslate"><span class="pre">ChannelEdge</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#CoincidenceTimestamp"><code class="docutils literal notranslate"><span class="pre">CoincidenceTimestamp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#FpgaLinkInterface"><code class="docutils literal notranslate"><span class="pre">FpgaLinkInterface</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GatedChannelInitial"><code class="docutils literal notranslate"><span class="pre">GatedChannelInitial</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Resolution"><code class="docutils literal notranslate"><span class="pre">Resolution</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#TagType"><code class="docutils literal notranslate"><span class="pre">TagType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#UsageStatisticsStatus"><code class="docutils literal notranslate"><span class="pre">UsageStatisticsStatus</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#createTimeTagger"><code class="docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#createTimeTaggerVirtual"><code class="docutils literal notranslate"><span class="pre">createTimeTaggerVirtual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#createTimeTaggerNetwork"><code class="docutils literal notranslate"><span class="pre">createTimeTaggerNetwork()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getTimeTaggerServerInfo"><code class="docutils literal notranslate"><span class="pre">getTimeTaggerServerInfo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#freeTimeTagger"><code class="docutils literal notranslate"><span class="pre">freeTimeTagger()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scanTimeTagger"><code class="docutils literal notranslate"><span class="pre">scanTimeTagger()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scanTimeTaggerServers"><code class="docutils literal notranslate"><span class="pre">scanTimeTaggerServers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setLogger"><code class="docutils literal notranslate"><span class="pre">setLogger()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setTimeTaggerChannelNumberScheme"><code class="docutils literal notranslate"><span class="pre">setTimeTaggerChannelNumberScheme()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getTimeTaggerChannelNumberScheme"><code class="docutils literal notranslate"><span class="pre">getTimeTaggerChannelNumberScheme()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mergeStreamFiles"><code class="docutils literal notranslate"><span class="pre">mergeStreamFiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setUsageStatisticsStatus"><code class="docutils literal notranslate"><span class="pre">setUsageStatisticsStatus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getUsageStatisticsStatus"><code class="docutils literal notranslate"><span class="pre">getUsageStatisticsStatus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getUsageStatisticsReport"><code class="docutils literal notranslate"><span class="pre">getUsageStatisticsReport()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="TimeTagger.html">TimeTagger classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="VirtualChannels.html">Virtual Channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Measurements.html">Measurement Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../InDepthGuides/index.html">In Depth Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/UsageStatistics.html">Usage Statistics Collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/changelog.html">Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Time Tagger User Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Application Programmer’s Interface</a></li>
+      <li class="breadcrumb-item active">The TimeTagger Library</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-timetagger-library">
+<h1>The TimeTagger Library<a class="headerlink" href="#the-timetagger-library" title="Permalink to this heading"></a></h1>
+<p>The Time Tagger Library contains classes for hardware access and data processing.
+This section covers the units and terminology definitions as well as describes constants and functions defined at the library level.</p>
+<section id="units-of-measurement">
+<h2>Units of measurement<a class="headerlink" href="#units-of-measurement" title="Permalink to this heading"></a></h2>
+<p>Time is measured and specified in picoseconds. Time-tags indicate time since device start-up, which is represented by a 64-bit integer number. Note that this implies that the time variable will roll over once approximately every 107 days. This will most likely not be relevant to you unless you plan to run your software continuously over several months, and you are taking data at the instance when the rollover is happening.</p>
+<p>Analog voltage levels are specified in Volts.</p>
+</section>
+<section id="channel-numbers">
+<h2>Channel numbers<a class="headerlink" href="#channel-numbers" title="Permalink to this heading"></a></h2>
+<p>You can use the Time Tagger to detect both rising and falling edges. Throughout the software API, the rising edges are represented by positive channel numbers starting from 1 and the falling edges are represented by negative channel numbers. Virtual channels will automatically obtain numbers higher than the positive channel numbers.</p>
+<p>The Time Taggers delivered before mid 2018 have a different channel numbering. More details can be found in the <a class="reference internal" href="../sections/changelog.html#channel-number-schema"><span class="std std-ref">Channel Number Schema 0 and 1</span></a> section.</p>
+</section>
+<section id="unused-channels">
+<h2>Unused channels<a class="headerlink" href="#unused-channels" title="Permalink to this heading"></a></h2>
+<p>There might be the need to leave a parameter undefined when calling a class constructor.
+Depending on the programming language you are using, you pass an undefined channel via the static constant <a class="reference internal" href="#CHANNEL_UNUSED" title="CHANNEL_UNUSED"><code class="xref py py-const docutils literal notranslate"><span class="pre">CHANNEL_UNUSED</span></code></a>, which can be found in the <code class="docutils literal notranslate"><span class="pre">TT</span></code> class for .NET and in the <code class="docutils literal notranslate"><span class="pre">TimeTagger</span></code> class in Matlab.</p>
+</section>
+<section id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this heading"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="CHANNEL_UNUSED">
+<span class="sig-name descname"><span class="pre">CHANNEL_UNUSED</span></span><a class="headerlink" href="#CHANNEL_UNUSED" title="Permalink to this definition"></a></dt>
+<dd><p>Can be used instead of a channel number when no specific channel is assumed. In MATLAB, use <code class="docutils literal notranslate"><span class="pre">TimeTagger.CHANNEL_UNUSED</span></code>.</p>
+</dd></dl>
+
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="AccessMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AccessMode</span></span><a class="headerlink" href="#AccessMode" title="Permalink to this definition"></a></dt>
+<dd><p>Controls how the Time Tagger server delivers the data-blocks to the connected clients,
+and if the clients are allowed to change the hardware settings.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AccessMode.Control">
+<span class="sig-name descname"><span class="pre">Control</span></span><a class="headerlink" href="#AccessMode.Control" title="Permalink to this definition"></a></dt>
+<dd><p>Clients have control over all settings on the Time Tagger.
+The data-blocks are delivered asynchronously to every client.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AccessMode.Listen">
+<span class="sig-name descname"><span class="pre">Listen</span></span><a class="headerlink" href="#AccessMode.Listen" title="Permalink to this definition"></a></dt>
+<dd><p>Clients cannot change settings on the Time Tagger and only subscribe to the exposed channels.
+The data-blocks are delivered asynchronously to every client.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="AccessMode.SynchronousControl">
+<span class="sig-name descname"><span class="pre">SynchronousControl</span></span><a class="headerlink" href="#AccessMode.SynchronousControl" title="Permalink to this definition"></a></dt>
+<dd><p>The same as <a class="reference internal" href="#AccessMode.Control" title="AccessMode.Control"><code class="xref py py-attr docutils literal notranslate"><span class="pre">AccessMode.Control</span></code></a> but the data is delivered synchronously to every client.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This mode is not recommended for general use.
+The server will attempt to deliver a data-block to every connected client before sending the next data-block.
+Therefore, the data transmission will always be limited by the slowest client.
+If any of the clients cannot handle the data rate fast enough compared to the data-rate produced by the Time Tagger hardware,
+all connected clients will be affected and the Time Tagger hardware buffer may overflow.
+This can happen due to the network speed limit or insufficient CPU speed on any of the connected clients.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ChannelEdge">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ChannelEdge</span></span><a class="headerlink" href="#ChannelEdge" title="Permalink to this definition"></a></dt>
+<dd><p>Selects the channels that <a class="reference internal" href="TimeTagger.html#TimeTagger.getChannelList" title="TimeTagger.getChannelList"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.getChannelList()</span></code></a> returns.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ChannelEdge.All">
+<span class="sig-name descname"><span class="pre">All</span></span><a class="headerlink" href="#ChannelEdge.All" title="Permalink to this definition"></a></dt>
+<dd><p>Rising and falling edges of channels with HighRes and Standard resolution.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ChannelEdge.Rising">
+<span class="sig-name descname"><span class="pre">Rising</span></span><a class="headerlink" href="#ChannelEdge.Rising" title="Permalink to this definition"></a></dt>
+<dd><p>Rising edges of channels with HighRes and Standard resolution.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ChannelEdge.Falling">
+<span class="sig-name descname"><span class="pre">Falling</span></span><a class="headerlink" href="#ChannelEdge.Falling" title="Permalink to this definition"></a></dt>
+<dd><p>Falling edges of channels with HighRes and Standard resolution.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ChannelEdge.HighResAll">
+<span class="sig-name descname"><span class="pre">HighResAll</span></span><a class="headerlink" href="#ChannelEdge.HighResAll" title="Permalink to this definition"></a></dt>
+<dd><p>Rising and falling of channels edges with HighRes resolution.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ChannelEdge.HighResRising">
+<span class="sig-name descname"><span class="pre">HighResRising</span></span><a class="headerlink" href="#ChannelEdge.HighResRising" title="Permalink to this definition"></a></dt>
+<dd><p>Rising edges of channels with HighRes resolution.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ChannelEdge.HighResFalling">
+<span class="sig-name descname"><span class="pre">HighResFalling</span></span><a class="headerlink" href="#ChannelEdge.HighResFalling" title="Permalink to this definition"></a></dt>
+<dd><p>Falling edges of channels with HighRes resolution.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ChannelEdge.StandardAll">
+<span class="sig-name descname"><span class="pre">StandardAll</span></span><a class="headerlink" href="#ChannelEdge.StandardAll" title="Permalink to this definition"></a></dt>
+<dd><p>Rising and falling edges of channels with Standard resolution.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ChannelEdge.StandardRising">
+<span class="sig-name descname"><span class="pre">StandardRising</span></span><a class="headerlink" href="#ChannelEdge.StandardRising" title="Permalink to this definition"></a></dt>
+<dd><p>Rising edges of channels with Standard resolution.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ChannelEdge.StandardFalling">
+<span class="sig-name descname"><span class="pre">StandardFalling</span></span><a class="headerlink" href="#ChannelEdge.StandardFalling" title="Permalink to this definition"></a></dt>
+<dd><p>Falling edges of channels with Standard resolution.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="CoincidenceTimestamp">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CoincidenceTimestamp</span></span><a class="headerlink" href="#CoincidenceTimestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Defines what timestamp to use for a coincidence event in <a class="reference internal" href="VirtualChannels.html#Coincidence" title="Coincidence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coincidence</span></code></a>/<a class="reference internal" href="VirtualChannels.html#Coincidences" title="Coincidences"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coincidences</span></code></a>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="CoincidenceTimestamp.Last">
+<span class="sig-name descname"><span class="pre">Last</span></span><a class="headerlink" href="#CoincidenceTimestamp.Last" title="Permalink to this definition"></a></dt>
+<dd><p>Use the last time-tag to define the timestamp of the coincidence.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="CoincidenceTimestamp.Average">
+<span class="sig-name descname"><span class="pre">Average</span></span><a class="headerlink" href="#CoincidenceTimestamp.Average" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the average timestamp of all time-tags in the coincidence and use it as the timestamp of the coincidence.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="CoincidenceTimestamp.First">
+<span class="sig-name descname"><span class="pre">First</span></span><a class="headerlink" href="#CoincidenceTimestamp.First" title="Permalink to this definition"></a></dt>
+<dd><p>Use the first time-tag to define the timestamp of the coincidence.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="CoincidenceTimestamp.ListedFirst">
+<span class="sig-name descname"><span class="pre">ListedFirst</span></span><a class="headerlink" href="#CoincidenceTimestamp.ListedFirst" title="Permalink to this definition"></a></dt>
+<dd><p>Use the timestamp of the channel at the first position of the list when <a class="reference internal" href="VirtualChannels.html#Coincidence" title="Coincidence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coincidence</span></code></a> or a group of <a class="reference internal" href="VirtualChannels.html#Coincidences" title="Coincidences"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coincidences</span></code></a> is instantiated.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="FpgaLinkInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FpgaLinkInterface</span></span><a class="headerlink" href="#FpgaLinkInterface" title="Permalink to this definition"></a></dt>
+<dd><p>Determines which Ethernet Port on the Time Tagger X should be used in <a class="reference internal" href="TimeTagger.html#TimeTagger.enableFpgaLink" title="TimeTagger.enableFpgaLink"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.enableFpgaLink()</span></code></a>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="FpgaLinkInterface.SFPP_10GE">
+<span class="sig-name descname"><span class="pre">SFPP_10GE</span></span><a class="headerlink" href="#FpgaLinkInterface.SFPP_10GE" title="Permalink to this definition"></a></dt>
+<dd><p>Use the SFP+ Port on the Time Tagger X for FPGA link output.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="GatedChannelInitial">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GatedChannelInitial</span></span><a class="headerlink" href="#GatedChannelInitial" title="Permalink to this definition"></a></dt>
+<dd><p>The initial state of a <a class="reference internal" href="VirtualChannels.html#GatedChannel" title="GatedChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">GatedChannel</span></code></a>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="GatedChannelInitial.Closed">
+<span class="sig-name descname"><span class="pre">Closed</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#GatedChannelInitial.Closed" title="Permalink to this definition"></a></dt>
+<dd><p>The gate is closed initially.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="GatedChannelInitial.Open">
+<span class="sig-name descname"><span class="pre">Open</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#GatedChannelInitial.Open" title="Permalink to this definition"></a></dt>
+<dd><p>The gate is open initially.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Resolution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Resolution</span></span><a class="headerlink" href="#Resolution" title="Permalink to this definition"></a></dt>
+<dd><p>Defines the resolution mode of the Time Tagger on connection using <a class="reference internal" href="#createTimeTagger" title="createTimeTagger"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a>. Details on the available inputs are listed in the <a class="reference internal" href="../sections/hardware.html#highreshardwaredescription"><span class="std std-ref">hardware overview</span></a>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Resolution.Standard">
+<span class="sig-name descname"><span class="pre">Standard</span></span><a class="headerlink" href="#Resolution.Standard" title="Permalink to this definition"></a></dt>
+<dd><p>Use one time-to-digital conversion per channel. All physical inputs can be used.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Resolution.HighResA">
+<span class="sig-name descname"><span class="pre">HighResA</span></span><a class="headerlink" href="#Resolution.HighResA" title="Permalink to this definition"></a></dt>
+<dd><p>Use two time-to-digital conversions per channel. The resolution is increased by a factor of <img class="math" src="../_images/math/efced706c129ffb84bd3ab84dd0379580859c48d.svg" alt="\simeq\sqrt{2}"/> compared to the Standard mode, but only a reduced number of certain inputs can be used. Some inputs may remain in Standard mode depending on your license.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Resolution.HighResB">
+<span class="sig-name descname"><span class="pre">HighResB</span></span><a class="headerlink" href="#Resolution.HighResB" title="Permalink to this definition"></a></dt>
+<dd><p>Use four time-to-digital conversions per channel. The resolution is increased by a factor of <img class="math" src="../_images/math/b55f010bafa989b4deea805e430b725a905a381e.svg" alt="\simeq 2"/> compared to the Standard mode, but only a reduced number of certain inputs can be used. Some inputs may remain in Standard mode depending on your license.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Resolution.HighResC">
+<span class="sig-name descname"><span class="pre">HighResC</span></span><a class="headerlink" href="#Resolution.HighResC" title="Permalink to this definition"></a></dt>
+<dd><p>Use four time-to-digital conversions per channel. The resolution is increased by a factor of <img class="math" src="../_images/math/06ae7a5fe26864cb85dded14764d54f0b55a3710.svg" alt="\simeq\sqrt{8}"/> compared to the Standard mode, but only a reduced number of certain inputs can be used. Some inputs may remain in Standard mode depending on your license.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TagType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TagType</span></span><a class="headerlink" href="#TagType" title="Permalink to this definition"></a></dt>
+<dd><p>This enumeration describes the overflow condition.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TagType.TimeTag">
+<span class="sig-name descname"><span class="pre">TimeTag</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#TagType.TimeTag" title="Permalink to this definition"></a></dt>
+<dd><p>A normal event from any input channel, no overflow.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TagType.Error">
+<span class="sig-name descname"><span class="pre">Error</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#TagType.Error" title="Permalink to this definition"></a></dt>
+<dd><p>An error in the internal data processing, e.g. on plugging the external clock. This invalidates the global time.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TagType.OverflowBegin">
+<span class="sig-name descname"><span class="pre">OverflowBegin</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#TagType.OverflowBegin" title="Permalink to this definition"></a></dt>
+<dd><p>Marks the beginning of an interval with incomplete data because of too high data rates.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TagType.OverflowEnd">
+<span class="sig-name descname"><span class="pre">OverflowEnd</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#TagType.OverflowEnd" title="Permalink to this definition"></a></dt>
+<dd><p>Marks the end of the interval. All events, which were lost in this interval, have been handled</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="TagType.MissedEvents">
+<span class="sig-name descname"><span class="pre">MissedEvents</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#TagType.MissedEvents" title="Permalink to this definition"></a></dt>
+<dd><p>This virtual event signals the number of lost events per channel within an overflow interval. Might be sent repeatedly for larger number of lost events.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UsageStatisticsStatus">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UsageStatisticsStatus</span></span><a class="headerlink" href="#UsageStatisticsStatus" title="Permalink to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="UsageStatisticsStatus.Disabled">
+<span class="sig-name descname"><span class="pre">Disabled</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#UsageStatisticsStatus.Disabled" title="Permalink to this definition"></a></dt>
+<dd><p>Usage statistics collection and upload is disabled.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UsageStatisticsStatus.Collecting">
+<span class="sig-name descname"><span class="pre">Collecting</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#UsageStatisticsStatus.Collecting" title="Permalink to this definition"></a></dt>
+<dd><p>Enable usage statistics collection local but without automatic uploading.
+This option might be useful to collect usage statistics for debugging purpose.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UsageStatisticsStatus.CollectingAndUploading">
+<span class="sig-name descname"><span class="pre">CollectingAndUploading</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#UsageStatisticsStatus.CollectingAndUploading" title="Permalink to this definition"></a></dt>
+<dd><p>Enable usage statistics collection and automatic upload</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="functions">
+<span id="time-tagger-library-functions"></span><h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="createTimeTagger">
+<span class="sig-name descname"><span class="pre">createTimeTagger</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">serial=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution=Resolution.Standard</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#createTimeTagger" title="Permalink to this definition"></a></dt>
+<dd><p>Establishes the connection to a first available Time Tagger device and creates a <a class="reference internal" href="TimeTagger.html#TimeTagger" title="TimeTagger"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagger</span></code></a> object. Optionally, the connection to a specific device can be achieved by specifying the device serial number.</p>
+<p>If the HighRes mode is available, it can be selected from <a class="reference internal" href="#Resolution" title="Resolution"><code class="xref py py-class docutils literal notranslate"><span class="pre">Resolution</span></code></a>. Details on the available inputs are listed in the <a class="reference internal" href="../sections/hardware.html#highreshardwaredescription"><span class="std std-ref">hardware overview</span></a>.</p>
+<p>In MATLAB, this function is accessed as <code class="docutils literal notranslate"><span class="pre">TimeTagger.createTimeTagger</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>serial</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Serial number string of the device or empty string</p></li>
+<li><p><strong>resolution</strong> (<a class="reference internal" href="#Resolution" title="Resolution"><em>Resolution</em></a>) – Select the resolution of the Time Tagger. The default is <code class="code docutils literal notranslate"><span class="pre">Resolution.Standard</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>TimeTagger object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="TimeTagger.html#TimeTagger" title="TimeTagger">TimeTagger</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – if no Time Tagger devices are available or if the serial number is not correct.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="createTimeTaggerVirtual">
+<span class="sig-name descname"><span class="pre">createTimeTaggerVirtual</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#createTimeTaggerVirtual" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a virtual Time Tagger object.
+Virtual Time Tagger uses time-tag dump file(s) as a data source instead of
+Time tagger hardware. This allows you to use all Time Tagger library
+measurements for offline processing of the dumped time tag stream.
+For example, you can repeat the analysis of your experiment with different parameters, like different binwidths etc.</p>
+<p>In MATLAB, this function is accessed as <code class="docutils literal notranslate"><span class="pre">TimeTagger.createTimeTaggerVirtual</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TimeTaggerVirtual object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="TimeTagger.html#TimeTaggerVirtual" title="TimeTaggerVirtual">TimeTaggerVirtual</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="createTimeTaggerNetwork">
+<span class="sig-name descname"><span class="pre">createTimeTaggerNetwork</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">address='localhost:41101'</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#createTimeTaggerNetwork" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new <a class="reference internal" href="TimeTagger.html#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a> object.
+During creation, the object tries to open a connection to the specified Time Tagger server that has been created by <a class="reference internal" href="TimeTagger.html#TimeTagger.startServer" title="TimeTagger.startServer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.startServer()</span></code></a>.
+This makes the remote time-tag stream locally available.
+If the connection fails, the method will throw an exception.</p>
+<p>In MATLAB, this function is accessed as``TimeTagger.createTimeTaggerNetwork``.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>address</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – IP address, hostname, or domain-name of the server, where the Time Tagger server is running. The port number is optional and can be specified if server listens on a port other than default 41101.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>TimeTaggerNetwork object that can be used, e.g., for measurements</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="TimeTagger.html#TimeTaggerNetwork" title="TimeTaggerNetwork">TimeTaggerNetwork</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – if the connection to the server cannot be made.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – if the address string has an invalid format.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="getTimeTaggerServerInfo">
+<span class="sig-name descname"><span class="pre">getTimeTaggerServerInfo</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">address='localhost:41101'</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#getTimeTaggerServerInfo" title="Permalink to this definition"></a></dt>
+<dd><p>Returns TimeTagger configuration, exposed channels, hardware channels and virtual channels as a JSON formatted string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>address</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – IP address, hostname or domain-name of the server, where the Time Tagger server is running. The port number is optional and can be specified if server listens on a port other than default 41101.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Information about server, available channels and exposed channels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – if the connection to the server cannot be made.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – if the address string has an invalid format.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="freeTimeTagger">
+<span class="sig-name descname"><span class="pre">freeTimeTagger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tagger</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#freeTimeTagger" title="Permalink to this definition"></a></dt>
+<dd><p>Releases all Time Tagger resources and terminates the active connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tagger</strong> (<a class="reference internal" href="TimeTagger.html#TimeTaggerBase" title="TimeTaggerBase"><em>TimeTaggerBase</em></a>) – TimeTaggerBase object to disconnect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scanTimeTagger">
+<span class="sig-name descname"><span class="pre">scanTimeTagger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scanTimeTagger" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of the serial numbers of the connected but not instantiated Time Taggers.</p>
+<p>In MATLAB this function is accessible as <code class="docutils literal notranslate"><span class="pre">TimeTagger.scanTimeTagger()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of serial numbers</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scanTimeTaggerServers">
+<span class="sig-name descname"><span class="pre">scanTimeTaggerServers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scanTimeTaggerServers" title="Permalink to this definition"></a></dt>
+<dd><p>Scans the network for available Time Tagger servers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The server discovery algorithm uses multicast UDP messages sent to the address
+<cite>239.255.255.83:41102</cite>. This method is expected to work well in most situations, however there is a possibility when it could fail. The servers may not be discoverable if the system firewall rejects multicast traffic or blocks access to the used UDP port 41102, also multicast traffic is not usually forwarded to other IP networks by the routers.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of addresses of the Time Tagger servers that are available in the network.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="setLogger">
+<span class="sig-name descname"><span class="pre">setLogger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#setLogger" title="Permalink to this definition"></a></dt>
+<dd><p>Registers a callback function, e.g. for customized error handling. Please see the examples in the installation folder on how to use it.
+Callback function shall have the following signature <cite>callback(level, message)</cite>.
+By default, the log messages are printed into the console.</p>
+<p>Python example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">logger_func</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+<span class="n">setLogger</span><span class="p">(</span><span class="n">logger_func</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Matlab example:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="nf">logger_func</span><span class="p">(</span>level, message<span class="p">)</span>
+<span class="w">    </span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;%d : %s\n&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">TimeTagger</span><span class="p">.</span><span class="n">setLogger</span><span class="p">(@</span><span class="n">logger_func</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="setTimeTaggerChannelNumberScheme">
+<span class="sig-name descname"><span class="pre">setTimeTaggerChannelNumberScheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">int</span> <span class="pre">scheme</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#setTimeTaggerChannelNumberScheme" title="Permalink to this definition"></a></dt>
+<dd><p>Selects whether the first physical channel starts with 0 or 1</p>
+<p><code class="docutils literal notranslate"><span class="pre">TT_CHANNEL_NUMBER_SCHEME_AUTO</span></code> - the scheme is detected automatically, according to the channel labels on the device (default).</p>
+<p><code class="docutils literal notranslate"><span class="pre">TT_CHANNEL_NUMBER_SCHEME_ONE</span></code> - force the first channel to be 1.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TT_CHANNEL_NUMBER_SCHEME_ZERO</span></code> - force the first channel to be 0.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The method must be called before the first call to <a class="reference internal" href="#createTimeTagger" title="createTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="getTimeTaggerChannelNumberScheme">
+<span class="sig-name descname"><span class="pre">getTimeTaggerChannelNumberScheme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#getTimeTaggerChannelNumberScheme" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the currently used channel schema, which is either <code class="docutils literal notranslate"><span class="pre">TT_CHANNEL_NUMBER_SCHEME_ZERO</span></code> or <code class="docutils literal notranslate"><span class="pre">TT_CHANNEL_NUMBER_SCHEME_ONE</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Channel schema</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mergeStreamFiles">
+<span class="sig-name descname"><span class="pre">mergeStreamFiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_filenames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_offsets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_offsets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap_only</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mergeStreamFiles" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Filename where to store the merge result <code class="docutils literal notranslate"><span class="pre">*.ttbin</span></code>.</p></li>
+<li><p><strong>input_filenames</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – List of dump files that will be merged</p></li>
+<li><p><strong>channel_offsets</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – Channel number offset for each <code class="docutils literal notranslate"><span class="pre">*.ttbin</span></code> file. Useful when input files have the same channel numbers.</p></li>
+<li><p><strong>time_offsets</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – Time offset for each <code class="docutils literal notranslate"><span class="pre">*.ttbin</span></code> file in picoseconds.</p></li>
+<li><p><strong>overlap_only</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If True, then merge only the regions where the time is overlapping.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This function merges a list of time tag stream files into one file.
+The merged stream file can be loaded into the <a class="reference internal" href="TimeTagger.html#TimeTaggerVirtual" title="TimeTaggerVirtual"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerVirtual</span></code></a> for processing.
+The file merging combines streams into one with the possibility of specifying a constant time offset for each input stream file.
+Additionally, it is possible to specify channel number offset if the input stream files were recorded from the same channel numbers, for instance, using two Time Tagger devices.
+The parameters <cite>input_filenames</cite>, <cite>channel_offsets</cite>, and <cite>time_offsets</cite> shall be of equal length.</p>
+<p>This function handles the <code class="docutils literal notranslate"><span class="pre">*.ttbin</span></code> files the same way as the <a class="reference internal" href="TimeTagger.html#TimeTaggerVirtual.replay" title="TimeTaggerVirtual.replay"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerVirtual.replay()</span></code></a>.</p>
+<p>See also: <a class="reference internal" href="Measurements.html#api-filewriter"><span class="std std-ref">FileWriter</span></a>, <a class="reference internal" href="Measurements.html#api-filereader"><span class="std std-ref">FileReader</span></a>, and <a class="reference internal" href="TimeTagger.html#time-tagger-virtual"><span class="std std-ref">The TimeTaggerVirtual class</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When merging multiple stream files recorded at different times or from different devices, you have to be aware of possible time base differences.
+This function does not rescale the data into a common time base as this would require additional information and external synchronization signal.
+If you want to improve the synchronicity of the time base between two devices, please send the reference clock signal to any of the available inputs
+of each Time Tagger and set up the software clock <a class="reference internal" href="TimeTagger.html#TimeTaggerBase.setSoftwareClock" title="TimeTaggerBase.setSoftwareClock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setSoftwareClock()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<p class="rubric" id="api-usage-statistics">Usage statistics data collection</p>
+<p>See also the section <a class="reference internal" href="../sections/UsageStatistics.html"><span class="doc">Usage Statistics Collection</span></a>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="setUsageStatisticsStatus">
+<span class="sig-name descname"><span class="pre">setUsageStatisticsStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#setUsageStatisticsStatus" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>status</strong> (<a class="reference internal" href="#UsageStatisticsStatus" title="UsageStatisticsStatus"><em>UsageStatisticsStatus</em></a>) – New status of the usage statistics data collection.</p>
+</dd>
+</dl>
+<p>This function allows a user to override the system-wide default setting on collection and submission of the usage statistics data.
+This function operates within the scope of a current OS user.
+The system-wide default setting is given during the installation of the Time Tagger software.
+Please run the installer again to allow collection and uploading or to disable the usage statistics.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="getUsageStatisticsStatus">
+<span class="sig-name descname"><span class="pre">getUsageStatisticsStatus</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#getUsageStatisticsStatus" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns the current status of the usage statistics for the current user. The status is described by the <a class="reference internal" href="#UsageStatisticsStatus" title="UsageStatisticsStatus"><code class="xref py py-class docutils literal notranslate"><span class="pre">UsageStatisticsStatus</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#UsageStatisticsStatus" title="UsageStatisticsStatus">UsageStatisticsStatus</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="getUsageStatisticsReport">
+<span class="sig-name descname"><span class="pre">getUsageStatisticsReport</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#getUsageStatisticsReport" title="Permalink to this definition"></a></dt>
+<dd><p>This function returns the current state of the usage statistics report as a JSON formatted string.
+If there is no report data available or it was submitted just now, the output is a message: <cite>Info: No report data available yet.</cite>
+If you had given your consent earlier and then revoked it, this function will still return earlier accumulated report data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Usage statistics data encoded as JSON string.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TimeTagger.html" class="btn btn-neutral float-right" title="TimeTagger classes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Swabian Instruments.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

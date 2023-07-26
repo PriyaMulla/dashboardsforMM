@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Synchronization of the Time Tagger pipeline &mdash; Time Tagger User Manual 2.16.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/iconTT.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FPGA link" href="FpgaLink.html" />
+    <link rel="prev" title="Raw Time-Tag-Stream access" href="RawTimeTagStreamAccess.html" />
+ 
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXS6LN3');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXS6LN3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Time Tagger User Manual
+              <img src="../_static/logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.16.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<div id="link_documentation_pdf" style="margin-top:20px;">
+    <a style="font-weight:normal;color:#fcfcfc" target="_blank" href="/static/downloads/TimeTagger_User_Manual.pdf">
+<svg version="1.1"  width="13px" height="14px" viewBox="0 0 13 14" xmlns="http://www.w3.org/2000/svg">
+<g id="Download" fill="#fff">
+<path d="m10 6.5-0.74-0.76-2.4 2.4v-8.2h-1.1v8.2l-2.4-2.4-0.74 0.76 3.6 3.6z"></path>
+<path d="m1.1 13v-2.7h-1.1v3.8h13v-3.9h-1.1v2.9z"></path>
+</g>
+</svg>
+        Documentation as pdf
+    </a>
+</div>
+<script>
+    // Hide the pdf download link when we detect that the file is served from the local file system.
+    // Mostly likly to identify the ttlab offline documentation browser
+    if(window.location.protocol === "file:") {
+        document.getElementById("link_documentation_pdf").style.display = "none";
+    }
+</script>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sections/gettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/installation.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronizer/index.html">Synchronizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/software.html">Software Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Application Programmer’s Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">In Depth Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ConditionalFilter.html">Conditional Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RawTimeTagStreamAccess.html">Raw Time-Tag-Stream access</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Synchronization of the Time Tagger pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FpgaLink.html">FPGA link</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/UsageStatistics.html">Usage Statistics Collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/changelog.html">Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Time Tagger User Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">In Depth Guides</a></li>
+      <li class="breadcrumb-item active">Synchronization of the Time Tagger pipeline</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="synchronization-of-the-time-tagger-pipeline">
+<h1>Synchronization of the Time Tagger pipeline<a class="headerlink" href="#synchronization-of-the-time-tagger-pipeline" title="Permalink to this heading"></a></h1>
+<p>In order to achieve a real-time evaluation of the events with high data rates, the Time Tagger series uses a pipeline based parallel processing.</p>
+<p>The hardware records a timestamp for every incoming event and stores it in a large on-device buffer. The size of this buffer can be configured with <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setHardwareBufferSize" title="TimeTagger.setHardwareBufferSize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setHardwareBufferSize()</span></code></a>.
+The buffer contents are read by computer over USB, typically in blocks of 128k events or when the time between the blocks exceeds 20 ms. Waiting until a block of data is available is aimed at optimizing the USB throughput while limiting the time between consecutive block allows for reducing data latency on slow event rates. The block size can be tuned by a user with <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setStreamBlockSize" title="TimeTagger.setStreamBlockSize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setStreamBlockSize()</span></code></a>.
+On the computer, the blocks of data are processed by all running measurements in the order in which the measurements were created. Only one measurement has access to a block at any given time.
+Once a measurement has finished processing the block, it is ready to process the next block while the previous block becomes available to the next measurement.</p>
+<p>Naturally, the transferring and processing of the data takes time and results in the latency. The latency between signal arrival and its appearance in the measurement data is usually below 100 ms; however, it can become as large as a few seconds if the on-device buffer fills up faster than the computer can transfer and process the data.</p>
+<p>Proper operation of the pipeline and the control of the device parameters requires a suitable synchronization method. Time Tagger uses the concept of fencing.
+A fence is a unique identifier that is sent by the software to the hardware. It is added at the end of the on-device buffer data, streamed back to the computer along with timestamp data, and processed by all measurement classes. Once the Time Tagger software detects the fence, it knows that it is located at the data position which was in the buffer when the fence was created.
+The usefulness of fencing is easily demonstrated with a following example. When you create a measurement, you expect that it starts processing data from that very instance of time; however, it starts processing the data, which was recorded earlier and is already available in the buffer. With fencing, the measurement creates a fence and begins data accumulation only when it receives the fence back. In this way, the measurement is dealing with the data recorded as close to the measurement creation as possible and avoids processing of the older data.</p>
+<p>You can use the fencing mechanism manually. First, you have to create a new fence with <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.getFence" title="TimeTaggerBase.getFence"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.getFence()</span></code></a> and then wait for it to be signaled with <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.waitForFence" title="TimeTaggerBase.waitForFence"><code class="xref py py-meth docutils literal notranslate"><span class="pre">waitForFence()</span></code></a> at any time later.
+If you want to create a fence and immediately wait for it then using the <a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.sync" title="TimeTaggerBase.sync"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sync()</span></code></a> method is more convenient.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="RawTimeTagStreamAccess.html" class="btn btn-neutral float-left" title="Raw Time-Tag-Stream access" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="FpgaLink.html" class="btn btn-neutral float-right" title="FPGA link" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Swabian Instruments.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

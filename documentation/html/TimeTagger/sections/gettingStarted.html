@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; Time Tagger User Manual 2.16.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/iconTT.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Installation instructions" href="installation.html" />
+    <link rel="prev" title="Welcome to Time Tagger’s user manual!" href="../index.html" />
+ 
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXS6LN3');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXS6LN3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Time Tagger User Manual
+              <img src="../_static/logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.16.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<div id="link_documentation_pdf" style="margin-top:20px;">
+    <a style="font-weight:normal;color:#fcfcfc" target="_blank" href="/static/downloads/TimeTagger_User_Manual.pdf">
+<svg version="1.1"  width="13px" height="14px" viewBox="0 0 13 14" xmlns="http://www.w3.org/2000/svg">
+<g id="Download" fill="#fff">
+<path d="m10 6.5-0.74-0.76-2.4 2.4v-8.2h-1.1v8.2l-2.4-2.4-0.74 0.76 3.6 3.6z"></path>
+<path d="m1.1 13v-2.7h-1.1v3.8h13v-3.9h-1.1v2.9z"></path>
+</g>
+</svg>
+        Documentation as pdf
+    </a>
+</div>
+<script>
+    // Hide the pdf download link when we detect that the file is served from the local file system.
+    // Mostly likly to identify the ttlab offline documentation browser
+    if(window.location.protocol === "file:") {
+        document.getElementById("link_documentation_pdf").style.display = "none";
+    }
+</script>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#get-familiar-with-your-time-tagger">Get familiar with your Time Tagger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#graphical-user-interfaces">Graphical User Interfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#time-tagger-lab">Time Tagger Lab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#web-application">Web Application</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#programming-languages">Programming languages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#labview-via-net">LabVIEW (via .NET)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matlab-wrapper-for-net">Matlab (wrapper for .NET)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wolfram-mathematica-via-net">Wolfram Mathematica (via .NET)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#net">.NET</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c">C#</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">C++</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronizer/index.html">Synchronizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software.html">Software Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Application Programmer’s Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../InDepthGuides/index.html">In Depth Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageStatistics.html">Usage Statistics Collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Time Tagger User Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h1>
+<p>The following section describes how to get started with your Time Tagger.</p>
+<p>First, please install the most recent driver/software, including graphical user interfaces, libraries, and examples for C++, Python, .NET, C#, LabVIEW, Matlab, and Mathematica.</p>
+<div class="admonition-time-tagger-software-download admonition">
+<p class="admonition-title">Time Tagger software download</p>
+<p><a class="reference external" href="https://www.swabianinstruments.com/time-tagger/downloads/">https://www.swabianinstruments.com/time-tagger/downloads/</a></p>
+</div>
+<p>You are highly encouraged to read the sections below to get started with the graphical user interface and/or the Time Tagger programming libraries.</p>
+<p>In addition, information about the hardware, API, etc. can be found in the menu bar on the left and on our main website: <a class="reference external" href="https://www.swabianinstruments.com/time-tagger/">https://www.swabianinstruments.com/time-tagger/</a>.</p>
+<p>How to get started with Linux can be found in the <a class="reference internal" href="installation.html#linux"><span class="std std-ref">Linux</span></a> section.</p>
+<section id="get-familiar-with-your-time-tagger">
+<h2>Get familiar with your Time Tagger<a class="headerlink" href="#get-familiar-with-your-time-tagger" title="Permalink to this heading"></a></h2>
+<p>To learn more about the <em>Time Tagger</em> you are encouraged to consult the following resources.</p>
+<ol class="arabic simple">
+<li><p>Run the Graphical User Interface, <a class="reference internal" href="#time-tagger-lab">Time Tagger Lab</a> or the <a class="reference internal" href="#web-application">Web Application</a>, to play with your Time Tagger interactively. The examples below will allow you to experience basic data acquisition. Play with the Time Tagger settings to see their effects on typical measurements.</p></li>
+<li><p>Check out the <a class="reference internal" href="../api/index.html"><span class="doc">Application Programmer’s Interface</span></a> chapter. It gives you a detailed overview of all Time Tagger features and data processing classes. Check out the following sections to get started using the <em>Time Tagger</em> software library in the programming language of your choice.</p></li>
+<li><p>Study the code examples in the <code class="docutils literal notranslate"><span class="pre">.\examples\&lt;language&gt;\</span></code> folders of your Time Tagger installation.</p></li>
+</ol>
+</section>
+<section id="graphical-user-interfaces">
+<h2>Graphical User Interfaces<a class="headerlink" href="#graphical-user-interfaces" title="Permalink to this heading"></a></h2>
+<section id="time-tagger-lab">
+<span id="timetaggerlab"></span><h3>Time Tagger Lab<a class="headerlink" href="#time-tagger-lab" title="Permalink to this heading"></a></h3>
+<p>Time Tagger Lab is the provided Graphical User Interface (GUI) for Windows systems.
+It is designed to perform standard measurements quickly and to get an interactive experience with your Time Tagger.</p>
+<ol class="arabic simple">
+<li><p>Download and install the most recent <a class="reference external" href="https://www.swabianinstruments.com/time-tagger/downloads/">Time Tagger software</a> from our downloads site.</p></li>
+<li><p>Start <code class="docutils literal notranslate"><span class="pre">Time</span> <span class="pre">Tagger</span> <span class="pre">Lab</span></code> from the Windows start menu.</p></li>
+<li><p>The Time Tagger Lab welcome screen opens and presents all available devices. If you plug or unplug a Time Tagger, the display will update automatically.</p></li>
+</ol>
+<p>Time Tagger Lab allows you to work with your <em>Time Tagger</em> interactively.
+We will now use the Time Tagger’s internal test signal to measure a <a class="reference internal" href="../api/Measurements.html#api-correlation"><span class="std std-ref">cross correlation</span></a> between two channels as an example.</p>
+<ol class="arabic simple">
+<li><p>On the welcome screen, click on the panel representing your desired device. The <code class="docutils literal notranslate"><span class="pre">Home</span></code> screen of your Time Tagger shows up.</p></li>
+<li><p>On the top of the <code class="docutils literal notranslate"><span class="pre">Home</span></code> screen, you can toggle between the basic display you are currently looking at and the <code class="docutils literal notranslate"><span class="pre">Detailed</span> <span class="pre">View</span></code>. Activate the <code class="docutils literal notranslate"><span class="pre">Detailed</span> <span class="pre">View</span></code>.</p></li>
+<li><p>In the upper panel of the <code class="docutils literal notranslate"><span class="pre">Detailed</span> <span class="pre">View</span></code>, you can change settings for every input. Activate the internal test signal of inputs 1 and 2 by checking the boxes on the very right.</p></li>
+<li><p>Go back to the basic display by deactivating <code class="docutils literal notranslate"><span class="pre">Detailed</span> <span class="pre">view</span></code>. The count rate displays (cps) show a test signal count rate of 800 to 900 kHz, and the trigger level setting is replaced by the label <code class="docutils literal notranslate"><span class="pre">test</span> <span class="pre">signal</span></code>.</p></li>
+</ol>
+<p>With the activated test signal, we can start our first measurement.</p>
+<ol class="arabic simple">
+<li><p>Click on <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">creator</span> <span class="pre">(F2)</span></code> in the <code class="docutils literal notranslate"><span class="pre">Measurements</span></code> panel on the left. The creator gives you an overview of all available measurements.</p></li>
+<li><p>Pick <code class="docutils literal notranslate"><span class="pre">Bidirectional</span> <span class="pre">histogram</span> <span class="pre">-</span> <span class="pre">Correlation</span></code>. Now you can read through a detailed description and change the initial settings of your measurement.</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">Reference</span> <span class="pre">channel</span></code> to <cite>1</cite> and <code class="docutils literal notranslate"><span class="pre">Click</span> <span class="pre">channel</span></code> to <cite>2</cite>. Click <code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">measurement</span></code>.</p></li>
+<li><p>The measurement graph is showing up. To start the measurement, click the <code class="docutils literal notranslate"><span class="pre">Play</span></code> button next to the graph.</p></li>
+<li><p>A Gaussian peak should be displayed. You can zoom in using the controls on the plot. If the resolution is not sufficient, try a smaller <code class="docutils literal notranslate"><span class="pre">Bin</span> <span class="pre">width</span></code> in the measurement settings.</p></li>
+<li><p>The detection jitter of a single channel is <img class="math" src="../_images/math/563e28aa36a088f49b53875adffc7d29720fa9d1.svg" alt="\frac{1}{\sqrt{2}}"/> times the standard deviation of this two-channel measurement (the FWHM of the Gaussian peak is 2.35 times its standard deviation).</p></li>
+</ol>
+<p>You have just verified the time resolution (detection jitter) of your Time Tagger.</p>
+</section>
+<section id="web-application">
+<span id="webapplication"></span><h3>Web Application<a class="headerlink" href="#web-application" title="Permalink to this heading"></a></h3>
+<p>The Web Application is the traditional provided GUI for Windows and Linux for quick measurements.
+On Windows systems, we recommend switching to <cite>Time Tagger Lab&lt;_timetaggerlab&gt;</cite> today.</p>
+<ol class="arabic simple">
+<li><p>Download and install the most recent <a class="reference external" href="https://www.swabianinstruments.com/time-tagger/downloads/">Time Tagger software</a> from our downloads site.</p></li>
+<li><p>Start the <code class="docutils literal notranslate"><span class="pre">Time</span> <span class="pre">Tagger</span> <span class="pre">Application</span></code> from the Windows start menu.</p></li>
+<li><p>The Web Application should show up in your browser.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Web Application has the port <code class="docutils literal notranslate"><span class="pre">50120</span></code> as default port. If this collides with another application you can change the port with passing the argument <code class="docutils literal notranslate"><span class="pre">TimeTaggerServer.exe</span> <span class="pre">-p</span> <span class="pre">50120</span></code>.</p>
+</div>
+<p>The Web Application allows you to work with your <em>Time Tagger</em> interactively. We will now use the Time Tagger’s internal test signal to measure a <a class="reference internal" href="../api/Measurements.html#api-correlation"><span class="std std-ref">cross correlation</span></a> between two channels as an example.</p>
+<ol class="arabic simple">
+<li><p>Click <code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">TimeTagger</span></code>, click <code class="docutils literal notranslate"><span class="pre">Init</span></code> (select resolution if available) on any of the available Time Taggers</p></li>
+<li><p>Click <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">measurement</span></code>, look for <code class="docutils literal notranslate"><span class="pre">Bidirectional</span> <span class="pre">Histogram</span> <span class="pre">(Class:</span> <span class="pre">Correlation)</span></code> and click <code class="docutils literal notranslate"><span class="pre">Create</span></code> next to it.</p></li>
+<li><p>Select <code class="docutils literal notranslate"><span class="pre">Rising</span> <span class="pre">edge</span> <span class="pre">1</span></code> for Channel 1 and <code class="docutils literal notranslate"><span class="pre">Rising</span> <span class="pre">edge</span> <span class="pre">2</span></code> for Channel 2.</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">Binwidth</span></code> to 10 ps and leave <code class="docutils literal notranslate"><span class="pre">Number</span> <span class="pre">of</span> <span class="pre">data</span> <span class="pre">points</span></code> at 1000, click <code class="docutils literal notranslate"><span class="pre">Initialize</span></code>.</p></li>
+</ol>
+<p>The Time Tagger is now acquiring data, but it does not yet have a signal. We will now enable its internal test signal.</p>
+<ol class="arabic simple">
+<li><p>On the top left, click on the settings wheel next to <code class="docutils literal notranslate"><span class="pre">Time</span> <span class="pre">Tagger</span></code>.</p></li>
+<li><p>On the far right, check <code class="docutils literal notranslate"><span class="pre">Test</span> <span class="pre">signal</span></code> for channels <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">2</span></code>, click <code class="docutils literal notranslate"><span class="pre">Ok</span></code>.</p></li>
+<li><p>A Gaussian peak should be displayed. You can zoom in using the controls on the plot.</p></li>
+<li><p>The detection jitter of a single channel is <img class="math" src="../_images/math/563e28aa36a088f49b53875adffc7d29720fa9d1.svg" alt="\frac{1}{\sqrt{2}}"/> times the standard deviation of this two-channel measurement (the FWHM of the Gaussian peak is 2.35 times its standard deviation).</p></li>
+</ol>
+<p>You have just verified the time resolution (detection jitter) of your Time Tagger.</p>
+</section>
+</section>
+<section id="programming-languages">
+<h2>Programming languages<a class="headerlink" href="#programming-languages" title="Permalink to this heading"></a></h2>
+<section id="python">
+<span id="examples"></span><h3>Python<a class="headerlink" href="#python" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Make sure that your <em>Time Tagger</em> device is connected to your computer and the <em>Time Tagger</em> Web Application (especially the server window) is closed.</p></li>
+<li><p>Make sure the <em>Time Tagger</em> software and a Python distribution (we recommend <a class="reference external" href="https://www.anaconda.com/">Anaconda</a>) are installed.</p></li>
+<li><p>Open a command shell and navigate to the <code class="docutils literal notranslate"><span class="pre">.\examples\python\1-Quickstart</span></code> folder in your <em>Time Tagger</em> installation directory</p></li>
+<li><p>Start an <strong>ipython</strong> shell with plotting support by entering <code class="docutils literal notranslate"><span class="pre">ipython</span> <span class="pre">--pylab</span></code></p></li>
+<li><p>Run the <strong>hello_world.py</strong> script by entering <code class="docutils literal notranslate"><span class="pre">run</span> <span class="pre">hello_world</span></code></p></li>
+</ol>
+<p>The <cite>hello_world</cite> executes a simple yet useful measurement that demonstrates many essential features of the <em>Time Tagger</em> programming interface:</p>
+<ol class="arabic simple">
+<li><p>Connect your Time Tagger</p></li>
+<li><p>Start the built-in test signal (~0.8 MHz square wave) and apply it to channels 1 and 2</p></li>
+<li><p>Control the trigger level of your inputs - although it is not necessary here</p></li>
+<li><p>Initialize a standard measurement (<a class="reference internal" href="../api/Measurements.html#Correlation" title="Correlation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Correlation</span></code></a>) in order to find the delay of the test signal between channel 1 and 2</p></li>
+<li><p>How to control the delay of different inputs programmatically.</p></li>
+</ol>
+<p>You are encouraged to open and read the <code class="docutils literal notranslate"><span class="pre">hello_world.py</span></code> file in an editor to understand what it is doing.
+With this basic knowledge, you can explore the other examples in the <code class="docutils literal notranslate"><span class="pre">1-Quickstart</span></code> folder:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>No.</p></th>
+<th class="head"><p>Topic</p></th>
+<th class="head"><p>Classes &amp; Methods</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td colspan="3"><p><strong>Basic software control</strong> (folder <cite>1-basic_software_control</cite>)</p></td>
+</tr>
+<tr class="row-odd"><td rowspan="2"><p>1-A</p></td>
+<td><p>Create a measurement</p></td>
+<td><p><a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a>,
+<a class="reference internal" href="../api/Measurements.html#Counter.getData" title="Counter.getData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Counter.getData()</span></code></a>,</p>
+<p><a class="reference internal" href="../api/Measurements.html#Counter.getIndex" title="Counter.getIndex"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Counter.getIndex()</span></code></a></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Count rate trace</p></td>
+<td><p><a class="reference internal" href="../api/Measurements.html#Counter" title="Counter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Counter</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>1-B</p></td>
+<td><p>Start &amp; stop measurements</p></td>
+<td><p><a class="reference internal" href="../api/Measurements.html#Countrate" title="Countrate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Countrate</span></code></a>,
+<a class="reference internal" href="../api/Measurements.html#IteratorBase.start" title="IteratorBase.start"><code class="xref py py-meth docutils literal notranslate"><span class="pre">start()</span></code></a>,
+<a class="reference internal" href="../api/Measurements.html#IteratorBase.stop" title="IteratorBase.stop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">stop()</span></code></a>,
+<a class="reference internal" href="../api/Measurements.html#IteratorBase.startFor" title="IteratorBase.startFor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">startFor()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td rowspan="2"><p>1-C</p></td>
+<td><p>Synchronize measurements</p></td>
+<td><p><a class="reference internal" href="../api/Measurements.html#SynchronizedMeasurements" title="SynchronizedMeasurements"><code class="xref py py-class docutils literal notranslate"><span class="pre">SynchronizedMeasurements</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Use different histograms</p></td>
+<td><p><a class="reference internal" href="../api/Measurements.html#Correlation" title="Correlation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Correlation</span></code></a>,
+<a class="reference internal" href="../api/Measurements.html#Histogram" title="Histogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Histogram</span></code></a>,</p>
+<p><a class="reference internal" href="../api/Measurements.html#StartStop" title="StartStop"><code class="xref py py-class docutils literal notranslate"><span class="pre">StartStop</span></code></a>,
+<a class="reference internal" href="../api/Measurements.html#HistogramLogBins" title="HistogramLogBins"><code class="xref py py-class docutils literal notranslate"><span class="pre">HistogramLogBins</span></code></a></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>1-D</p></td>
+<td><p>Virtual Channels</p></td>
+<td><p><a class="reference internal" href="../api/VirtualChannels.html#DelayedChannel" title="DelayedChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">DelayedChannel</span></code></a>,
+<a class="reference internal" href="../api/VirtualChannels.html#Coincidence" title="Coincidence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coincidence</span></code></a>,
+<a class="reference internal" href="../api/VirtualChannels.html#GatedChannel" title="GatedChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">GatedChannel</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>1-E</p></td>
+<td><p>Logging errors</p></td>
+<td><p><a class="reference internal" href="../api/TimeTaggerLibrary.html#setLogger" title="setLogger"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setLogger()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>1-F</p></td>
+<td><p>(External) software clock</p></td>
+<td><p><a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setSoftwareClock" title="TimeTaggerBase.setSoftwareClock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setSoftwareClock()</span></code></a>,</p>
+<p><a class="reference internal" href="../api/Measurements.html#FrequencyStability" title="FrequencyStability"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrequencyStability</span></code></a></p>
+</td>
+</tr>
+<tr class="row-odd"><td colspan="3"><p><strong>Controlling the hardware</strong> (folder <cite>2-controlling-the-hardware</cite>)</p></td>
+</tr>
+<tr class="row-even"><td><p>2-A</p></td>
+<td><p>Get hardware information</p></td>
+<td><p><a class="reference internal" href="../api/TimeTaggerLibrary.html#scanTimeTagger" title="scanTimeTagger"><code class="xref py py-meth docutils literal notranslate"><span class="pre">scanTimeTagger()</span></code></a>,
+<a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getSerial" title="TimeTagger.getSerial"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.getSerial()</span></code></a>,</p>
+<p><a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getModel" title="TimeTagger.getModel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.getModel()</span></code></a>,
+<a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getSensorData" title="TimeTagger.getSensorData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.getSensorData()</span></code></a>,</p>
+<p><a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.getConfiguration" title="TimeTaggerBase.getConfiguration"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.getConfiguration()</span></code></a></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>2-B</p></td>
+<td><p>The input trigger level</p></td>
+<td><p><a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setTriggerLevel" title="TimeTagger.setTriggerLevel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setTriggerLevel()</span></code></a>,
+<a class="reference internal" href="../api/TimeTagger.html#TimeTagger.getDACRange" title="TimeTagger.getDACRange"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.getDACRange()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>2-C</p></td>
+<td><p>Filter tags on hardware</p></td>
+<td><p><a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setConditionalFilter" title="TimeTagger.setConditionalFilter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setConditionalFilter()</span></code></a>,</p>
+<p><a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setEventDivider" title="TimeTagger.setEventDivider"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setEventDivider()</span></code></a></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>2-D</p></td>
+<td><p>Control input delays</p></td>
+<td><p><a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.setInputDelay" title="TimeTaggerBase.setInputDelay"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setInputDelay()</span></code></a>,
+<a class="reference internal" href="../api/Measurements.html#Histogram2D" title="Histogram2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Histogram2D</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>2-E</p></td>
+<td><p>Overflows</p></td>
+<td><p><a class="reference internal" href="../api/TimeTagger.html#TimeTaggerBase.getOverflows" title="TimeTaggerBase.getOverflows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.getOverflows()</span></code></a>,</p>
+<p><a class="reference internal" href="../api/TimeTagger.html#TimeTagger.setTestSignalDivider" title="TimeTagger.setTestSignalDivider"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setTestSignalDivider()</span></code></a></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>2-F</p></td>
+<td><p>HighRes mode</p></td>
+<td><p><a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a>,
+<a class="reference internal" href="../api/Measurements.html#TimeDifferences" title="TimeDifferences"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeDifferences</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td colspan="3"><p><strong>Dump and re-analyze time-tags</strong> (folder <cite>3-dump-and-reanalyze-time-tags</cite>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>3-A</p></td>
+<td><p>Dump tags by FileWriter</p></td>
+<td><p><a class="reference internal" href="../api/Measurements.html#FileWriter" title="FileWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileWriter</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>3-B</p></td>
+<td><p>The Time Tagger Virtual</p></td>
+<td><p><a class="reference internal" href="../api/TimeTaggerLibrary.html#createTimeTaggerVirtual" title="createTimeTaggerVirtual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createTimeTaggerVirtual()</span></code></a>,
+<a class="reference internal" href="../api/TimeTagger.html#TimeTaggerVirtual" title="TimeTaggerVirtual"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerVirtual</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td colspan="3"><p><strong>Working with raw time-tags</strong> (folder <cite>4-working-with-raw-time-tags</cite>)</p></td>
+</tr>
+<tr class="row-even"><td><p>4-A</p></td>
+<td><p>The FileReader</p></td>
+<td><p><a class="reference internal" href="../api/Measurements.html#FileReader" title="FileReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileReader</span></code></a>,
+<a class="reference internal" href="../api/Measurements.html#TimeTagStreamBuffer" title="TimeTagStreamBuffer"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagStreamBuffer</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>4-B</p></td>
+<td><p>Streaming raw time-tags</p></td>
+<td><p><a class="reference internal" href="../api/Measurements.html#TimeTagStream" title="TimeTagStream"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagStream</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>4-C</p></td>
+<td><p>Custom Measurements</p></td>
+<td><p><a class="reference internal" href="../api/Measurements.html#CustomMeasurement" title="CustomMeasurement"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomMeasurement</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>More details about the software interface are covered by the API documentation in the subsequent section</p>
+</section>
+<section id="labview-via-net">
+<h3>LabVIEW (via .NET)<a class="headerlink" href="#labview-via-net" title="Permalink to this heading"></a></h3>
+<p>A set of examples is provided in <code class="docutils literal notranslate"><span class="pre">.\examples\LabVIEW\</span></code> for LabVIEW 2014 and higher (32 and 64 bit).</p>
+</section>
+<section id="matlab-wrapper-for-net">
+<h3>Matlab (wrapper for .NET)<a class="headerlink" href="#matlab-wrapper-for-net" title="Permalink to this heading"></a></h3>
+<p>Wrapper classes are provided for Matlab so that native Matlab variables can be used.</p>
+<p>The Time Tagger toolbox is automatically installed during the setup. If <code class="docutils literal notranslate"><span class="pre">TimeTagger</span></code> is not available in your Matlab environment try to reinstall the toolbox from
+<code class="docutils literal notranslate"><span class="pre">.\driver\Matlab\TimeTaggerMatlab.mltbx</span></code>.</p>
+<p>The following changes in respect to the .NET library have been made:</p>
+<ul class="simple">
+<li><p>static functions are available through the <code class="docutils literal notranslate"><span class="pre">TimeTagger</span></code> class</p></li>
+<li><p>all classes except for the <code class="docutils literal notranslate"><span class="pre">TimeTagger</span></code>, <code class="docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code>, and <code class="docutils literal notranslate"><span class="pre">TimeTaggerVirtual</span></code> classes will have a <code class="docutils literal notranslate"><span class="pre">TT</span></code> prefix (e.g. <code class="docutils literal notranslate"><span class="pre">TTCountrate</span></code>) to prevent conflict with any variables/classes in your Matlab environment</p></li>
+</ul>
+<p>An example of how to use the Time Tagger with Matlab can be found in <code class="docutils literal notranslate"><span class="pre">.\examples\Matlab\</span></code>.</p>
+</section>
+<section id="wolfram-mathematica-via-net">
+<h3>Wolfram Mathematica (via .NET)<a class="headerlink" href="#wolfram-mathematica-via-net" title="Permalink to this heading"></a></h3>
+<p>Time Tagger functionality is provided to Mathematica via .NET interoperability interface. Please take a look at the examples in <code class="docutils literal notranslate"><span class="pre">.\examples\Mathematica\</span></code>.</p>
+</section>
+<section id="net">
+<h3>.NET<a class="headerlink" href="#net" title="Permalink to this heading"></a></h3>
+<p>We provide a .NET class library (32, 64 bit and CIL) for the TimeTagger which can be used to access the TimeTagger from many high-level languages.</p>
+<p>The following are important to note:</p>
+<ul class="simple">
+<li><p>Namespace: <code class="docutils literal notranslate"><span class="pre">SwabianInstruments.TimeTagger</span></code></p></li>
+<li><p>the corresponding library <code class="docutils literal notranslate"><span class="pre">.\driver\xxx\SwabianInstruments.TimeTagger.dll</span></code> is registered in the Global Assembly Cache (GAC)</p></li>
+<li><p>static functions (e.g. to create an instance of a TimeTagger) are accessible via <code class="docutils literal notranslate"><span class="pre">SwabianInstruments.TimeTagger.TT</span></code></p></li>
+</ul>
+</section>
+<section id="c">
+<h3>C#<a class="headerlink" href="#c" title="Permalink to this heading"></a></h3>
+<p>A sample Visual Studio C# project provided in the <code class="docutils literal notranslate"><span class="pre">.\examples\csharp\Quickstart</span></code> directory covers the basics of how to use the Time Tagger .NET API.
+An example of creating ‘custom measurements’ is also included.</p>
+<p>Please copy the project folder to a directory within the user environment such that files can be written within the directory.</p>
+<p>An ‘Example Suite’ is provided in the <code class="docutils literal notranslate"><span class="pre">.\examples\csharp\ExampleSuite</span></code> directory. ‘Example Suite’ is an interactive application that demonstrates various measurements that can be performed with the TimeTagger.
+Reference source code to setup and plot (with OxyPlot) each measurement is also provided within the application.
+Additionally, the application contains examples for creating and using ‘<em>Virtual channels</em>’, ‘<em>Filtering</em>’ and ‘<em>Accessing the raw time tags</em>’.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Running the Example Suite requires ‘.NET Core 3.1 Desktop Runtime (v3.1.10)’.</p>
+</div>
+</section>
+<section id="id2">
+<h3>C++<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p>The provided Visual Studio C++ project can be found in <code class="docutils literal notranslate"><span class="pre">.\examples\cpp\</span></code>.
+Using the C++ interface is the most performant way to interact with the Time Tagger as it supports writing custom measurement classes with no overhead.
+But it is more elaborate compared to the other high-level languages.
+Please visit <code class="docutils literal notranslate"><span class="pre">.\documentation\Time</span> <span class="pre">Tagger</span> <span class="pre">C++</span> <span class="pre">API</span> <span class="pre">Manual.pdf</span></code> for more details on the C++ API.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>the C++ headers are stored in the <code class="docutils literal notranslate"><span class="pre">.\driver\include\</span></code> folder</p></li>
+<li><p>the final assembly must link <code class="docutils literal notranslate"><span class="pre">.\driver\xYZ\TimeTagger.lib</span></code></p></li>
+<li><p>the library <code class="docutils literal notranslate"><span class="pre">.\driver\xYZ\TimeTagger.dll</span></code> is linked with the shared v142 or newer Visual Studio runtime (<code class="docutils literal notranslate"><span class="pre">/MD</span></code>)</p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">TimeTaggerD.lib</span></code> and <code class="docutils literal notranslate"><span class="pre">TimeTaggerD.dll</span></code> for the Visual Studio debug runtime (<code class="docutils literal notranslate"><span class="pre">/MDd</span></code>)</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to Time Tagger’s user manual!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation instructions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Swabian Instruments.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

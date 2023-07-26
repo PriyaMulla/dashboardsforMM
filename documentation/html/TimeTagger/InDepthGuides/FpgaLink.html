@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FPGA link &mdash; Time Tagger User Manual 2.16.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/iconTT.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Frequently Asked Questions" href="../sections/faq.html" />
+    <link rel="prev" title="Synchronization of the Time Tagger pipeline" href="PipelineSynchronization.html" />
+ 
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXS6LN3');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXS6LN3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Time Tagger User Manual
+              <img src="../_static/logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.16.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<div id="link_documentation_pdf" style="margin-top:20px;">
+    <a style="font-weight:normal;color:#fcfcfc" target="_blank" href="/static/downloads/TimeTagger_User_Manual.pdf">
+<svg version="1.1"  width="13px" height="14px" viewBox="0 0 13 14" xmlns="http://www.w3.org/2000/svg">
+<g id="Download" fill="#fff">
+<path d="m10 6.5-0.74-0.76-2.4 2.4v-8.2h-1.1v8.2l-2.4-2.4-0.74 0.76 3.6 3.6z"></path>
+<path d="m1.1 13v-2.7h-1.1v3.8h13v-3.9h-1.1v2.9z"></path>
+</g>
+</svg>
+        Documentation as pdf
+    </a>
+</div>
+<script>
+    // Hide the pdf download link when we detect that the file is served from the local file system.
+    // Mostly likly to identify the ttlab offline documentation browser
+    if(window.location.protocol === "file:") {
+        document.getElementById("link_documentation_pdf").style.display = "none";
+    }
+</script>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sections/gettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/installation.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronizer/index.html">Synchronizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/software.html">Software Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Application Programmer’s Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">In Depth Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ConditionalFilter.html">Conditional Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RawTimeTagStreamAccess.html">Raw Time-Tag-Stream access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PipelineSynchronization.html">Synchronization of the Time Tagger pipeline</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">FPGA link</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modifying-the-reference-design">Modifying the reference design</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/UsageStatistics.html">Usage Statistics Collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/changelog.html">Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Time Tagger User Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">In Depth Guides</a></li>
+      <li class="breadcrumb-item active">FPGA link</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fpga-link">
+<h1>FPGA link<a class="headerlink" href="#fpga-link" title="Permalink to this heading"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The reference design and the on-the-wire format are not stable and will be
+subject to incompatible changes with further development.</p>
+</div>
+<p>The FPGA link output of the Time Tagger X allows you to connect an FPGA of your
+own design to the Time Tagger X via an Ethernet-based protocol and benefit from
+higher data throughput and lower latency compared to USB.</p>
+<p>In a typical use case, you want to use either process tags at a higher rate than
+the USB connection to the PC allows or integrate the measurements into a test
+fixture and trigger events based on the measurements.</p>
+<p>The SFP+ port on the Time Tagger X can be used either with a DAC or
+fiber transceivers to connect to your own FPGA. We recommend using the
+<a class="reference external" href="https://opalkelly.com/products/xem8320/">OpalKelly XEM8320</a> for your custom
+design.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>There is currently no retransmission support so if corruption occurs during
+transmission, tags will be permanently lost. Please verify that your data
+link is of high quality or that tag loss can be tolerated.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only the SFP+ port is supported at this point in time. The QSFP+ port is
+unused.</p>
+</div>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h2>
+<p>To enable the FPGA link output of the Time Tagger use <a class="reference internal" href="../api/TimeTagger.html#TimeTagger.enableFpgaLink" title="TimeTagger.enableFpgaLink"><code class="xref py py-meth docutils literal notranslate"><span class="pre">enableFpgaLink()</span></code></a>. Start by
+enabling the FPGA link on channel 1:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">TimeTagger</span>
+<span class="n">tagger</span> <span class="o">=</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">createTimeTagger</span><span class="p">()</span>
+<span class="n">tagger</span><span class="o">.</span><span class="n">enableFpgaLink</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">TimeTagger</span><span class="o">.</span><span class="n">FpgaLinkInterface</span><span class="o">.</span><span class="n">SFPP_10GE</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To receive the tags, use our <a class="reference external" href="https://github.com/swabianinstruments/TimeTagger-FPGALink-Reference/">Time Tagger FPGA link reference</a> design.
+Follow the instructions in the <a class="reference external" href="https://github.com/swabianinstruments/TimeTagger-FPGALink-Reference/blob/main/target/opalkelly-xem8320/README.md">XEM8320 readme</a>
+to build the reference design. Connect the SFP+ port on the Time Tagger X to the
+<code class="docutils literal notranslate"><span class="pre">SFP</span> <span class="pre">1</span></code> port on the XEM8320 and load the bitstream on the XEM8320. You should now
+be able to observe the LED <code class="docutils literal notranslate"><span class="pre">D1</span></code> on the XEM8320 matching the input state on channel
+1 of the Time Tagger X.</p>
+<p>To verify the link quality, activate a test signal as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tagger</span><span class="o">.</span><span class="n">setTestSignal</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and reload the bitstream on the XEM8320. LED <code class="docutils literal notranslate"><span class="pre">D6</span></code> should stay dark, indicating
+that the channel 1 events are arriving at the expected time without drops.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The FPGA link can also be used with a suitable PC that supports SFP+ 10 GbE
+and features high single core performance with at least 8 cores.</p>
+</div>
+</section>
+<section id="modifying-the-reference-design">
+<h2>Modifying the reference design<a class="headerlink" href="#modifying-the-reference-design" title="Permalink to this heading"></a></h2>
+<p>Follow the instructions in <a class="reference external" href="https://github.com/swabianinstruments/TimeTagger-FPGALink-Reference/blob/main/target/opalkelly-xem8320/README.md#user-content-building-your-own-design">Building you own design</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="PipelineSynchronization.html" class="btn btn-neutral float-left" title="Synchronization of the Time Tagger pipeline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../sections/faq.html" class="btn btn-neutral float-right" title="Frequently Asked Questions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Swabian Instruments.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

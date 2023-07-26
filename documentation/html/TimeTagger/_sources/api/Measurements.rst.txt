@@ -1,0 +1,1805 @@
+===================
+Measurement Classes
+===================
+
+The Time Tagger library includes several classes that implement various measurements. All measurements are derived from a base class called :class:`IteratorBase` that is described further down. As the name suggests, it uses the `iterator` programming concept.
+
+All measurements provide a set of methods to start and stop the execution and to access the accumulated data. In a typical application, the following steps are performed (see :ref:`example <api-example-crosscorr-measurement>`):
+
+#. Create an instance of a measurement
+#. Wait for some time
+#. Retrieve the data accumulated by the measurement by calling a :code:`.getData()` method.
+
+
+Available measurement classes
+--------------------------------------------------------------------------------
+
+.. note::
+
+    In MATLAB, the Measurement names have common prefix ``TT*``. For example: ``Correlation`` is named as ``TTCorrelation``. This prevents possible name collisions with existing MATLAB or user functions.
+
+`Correlation`_
+    Auto- and Cross-correlation measurement.
+`CountBetweenMarkers`_
+    Counts tags on one channel within bins which are determined by triggers on one or two other channels. Uses a static buffer output. Use this to implement a gated counter, a counter synchronized to external signals, etc.
+`Counter`_
+    Counts the clicks on one or more channels with a fixed bin width and a circular buffer output.
+`Countrate`_
+    Average tag rate on one or more channels.
+`Flim`_
+    Fluorescence lifetime imaging.
+`FrequencyStability`_
+    Analyzes the frequency stability of period signals.
+`IteratorBase`
+    Base class for implementing custom measurements (only C++).
+`Histogram`_
+    A simple histogram of time differences. This can be used to measure lifetime, for example.
+`Histogram2D`_
+    A 2-dimensional histogram of correlated time differences. This can be used in measurements similar to 2D NRM spectroscopy. (Single-Start, Single-Stop)
+`HistogramND`_
+    A n-dimensional histogram of correlated time differences. (Single-Start, Single-Stop)
+`HistogramLogBins`_
+    Accumulates time differences into a histogram with logarithmic increasing bin sizes.
+`Scope`_
+    Detects the rising and falling edges on a channel to visualize the incoming signals similar to an ultrafast logic analyzer.
+`StartStop`_
+    Accumulates a histogram of time differences between pairs of tags on two channels. Only the first stop tag after a start tag is considered. Subsequent stop tags are discarded. The histogram length is unlimited. Bins and counts are stored in an array of tuples. (Single-Start, Single-Stop)
+`TimeDifferences`_
+    Accumulates the time differences between tags on two channels in one or more histograms. The sweeping through of histograms is optionally controlled by one or two additional triggers.
+`TimeDifferencesND`_
+    A multidimensional implementation of the TimeDifferences measurement for asynchronous next histogram triggers.
+`SynchronizedMeasurements`_
+    Helper class that allows synchronization of the measurement classes.
+`Dump`_
+    Deprecated - please use :class:`FileWriter` instead. Dump measurement writes all time-tags into a file.
+`TimeTagStream`_
+    This class provides you with access to the time-tag stream and allows you to implement your own on-the-fly processing. 
+    See :doc:`/InDepthGuides/RawTimeTagStreamAccess` to get on overview about the possibilities for the raw time-tag-stream access.
+`Sampler`_
+    The `Sampler` class allows sampling the state of a set of channels via a trigger channel.
+`FileWriter`_
+    This class writes time-tags into a file with a lossless compression. It replaces the :class:`Dump` class.
+`FileReader`_
+    Allows you to read time-tags from a file written by the :class:`FileWriter`.
+
+
+.. |common methods| replace:: :ref:`See all common methods<common-methods>`
+
+.. _common-methods:
+
+Common methods
+--------------
+
+.. class:: IteratorBase
+        
+    .. method:: clear()
+
+        Discards accumulated measurement data, initializes the data buffer with zero values, and resets the state to the initial state.
+
+    .. method:: start()
+
+        Starts or continues data acquisition. This method is implicitly called when a measurement object is created.
+
+    .. method:: startFor(duration[, clear=True])
+
+        Starts or continues the data acquisition for the given duration (in ps). After the `duration` time, the method :meth:`stop` is called and :meth:`isRunning` will return False. Whether the accumulated data is cleared at the beginning of :meth:`startFor` is controlled with the second parameter `clear`, which is True by default.
+
+    .. method:: stop()
+
+        After calling this method, the measurement will stop processing incoming tags. Use :meth:`start` or :meth:`startFor` to continue or restart the measurement.
+
+    .. method:: isRunning()
+
+        Returns True if the measurement is collecting the data. This method will return False if the measurement was stopped manually by calling :meth:`stop` or automatically after calling :meth:`startFor` and the `duration` has passed.
+
+        .. note:: All measurements start accumulating data immediately after their creation.
+
+        :returns: True/False
+        :rtype: bool
+
+    .. method:: waitUntilFinished(timeout=-1)
+
+        Blocks the execution until the measurement has finished. Can be used with :meth:`startFor`.
+
+        :param int timeout: timeout in milliseconds. Negative value means no timeout, zero returns immediately.
+        :returns: True if the measurement has finished, False on timeout
+        :rtype: bool
+
+    .. method:: getCaptureDuration()
+
+        Total capture duration since the measurement creation or last call to :meth:`clear`.
+
+        :returns: Capture duration in ps
+        :rtype: int
+
+    .. method:: getConfiguration()
+
+        Returns configuration data of the measurement object. The configuration includes the measurement name, 
+        and the values of the current parameters. 
+        Information returned by this method is also provided with :meth:`TimeTaggerBase.getConfiguration`.
+
+        :returns: Configuration data of the measurement object.
+        :rtype: dict
+
+
+Event counting
+--------------------------------------------------------------------------------
+
+Countrate
+^^^^^^^^^
+
+.. image:: ../figuresPyLab/output/Countrate.*
+
+Measures the average count rate on one or more channels. Specifically, it
+determines the counts per second on the specified channels starting from the very first tag arriving after the instantiation or last call to :meth:`~IteratorBase.clear` of the measurement.
+The :class:`Countrate` works correctly even when the USB transfer rate or backend processing capabilities are exceeded.
+
+
+.. class:: Countrate(tagger, channels)
+
+    :param TimeTaggerBase tagger: time tagger object instance
+    :param list[int] channels: channels for which the average count rate is measured
+
+    |common methods|
+
+    .. method:: Countrate.getData()
+
+        :returns: Average count rate in counts per second.
+        :rtype: 1D_array[float]
+
+    .. method:: Countrate.getCountsTotal()
+
+        :returns: The total number of events since the instantiation of this object.
+        :rtype: 1D_array[int]
+
+
+
+Counter
+^^^^^^^
+
+.. image:: ../figuresPyLab/output/Counter.*
+
+
+Time trace of the count rate on one or more channels.
+Specifically, this measurement repeatedly counts tags within a
+time interval `binwidth` and stores the results in a two-dimensional array of size `number of channels` by `n_values`.
+The incoming data is first accumulated in a not-accessible bin. 
+When the integration time of this bin has passed, the accumulated data is added to the internal buffer, which can be accessed via the `getData...` methods.
+Data stored in the internal circular buffer is overwritten when `n_values` are exceeded. You can prevent this by automatically stopping the measurement in time as follows ``counter.startFor(duration=binwidth*n_values)``.
+
+.. class:: Counter(tagger, channels, binwidth, n_values)
+
+    :param TimeTaggerBase tagger: time tagger object
+    :param list[int] channels: channels used for counting tags
+    :param int binwidth: bin width in ps
+    :param int n_values: number of bins (data buffer size)
+
+    |common methods|
+
+    .. method:: getData([rolling=True])
+
+        Returns an array of accumulated counter bins for each channel. 
+        The optional parameter `rolling`, controls if the not integrated bins are padded before or after the integrated bins. 
+        
+        When ``rolling=True``, the most recent data is stored in the last bin of the array and every new completed bin shifts all other bins right-to-left. 
+        When continuously plotted, this creates an effect of rolling trace plot. 
+        For instance, it is useful for continuous monitoring of countrate changes over time.
+        
+        When ``rolling=False``, the most recent data is stored in the next bin after previous such that the array is filled up left-to-right. 
+        When array becomes full and the Counter is still running, the array index will be reset to zero and the array will be filled again overwriting previous values. 
+        This operation is sometimes called "sweep plotting".
+
+        :param bool rolling: Controls how the counter array is filled.
+        :returns: An array of size 'number of channels' by `n_values` containing the counts in each fully integrated bin.
+        :rtype: 2D_array[int]
+
+    .. method:: getIndex()
+
+        :returns: A vector of size `n_values` containing the time bins in ps.
+        :rtype: 1D_array[int]
+
+    .. method:: getDataNormalized([rolling=True])
+
+        Does the same as :meth:`~Counter.getData` but returns the count rate in Hz as a float. Not integrated bins and bins in overflow mode are marked as `NaN`.
+
+        :rtype: 2D_array[float]
+
+    .. method:: getDataTotalCounts()
+
+        Returns total number of events per channel since the last call to :meth:`~IteratorBase.clear`, including the currently integrating bin. This method works correctly even when the USB transfer rate or backend processing capabilities are exceeded.
+
+        :returns: Number of events per channel.
+        :rtype: 1D_array[int]
+
+    .. method:: getDataObject(remove=False)
+
+        Returns :class:`CounterData` object containing a snapshot of the data accumulated in the :class:`Counter` at the time this method is called.
+ 
+        :param bool remove: Controls if the returned data shall be removed from the internal buffer.
+        :returns: An object providing access to a snapshot data.
+        :rtype: CounterData
+
+
+.. class:: CounterData()
+
+    Objects of this class are created and returned by :meth:`Counter.getDataObject`, 
+    and contain a snapshot of the data accumulated by the :class:`Counter` measurement.
+
+    .. attribute:: size
+        :type: int
+        
+        Number of returned bins.
+
+    .. attribute:: dropped_bins
+        :type: int
+        
+        Number of bins which have been dropped because `n_values` of the :class:`Counter` has been exceeded.
+
+    .. attribute:: overflow
+        :type: bool
+        
+        Status flag for whether any of the returned bins have been in overflow mode.
+
+    .. method:: getIndex()
+
+        :returns: A vector of size :attr:`~CounterData.size` containing the time bins in ps.
+        :rtype: 1D_array[int]
+
+    .. method:: getData()
+
+        :returns: An array of size 'number of channels' by :attr:`~CounterData.size` containing only fully integrated bins.
+        :rtype: 2D_array[int]
+
+    .. method:: getDataNormalized()
+
+        Does the same as :meth:`getData` but returns the count rate in counts/second. Bins in overflow mode are marked as `NaN`.
+
+        :rtype: 2D_array[float]
+
+    .. method:: getDataTotalCounts()
+
+        Returns the total number of events per channel since the last call to :meth:`~IteratorBase.clear`, excluding the counts of the internal bin where data is currently integrated into.
+        This method works correctly even when the USB transfer rate or backend processing capabilities are exceeded.
+
+        :returns: Number of events per channel.
+        :rtype: 1D_array[int]
+
+    .. method:: getTime()
+
+        :returns: A vector of size :attr:`~CounterData.size` containing the time corresponding to the return value of :meth:`CounterData.getData()` in ps.
+        :rtype: 1D_array[int]
+
+    .. method:: getOverflowMask()
+
+        Array of values for each bin that indicate if an overflow occurred during accumulation of the respective bin.
+
+        :returns: An array of size :attr:`~CounterData.size` containing overflow mask.
+        :rtype: 1D_array[int]
+
+
+.. _api.CountBetweenMarkers:
+
+CountBetweenMarkers
+^^^^^^^^^^^^^^^^^^^
+
+.. image:: ../figuresPyLab/output/CountBetweenMarkers.*
+
+Counts events on a single channel within the time indicated by a "start" and "stop" signals. The bin edges between which counts are accumulated are determined by one or more hardware triggers. Specifically, the measurement records data into a vector of length `n_values` (initially filled with zeros).
+It waits for tags on the `begin_channel`. When a tag is detected on the `begin_channel` it starts counting tags on the `click_channel`. When the next tag is detected on the `begin_channel` it stores the current counter value as the next entry in the data vector, resets the counter to zero and starts accumulating counts again. If an `end_channel` is specified, the measurement stores the current counter value and resets the counter when a tag is detected on the `end_channel` rather than the `begin_channel`. You can use this, e.g., to accumulate counts within a gate by using rising edges on one channel as the `begin_channel` and falling edges on the same channel as the `end_channel`. The accumulation time for each value can be accessed via :meth:`~CountBetweenMarkers.getBinWidths`.
+The measurement stops when all entries in the data vector are filled.
+
+
+.. class:: CountBetweenMarkers(tagger, click_channel, begin_channel, end_channel, n_values)
+
+    :param TimeTaggerBase tagger: time tagger object
+    :param int click_channel: channel on which clicks are received, gated by begin_channel and end_channel
+    :param int begin_channel: channel that triggers the beginning of counting and stepping to the next value
+    :param int end_channel: channel that triggers the end of counting (optional, default: :const:`CHANNEL_UNUSED`)
+    :param int n_values: number of values stored (data buffer size)
+
+    |common methods|
+
+    .. method:: CountBetweenMarkers.getData()
+
+        :returns: Array of size `n_values` containing the acquired counter values.
+        :rtype: 1D_array[int]
+
+    .. method:: CountBetweenMarkers.getIndex()
+
+        :returns: Vector of size `n_values` containing the time in ps of each start click in respect to the very first start click.
+        :rtype: 1D_array[int]
+
+
+    .. method:: CountBetweenMarkers.getBinWidths()
+
+        :returns: Vector of size `n_values` containing the time differences of 'start -> (next start or stop)' for the acquired counter values.
+        :rtype: 1D_array[int]
+
+    .. method:: CountBetweenMarkers.ready()
+
+        :returns: True when the entire array is filled.
+        :rtype: bool
+
+
+
+Time histograms
+--------------------------------------------------------------------------------
+
+This section describes various measurements that calculate time differences between events and accumulate the results into a histogram.
+
+StartStop
+^^^^^^^^^
+
+.. image:: ../figuresPyLab/output/StartStop.*
+
+
+A simple start-stop measurement. This class performs a start-stop
+measurement between two channels and stores the time differences
+in a histogram. The histogram resolution
+is specified beforehand (`binwidth`) but the histogram range (number of bins) is unlimited. It is adapted to the largest time difference that was detected. Thus,
+all pairs of subsequent clicks are registered. Only non-empty bins
+are recorded.
+
+
+.. class:: StartStop(tagger, click_channel, start_channel, binwidth)
+
+    :param TimeTaggerBase tagger: time tagger object instance
+    :param int click_channel: channel on which stop clicks are received
+    :param int start_channel: channel on which start clicks are received
+    :param int binwidth: bin width in ps
+
+    |common methods|
+
+    .. method:: StartStop.getData()
+
+        :returns: An array of tuples (array of shape Nx2) containing the times (in ps) and counts of each bin. Only non-empty bins are returned.
+        :rtype: 2D_array[int]
+
+
+Histogram
+^^^^^^^^^
+
+.. image:: ../figuresPyLab/output/Histogram.*
+
+
+Accumulate time differences into a histogram. This is a simple multiple start,
+multiple stop measurement. This is a special case of the more general `TimeDifferences`_ measurement.
+Specifically, the measurement waits for clicks on the `start_channel`,
+and for each start click, it measures the time difference between
+the start clicks and all subsequent clicks on the `click_channel`
+and stores them in a histogram.
+The histogram range and resolution are specified by the number of bins
+and the bin width specified in ps. Clicks that fall outside the histogram range are ignored. Data accumulation is performed independently for all start clicks.
+This type of measurement is frequently referred to as a 'multiple start, multiple stop' measurement and corresponds to a full auto- or cross-correlation measurement.
+
+.. class:: Histogram(tagger, click_channel, start_channel, binwidth, n_bins)
+
+    :param TimeTaggerBase tagger: time tagger object instance
+    :param int click_channel: channel on which clicks are received
+    :param int start_channel: channel on which start clicks are received
+    :param int binwidth: bin width in ps
+    :param int n_bins: the number of bins in the histogram
+    
+    |common methods|
+
+    .. method:: Histogram.getData()
+
+        :returns: A one-dimensional array of size `n_bins` containing the histogram.
+        :rtype: 1D_array[int]
+
+    .. method:: Histogram.getIndex()
+
+        :returns: A vector of size `n_bins` containing the time bins in ps.
+        :rtype: 1D_array[int]
+
+
+HistogramLogBins
+^^^^^^^^^^^^^^^^
+
+The HistogramLogBins measurement is similar to `Histogram`_ but the bin widths are spaced logarithmically.
+
+.. image:: ../figuresPyLab/output/HistogramLogBins.*
+
+.. class:: HistogramLogBins()
+
+    :param TimeTaggerBase tagger: time tagger object instance
+    :param int click_channel: channel on which clicks are received
+    :param int start_channel: channel on which start clicks are received
+    :param float exp_start: exponent ``10^exp_start`` in seconds where the very first bin begins
+    :param float exp_stop: exponent ``10^exp_stop`` in seconds where the very last bin ends
+    :param int n_bins: the number of bins in the histogram
+
+    .. note::
+
+      After initializing the measurement (or after an overflow) no data is
+      accumulated in the histogram until the full histogram duration has passed
+      to ensure a balanced count accumulation over the full histogram.
+
+    |common methods|
+
+    .. method:: HistogramLogBins.getData()
+
+        :returns: A one-dimensional array of size `n_bins` containing the histogram.
+        :rtype: 1D_array[int]
+
+    .. method:: HistogramLogBins.getDataNormalizedCountsPerPs()
+
+        :returns: The counts normalized by the binwidth of each bin.
+        :rtype: 1D_array[float]
+
+    .. method:: HistogramLogBins.getDataNormalizedG2()
+
+        The counts normalized by the binwidth of each bin and the average count rate. This matches the implementation of :meth:`Correlation.getDataNormalized`
+
+        .. math::
+
+            g^{(2)}(\tau) = \frac{\Delta{t}}{binwidth(\tau) \cdot N_1 \cdot N_2} \cdot histogram(\tau)
+
+        where :math:`\Delta{t}` is the capture duration, :math:`N_1` and :math:`N_2` are number of events in each channel.
+
+        :returns: The counts normalized by the binwidth of each bin and the average count rate.
+        :rtype: 1D_array[float]
+
+
+    .. method:: HistogramLogBins.getBinEdges()
+
+        :returns: A vector of size `n_bins+1` containing the bin edges in picoseconds.
+        :rtype: 1D_array[int]
+
+
+
+Histogram2D
+^^^^^^^^^^^
+
+.. image:: ../figuresPyLab/output/Histogram2D.*
+
+This measurement is a 2-dimensional version of the `Histogram`_ measurement.
+The measurement accumulates a two-dimensional histogram where stop signals from two
+separate channels define the bin coordinate. For instance, this kind of measurement
+is similar to that of typical 2D NMR spectroscopy.
+The data within the histogram is acquired via a single-start, single-stop analysis for each axis.
+The first stop click of each axis is taken after the start click to evaluate the histogram counts.
+
+.. class:: Histogram2D(tagger, start_channel, stop_channel_1, stop_channel_2, binwidth_1, binwidth_2, n_bins_1, n_bins_2)
+
+    :param TimeTaggerBase tagger: time tagger object
+    :param int start_channel: channel on which start clicks are received
+    :param int stop_channel_1: channel on which stop clicks for the time axis 1 are received
+    :param int stop_channel_2: channel on which stop clicks for the time axis 2 are received
+    :param int binwidth_1: bin width in ps for the time axis 1
+    :param int binwidth_2: bin width in ps for the time axis 2
+    :param int n_bins_1: the number of bins along the time axis 1
+    :param int n_bins_2: the number of bins along the time axis 2
+
+    |common methods|
+
+    .. method:: Histogram2D.getData()
+
+        :returns: A two-dimensional array of size `n_bins_1` by `n_bins_2` containing the 2D histogram.
+        :rtype: 2D_array[int]
+
+    .. method:: Histogram2D.getIndex()
+
+        Returns a 3D array containing two coordinate matrices (`meshgrid`) for time bins in ps for the time axes 1 and 2.
+        For details on `meshgrid` please take a look at the respective documentation either for
+        `Matlab <https://www.mathworks.com/help/matlab/ref/meshgrid.html>`_ or
+        `Python NumPy <https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html>`_.
+
+        :returns: A three-dimensional array of size `n_bins_1` x `n_bins_2` x 2
+        :rtype: 3D_array[int]
+
+    .. method:: Histogram2D.getIndex_1()
+
+        :returns: A vector of size `n_bins_1` containing the bin locations in ps for the time axis 1.
+        :rtype: 1D_array[int]
+
+    .. method:: Histogram2D.getIndex_2()
+
+        :returns: A vector of size `n_bins_2` containing the bin locations in ps for the time axis 2.
+        :rtype: 1D_array[int]
+
+
+HistogramND
+^^^^^^^^^^^
+
+This measurement is the generalisation of :class:`Histogram2D` to an arbitrary number of dimensions.
+The data within the histogram is acquired via a single-start, single-stop analysis for each axis.
+The first stop click of each axis is taken after the start click to evaluate the histogram counts.
+
+:class:`HistogramND` can be used as a 1D :class:`Histogram` with single-start single-stop behavior.
+
+.. class:: HistogramND(tagger, start_channel, stop_channels, binwidths, n_bins)
+
+    :param TimeTagger tagger: time tagger object
+    :param int start_channel: channel on which start clicks are received
+    :param list[int] stop_channels: channel list on which stop clicks are received defining the time axes
+    :param list[int] binwidths: bin width in ps for the corresponding time axis
+    :param list[int] n_bins: the number of bins along the corresponding time axis
+
+    |common methods|
+
+    .. method:: HistogramND.getData()
+
+        Returns a one-dimensional array of the size of the product of n_bins containing the histogram data. The array order is in row-major. For example, with :code:`stop_channels=[ch1, ch2]` and :code:`n_bins=[2, 2]`, the 1D array would represent 2D bin indices in the order :code:`[(0,0), (0,1), (1,0), (1,1)]`, with (index of :code:`ch1`, index of :code:`ch2`). Please reshape the 1D array to get the N-dimensional array. The following code demonstrates how to reshape the returned 1D array into multidimensional array using NumPy.
+
+        .. code-block:: python
+
+            channels = [2, 3, 4, 5]
+            n_bins = [5, 3, 4, 6]
+            binwidths = [100, 100, 100, 50]
+            histogram_nd = HistogramND(tagger, 1, channels, binwidths, n_bins)
+            sleep(1)  # Wait to accumulate the data
+            data = histogram_nd.getData()
+            multidim_array = numpy.reshape(data, n_bins)
+
+        :returns: Flattened array of histogram bins. 
+        :rtype: 1D_array[int]
+
+    .. method:: HistogramND.getIndex(dim)
+
+        :returns: Returns a vector of size n_bins[dim] containing the bin locations in ps for the corresponding time axis.
+        :rtype: 1D_array[int]
+
+
+.. _api.Correlation:
+
+Correlation
+^^^^^^^^^^^
+
+.. image:: ../figuresPyLab/output/Correlation.*
+
+
+Accumulates time differences between clicks on two channels into
+a histogram, where all ticks are considered both as "start" and "stop"
+clicks and both positive and negative time differences are considered.
+
+
+.. class:: Correlation(tagger, channel_1, channel_2, binwidth, n_bins)
+
+    :param TimeTaggerBase tagger: time tagger object
+    :param int channel_1: channel on which (stop) clicks are received
+    :param int channel_2: channel on which reference clicks (start) are received (when left empty or set to :const:`CHANNEL_UNUSED` -> an auto-correlation measurement is performed, which is the same as setting `channel_1 = channel_2`)
+    :param int binwidth: bin width in ps
+    :param int n_bins: the number of bins in the resulting histogram
+
+    |common methods|
+
+    .. method:: Correlation.getData()
+
+        :returns: A one-dimensional array of size `n_bins` containing the histogram.
+        :rtype: 1D_array[int]
+
+    .. method:: Correlation.getDataNormalized()
+
+        Return the data normalized as:
+
+        .. math::
+
+            g^{(2)}(\tau) = \frac{\Delta{t}}{binwidth \cdot N_1 \cdot N_2} \cdot histogram(\tau)
+
+        where :math:`\Delta{t}` is the capture duration, :math:`N_1` and :math:`N_2` are number of events in each channel.
+
+        :returns: Data normalized by the binwidth and the average count rate.
+        :rtype: 1D_array[float]
+
+    .. method:: Correlation.getIndex()
+
+        :returns: A vector of size `n_bins` containing the time bins in ps.
+        :rtype: 1D_array[int]
+
+
+.. _api.TimeDifferences:
+
+TimeDifferences
+^^^^^^^^^^^^^^^
+
+.. image:: ../figuresPyLab/output/TimeDifferences.*
+
+
+A one-dimensional array of time-difference histograms with the option to include up to two additional channels that control how to
+step through the indices of the histogram array. 
+This is a very powerful and generic measurement. 
+You can use it to record consecutive cross-correlation, lifetime measurements, fluorescence lifetime imaging and many more measurements based on pulsed excitation. 
+Specifically, the measurement waits for a tag on the `start_channel`, then measures the time difference between the start tag and all subsequent tags on the `click_channel` and stores them in a histogram. If no `start_channel` is specified, the `click_channel` is used as `start_channel` corresponding to an auto-correlation measurement.
+The histogram has a number `n_bins` of bins of bin width `binwidth`. Clicks that fall outside the histogram range are discarded. Data accumulation is performed independently for all start tags. This type of measurement is frequently referred to as 'multiple start, multiple stop' measurement and corresponds to a full auto- or cross-correlation measurement.
+
+The time-difference data can be accumulated into a single histogram or into multiple subsequent histograms. 
+In this way, you can record a sequence of time-difference histograms.
+To switch from one histogram to the next one you have to specify a channel that provide switch markers (`next_channel` parameter).
+Also you need to specify the number of histograms with the parameter `n_histograms`.
+After each tag on the `next_channel`, the histogram index is incremented by one and reset to zero after reaching the last valid index. 
+The measurement starts with the first tag on the `next_channel`.
+
+You can also provide a synchronization marker that resets the histogram index by specifying a `sync_channel`.
+The measurement starts when a tag on the `sync_channel` arrives with a subsequent tag on `next_channel`.
+When a rollover occurs, the accumulation is stopped until the next sync and subsequent next signal.
+A sync signal before a rollover will stop the accumulation, reset the histogram index and a subsequent signal on the `next_channel` starts the accumulation again.
+
+Typically, you will run the measurement indefinitely until stopped by the user. 
+However, it is also possible to specify the maximum number of rollovers of the histogram index.
+In this case, the measurement stops when the number of rollovers has reached the specified value.
+
+
+.. class:: TimeDifferences(tagger, click_channel, start_channel=CHANNEL_UNUSED, next_channel=CHANNEL_UNUSED, sync_channel=CHANNEL_UNUSED, binwidth=1000, n_bins=1000, n_histograms=1)
+
+    :param TimeTaggerBase tagger: time tagger object instance
+    :param int click_channel: channel on which stop clicks are received
+    :param int start_channel: channel that sets start times relative to which clicks on the click channel are measured
+    :param int next_channel: channel that increments the histogram index
+    :param int sync_channel: channel that resets the histogram index to zero
+    :param int binwidth: binwidth in picoseconds
+    :param int n_bins: number of bins in each histogram
+    :param int n_histograms: number of histograms
+
+    .. note::
+
+        A rollover occurs on a `next_channel` event while the histogram index is already in the last histogram.
+        If `sync_channel` is defined, the measurement will pause at a rollover until a `sync_channel` event occurs and continues
+        at the next `next_channel` event.
+        With undefined `sync_channel`, the measurement will continue without interruption at histogram index 0.
+
+    |common methods|
+
+    .. method:: getData()
+
+        :returns: A two-dimensional array of size `n_bins` by `n_histograms` containing the histograms.
+        :rtype: 2D_array[int]
+
+    .. method:: getIndex()
+
+        :returns: A vector of size `n_bins` containing the time bins in ps.
+        :rtype: 1D_array[int]
+
+    .. method:: setMaxCounts()
+
+        Sets the number of rollovers at which the measurement stops integrating. To integrate infinitely, set the value to 0, which is the default value.
+
+    .. method:: getHistogramIndex()
+
+        :returns: The index of the currently processed histogram or the waiting state. Possible return values are:
+
+            * `-2`: Waiting for an event on `sync_channel` (only if `sync_channel` is defined)
+            * `-1`: Waiting for an event on `next_channel` (only if `next_channel` is defined)
+            * `0` ... `(n_histograms - 1)`: Index of the currently processed histogram
+
+        :rtype: int 
+
+    .. method:: getCounts()
+
+        :returns: The number of rollovers (histogram index resets).
+        :rtype: int
+
+    .. method:: ready()
+
+        :returns: True when the required number of rollovers set by :meth:`setMaxCounts` has been reached.
+        :rtype: bool
+
+
+
+TimeDifferencesND
+^^^^^^^^^^^^^^^^^
+.. image:: ../figuresPyLab/output/TimeDifferencesND.*
+
+This is an implementation of the :class:`TimeDifferences` measurement class that extends histogram indexing into multiple dimensions. 
+
+Please read the documentation of :class:`TimeDifferences` first.
+It captures many multiple start - multiple stop histograms, but with many asynchronous `next_channel` triggers. 
+After each tag on each `next_channel`, the histogram index of the associated dimension is incremented by one and reset to zero after reaching the last valid index. 
+The elements of the parameter `n_histograms` specify the number of histograms per dimension. The
+accumulation starts when `next_channel` has been triggered on all dimensions.
+
+You should provide a synchronization trigger by specifying a sync_channel per dimension. It will stop the accumulation when an associated histogram index rollover occurs. A sync event will also stop the accumulation, reset the histogram index of the associated dimension, and a subsequent event on the corresponding `next_channel` starts the accumulation again. The
+synchronization is done asynchronous, so an event on the `next_channel` increases the histogram index even if the accumulation is stopped. The accumulation starts when a tag on the `sync_channel` arrives with a subsequent tag on `next_channel` for all dimensions.
+
+Please use :meth:`TimeTaggerBase.setInputDelay` to adjust the latency of all channels. In general, the order of the provided triggers including
+maximum jitter should be:
+
+old start trigger --> all sync triggers --> all next triggers --> new start trigger
+
+.. class:: TimeDifferencesND(tagger, click_channel, start_channel, next_channels, sync_channels, n_histograms, binwidth, n_bins)
+
+    :param TimeTaggerBase tagger: time tagger object instance
+    :param int click_channel: channel on which stop clicks are received
+    :param int start_channel: channel that sets start times relative to which clicks on the click channel are measured
+    :param list[int] next_channels: vector of channels that increments the histogram index
+    :param list[int] sync_channels: vector of channels that resets the histogram index to zero
+    :param int n_histograms: vector of numbers of histograms per dimension
+    :param int binwidth: width of one histogram bin in ps
+    :param int n_bins: number of bins in each histogram
+
+    |common methods|
+    
+    See methods of :class:`TimeDifferences` class.
+
+
+Fluorescence-lifetime imaging (FLIM)
+------------------------------------
+
+This section describes the FLIM related measurements classes of the Time Tagger API.
+
+.. _api.FLIM:
+
+Flim
+^^^^
+
+.. versionchanged:: 2.7.2
+
+.. note::
+
+    The Flim (beta) implementation is not final yet. It has a very advanced functionality, but details are subject to change. Please give us feedback (support@swabianinstruments.com)
+    when you encounter issues or when you have ideas for additional functionality.
+
+.. image:: ../figuresPyLab/output/Flim.*
+
+Fluorescence-lifetime imaging microscopy (FLIM) is an imaging technique
+for producing an image based on the differences in the exponential decay rate
+of the fluorescence from a sample.
+
+Fluorescence lifetimes can be determined in the time domain by using a pulsed source. 
+When a population of Fluorophores is excited by an ultrashort or delta-peak pulse of light, the time-resolved fluorescence will decay exponentially.
+
+This measurement implements a line scan in a :abbr:`FLIM (Fluorescence-lifetime imaging microscopy)` image that
+consists of a sequence of pixels. This could either represent a single line
+of the image, or - if the image is represented as a single meandering line -
+this could represent the entire image.
+
+We provide two different classes that support FLIM measurements: :class:`Flim` and :class:`FlimBase`.
+:class:`Flim` provides a versatile high-level API. :class:`FlimBase` instead provides the essential functionality with no overhead
+to perform Flim measurements. :class:`FlimBase` is based on a callback approach.
+
+Please visit the Python example folder for a reference implementation.
+
+.. _flimreplacement:
+
+.. note::
+
+    Up to version 2.7.0, the FLIM implementation was very limited and has been fully rewritten in version 2.7.2.
+    You can use the following 1 to 1 replacement to get the old FLIM behavior:
+
+    .. code:: python
+
+        # FLIM before version 2.7.0:
+        Flim(tagger, click_channel=1, start_channel=2, next_channel=3,
+            binwidth=100, n_bins=1000, n_pixels=320*240)
+
+        # FLIM 2.7.0 replacement using TimeDifferences
+        TimeDifferences(tagger, click_channel=1, start_channel=2,
+            next_channel=3, sync_channel=CHANNEL_UNUSED,
+            binwidth=100, n_bins=1000, n_histograms=320*240)
+
+.. class:: Flim(tagger, start_channel, click_channel, pixel_begin_channel, n_pixels, n_bins, binwidth, [pixel_end_channel=CHANNEL_UNUSED, frame_begin_channel=CHANNEL_UNUSED, finish_after_outputframe=0, n_frame_average=1, pre_initialize=True])
+
+    High-Level class for implementing FLIM measurements.
+    The Flim class includes buffering of images and several analysis methods.
+
+    The methods are split into different groups.
+
+    The :code:`getCurrent...` references the active frame.
+
+    The :code:`getReady...` references the last full frame acquired.
+
+    The :code:`getSummed...` operates on all frames which have been captured so far including or excluding the current active frame via the optional parameter `only_ready_frames`.
+
+    The :code:`get...Ex` returns instead of an array, a :class:`FlimFrameInfo` which contains more information than only the raw array.
+
+    The class provides an :meth:`frameReady` callback, which can be used to analyze the data when a frame is completed.
+
+    :param TimeTaggerBase tagger: time tagger object instance
+    :param int start_channel: channel on which clicks are received for the time differences histogramming
+    :param int click_channel: channel on which start clicks are received for the time differences histogramming
+    :param int pixel_begin_channel: start marker of a pixel (histogram)
+    :param int n_pixels: number of pixels (histograms) of one frame
+    :param int n_bins: number of histogram bins for each pixel
+    :param int binwidth: bin size in picoseconds
+    :param int pixel_end_channel: end marker of a pixel - incoming clicks on the `click_channel` will be ignored afterward. (optional)
+    :param int frame_begin_channel: start the frame, or reset the pixel index. (optional)
+    :param int finish_after_outputframe: sets the number of frames stored within the measurement class. After reaching the number, the measurement will stop. If the number is 0, one frame is stored and the measurement runs continuously. (optional, default: 0)
+    :param int n_frame_average: average multiple input frames into one output frame, (optional, default: 1)
+    :param bool pre_initialize: initializes the measurement on constructing. (optional)
+
+    |common methods|
+
+    .. method:: getCurrentFrame()
+
+        :returns: The histograms for all pixels of the currently active frame, 2D array with dimensions [n_bins, n_pixels].
+        :rtype: 2D_array[int]
+
+    .. method:: getCurrentFrameEx()
+
+        :returns: The currently active frame.
+        :rtype: FlimFrameInfo
+
+    .. method:: getCurrentFrameIntensity()
+
+        :returns: The intensities of all pixels of the currently active frame. The pixel intensity is defined by the number of counts acquired within the pixel divided by the respective integration time.
+        :rtype: 1D_array[float]
+
+    .. method:: getFramesAcquired()
+
+        :returns: The number of frames that have been completed so far, since the creation or last clear of the object.
+        :rtype: int
+
+    .. method:: getIndex()
+
+        :returns: A vector of size n_bins containing the time bins in ps.
+        :rtype: 1D_array[int]
+
+    .. method:: getReadyFrame([index =-1])
+
+        :param int index: Index of the frame to be obtained. If -1, the last frame which has been completed is returned. (optional)
+        :returns: The histograms for all pixels according to the frame index given. If the index is -1, it will return the last frame, which has been completed. When `stop_after_outputframe` is 0, the index value must be -1. If ``index >= stop_after_outputframe``, it will throw an error. 2D array with dimensions [n_bins, n_pixels]
+        :rtype: 2D_array[int]
+
+    .. method:: getReadyFrameEx([index =-1])
+
+        :param int index: Index of the frame to be obtained. If -1, the last frame which has been completed is returned. (optional)
+
+        :returns: The frame according to the index given. If the index is -1, it will return the last completed frame. When `stop_after_outputframe` is 0, index must be -1. If ``index >= stop_after_outputframe``, it will throw an error.
+        :rtype: FlimFrameInfo
+
+    .. method:: getReadyFrameIntensity([index =-1])
+
+        :param int index: Index of the frame to be obtained. If -1, the last frame which has been completed is returned. (optional)
+        :returns: The intensities according to the frame index given. If the index is -1, it will return the intensity of the last frame, which has been completed. When `stop_after_outputframe` is 0, the index value must be -1. If ``index >= stop_after_outputframe``, it will throw an error.
+            The pixel intensity is defined by the number of counts acquired within the pixel divided by the respective integration time.
+        :rtype: 1D_array[float]
+
+    .. method:: getSummedFrames([only_ready_frames=True, clear_summed=False])
+
+        :param only_ready_frames: If true, only the finished frames are added. On false, the currently active frame is aggregated. (optional)
+        :param clear_summed: If true, the summed frames memory will be cleared. (optional)
+        :returns: The histograms for all pixels. The counts within the histograms are integrated since the start or the last clear of the measurement.
+        :rtype: 2D_array[int]
+
+    .. method:: getSummedFramesEx([only_ready_frames=True, clear_summed=False])
+
+        :param bool only_ready_frames: If true, only the finished frames are added. On false, the currently active frame is aggregated. (optional)
+        :param bool clear_summed: If True, the summed frames memory will be cleared. (optional)
+        :returns: A :class:`FlimFrameInfo` that represents the sum of all acquired frames.
+        :rtype: FlimFrameInfo
+
+    .. method:: getSummedFramesIntensity([only_ready_frames=True, clear_summed=False])
+
+        :param bool only_ready_frames: If true, only the finished frames are added. On false, the currently active frame is aggregated. (optional)
+        :param bool clear_summed: If true, the summed frames memory will be cleared. (optional)
+        :returns: The intensities of all pixels summed over all acquired frames. The pixel intensity is the number of counts within the pixel divided by the integration time.
+        :rtype: 1D_array[float]
+
+    .. method::  isAcquiring()
+
+        :returns: A boolean which tells the user if the class is still acquiring data. It can only reach the false state for ``stop_after_outputframe > 0``. This should differ from :meth:`~IteratorBase.isRunning()` as once rendering is done, it can't be started again.
+        :rtype: bool
+
+    .. method:: frameReady(frame_number, data, pixel_begin_times, pixel_end_times, frame_begin_time, frame_end_time)
+
+        :param int frame_number: current frame number
+        :param 1D_array[int] data: 1D array containing the raw histogram data, with the data of pixel ``i`` and time bin ``j`` at index ``i * n_bins + j``
+        :param list[int] pixel_begin_times: start time for each pixel
+        :param list[int] pixel_end_times: end time for each pixel
+        :param int frame_begin_time: start time of the frame
+        :param int frame_end_time: end time of the frame
+
+        The method is called when a frame is completed. Compared to :meth:`on_frame_end()`, it provides various related data when invoked.
+
+    .. method:: on_frame_end()
+
+        Virtual function which can be overwritten in C++. The method is called when a frame is completed.
+
+
+FlimFrameInfo
+^^^^^^^^^^^^^
+
+This is a simple class that contains FLIM frame data and provides convenience accessor methods.
+
+.. note::
+
+    Objects of this class are returned by the methods of the FLIM classes. 
+    Normally user will not construct :class:`FlimFrameInfo` objects themselves.
+
+
+.. class:: FlimFrameInfo()
+
+    .. attribute:: pixels
+        :type: int
+
+        number of pixels of the frame
+
+    .. attribute:: bins
+        :type: int
+    
+        number of bins of each histogram
+
+    .. attribute:: frame_number
+        :type: int
+    
+        current frame number
+
+    .. attribute:: pixel_position
+        :type: int
+    
+        current pixel position
+
+    .. method:: getFrameNumber()
+
+        :returns: The frame number, starting from 0 for the very first frame acquired. If the index is -1, it is an invalid frame which is returned on error.
+        :rtype: int
+
+    .. method:: isValid()
+
+        :returns: A boolean which tells if this frame is valid or not. Invalid frames are possible on errors, such as asking for the last completed frame when no frame has been completed so far.
+        :rtype: bool
+
+    .. method:: getPixelPosition()
+
+        :returns: A value which tells how many pixels were processed for this frame.
+        :rtype: int
+
+    .. method:: getHistograms()
+
+        :returns: All histograms of the frame, 2D array with dimensions [n_bins, n_pixels].
+        :rtype: 2D_array[int]
+
+    .. method:: getIntensities()
+
+        :returns: The summed counts of each histogram divided by the integration time.
+        :rtype: 1D_array[float]
+
+    .. method:: getSummedCounts()
+
+        :returns: The summed counts of each histogram.
+        :rtype: 1D_array[int]
+
+    .. method:: getPixelBegins()
+
+        :returns: An array of the start timestamps of each pixel.
+        :rtype: 1D_array[int]
+
+    .. method:: getPixelEnds()
+
+        :returns: An array of the end timestamps of each pixel.
+        :rtype: 1D_array[int]
+
+
+FlimBase
+^^^^^^^^
+
+The :class:`FlimBase` provides only the most essential functionality for FLIM tasks. The benefit from the reduced functionality is that it is very memory and CPU efficient. 
+The class provides the :meth:`~FlimBase.frameReady` callback, which must be used to analyze the data.
+
+.. class:: FlimBase(tagger, start_channel, click_channel, pixel_begin_channel, n_pixels, n_bins, binwidth, [pixel_end_channel=CHANNEL_UNUSED, frame_begin_channel=CHANNEL_UNUSED, finish_after_outputframe=0, n_frame_average=1, pre_initialize=True])
+
+    :param TimeTaggerBase tagger: time tagger object instance
+    :param int start_channel: channel on which clicks are received for the time differences histogramming
+    :param int click_channel: channel on which start clicks are received for the time differences histogramming
+    :param int pixel_begin_channel: start marker of a pixel (histogram)
+    :param int n_pixels: number of pixels (histograms) of one frame
+    :param int n_bins: number of histogram bins for each pixel
+    :param int binwidth: bin size in picoseconds
+
+    :param int pixel_end_channel: end marker of a pixel - incoming clicks on the click_channel will be ignored afterward. (optional, default: :const:`CHANNEL_UNUSED`)
+    :param int frame_begin_channel: start the frame, or reset the pixel index. (optional, default: :const:`CHANNEL_UNUSED`)
+    :param int finish_after_outputframe: sets the number of frames stored within the measurement class. After reaching the number, the measurement will stop. If the number is 0 , one frame is stored and the measurement runs continuously. (optional, default: 0)
+    :param int n_frame_average: average multiple input frames into one output frame. (optional, default: 1)
+    :param bool pre_initialize: initializes the measurement on constructing. (optional, default: True)
+
+    |common methods|
+
+    .. method:: isAcquiring()
+
+        :returns: A boolean which tells the user if the class is still acquiring data. It can only reach the false state for ``stop_after_outputframe > 0``. This should differ from :meth:`~IteratorBase.isRunning()` as once rendering is done, it can't be started again.
+        :rtype: bool
+
+    .. method:: frameReady(frame_number, data, pixel_begin_times, pixel_end_times, frame_begin_time, frame_end_time)
+
+        :param int frame_number: current Frame number
+        :param 1D_array[int] data: 1D array containing the raw histogram data, with the data of pixel ``i`` and time bin ``j`` at index ``i * n_bins + j``
+        :param list[int] pixel_begin_times: start time for each pixel
+        :param list[int] pixel_end_times: end time for each pixel
+        :param int frame_begin_time: start time of the frame
+        :param int frame_end_time: end time of the frame
+
+        The method is called when a frame is completed. Compared to :meth:`on_frame_end()`, it provides various related data when invoked.
+
+    .. method:: on_frame_end()
+
+        Virtual function which can be overwritten in C++. The method is called when a frame is completed.
+
+
+Frequency analysis
+--------------------------
+
+FrequencyStability
+^^^^^^^^^^^^^^^^^^
+
+.. plot:: figures_engine/FrequencyStability.py
+    :align: center
+
+Frequency Stability Analysis is used to characterize periodic signals and to identify sources of deviations from the perfect periodicity.
+It can be employed to evaluate the frequency stability of oscillators, for example.
+A set of established metrics provides insights into the oscillator characteristics on different time scales.
+The most prominent metric is the Allan Deviation (ADEV). The :class:`FrequencyStability` class executes the calculation of
+often used metrics in parallel and conforms to the IEEE 1139 standard. For more information, we recommend the
+`Handbook of Frequency Stability Analysis <https://www.nist.gov/publications/handbook-frequency-stability-analysis>`_.
+
+The calculated deviations are the root-mean-square :math:`\sqrt{f_n \sum_i\left(E_i^{(n)}\right)^2}` of a specific set of
+error samples :math:`E^{(n)}` with a normalization factor :math:`f_n`.
+The step size :math:`n` together with the oscillator period :math:`T` defines the time span :math:`\tau_n = n T`
+that is investigated by the sample.
+The error samples :math:`E^{(n)}` are calculated from the phase samples :math:`t` that are generated by the
+:class:`FrequencyStability` class by averaging over the timestamps of a configurable number of time-tags.
+To investigate the averaged phase samples directly, a trace of configurable length is stored to display the
+current evolution of frequency and phase errors.
+
+Each of the available deviations has its specific sample :math:`E^{(n)}`.
+For example, the Allan Deviation investigates the second derivative of the phase :math:`t` using the sample
+:math:`E_i^{(n)} = t_i - 2 t_{i+n} + t_{i+2n}`.
+The full formula of the Allan deviation for a set of :math:`N` averaged timestamps is
+
+    .. math::
+
+        \mathrm{ADEV}(\tau_n) = \sqrt{\frac{1}{2(N-2n)\tau_n^2} \sum_{i=1}^{N-2n}\left(t_i - 2 t_{i+n} + t_{i+2n}\right)^2}.
+
+The deviations can be displayed in the Allan domain or in the time domain.
+For the time domain, the Allan domain data is multiplied by a factor proportional to :math:`\tau`.
+This means that in a log-log plot, all slopes of the time domain curves are increased by +1 compared to the Allan ones.
+The factor :math:`\sqrt{3}` for ADEV/MDEV and :math:`\sqrt{10/3}` for HDEV, respectively, is used so that the scaled deviations of a white phase noise distortion correspond to the standard deviation of the averaged timestamps :math:`t`.
+In some cases, there are different established names for the representations.
+The :class:`FrequencyStability` class provides numerous metrics for both domains:
+
+    +---------------------------------+----------------------------------------------------------+
+    | Allan domain                    | Time domain                                              |
+    +=================================+==========================================================+
+    |                                 | Standard Deviation (STDD)                                |
+    +---------------------------------+----------------------------------------------------------+
+    | Allan Deviation (ADEV)          | ADEVScaled = :math:`\frac{\tau}{\sqrt{3}}` ADEV          |
+    +---------------------------------+----------------------------------------------------------+
+    | Modified Allan Deviation (MDEV) | Time Deviation TDEV = :math:`\frac{\tau}{\sqrt{3}}` MDEV |
+    +---------------------------------+----------------------------------------------------------+
+    | Hadamard Deviation (HDEV )      | HDEVScaled = :math:`\frac{\tau}{\sqrt{10 / 3}}` HDEV     |
+    +---------------------------------+----------------------------------------------------------+
+    
+.. class:: FrequencyStability(tagger, channel, steps, average, trace_len)
+
+    :param int channel: The input channel number.
+    :param list[int] steps: The step sizes to consider in the calculation.
+        The length of the list determines the maximum number of data points.
+        Because the oscillator frequency is unknown, it is not possible to define :math:`\tau` directly.
+    :param int average: The number of time-tags to average internally. This downsampling allows for a reduction of noise and memory requirements.
+        Default is 1000.
+    :param int trace_len: Number of data points in the phase and frequency error traces, calculated from averaged data.
+        The trace always contains the latest data. Default is 1000.
+
+    .. note::
+
+        Use `average` and :meth:`TimeTagger.setEventDivider` with care: The event divider can be used to save USB bandwidth.
+        If possible, transfer more data via USB and use `average` to improve your results.
+
+    .. method:: getDataObject()
+
+        :returns: An object that allows access to the current metrics
+        :rtype: FrequencyStabilityData
+
+
+.. class:: FrequencyStabilityData
+
+    .. method:: getTau()
+
+        The :math:`\tau` axis for all deviations. This is the product of the `steps` parameter of the :class:`FrequencyStability`
+        measurement and the measured average period of the signal.
+
+        :returns: The :math:`\tau` values.
+        :rtype: 1D_array[float]
+
+    .. method:: getADEV()
+        
+        The overlapping Allan deviation, the most common analysis framework.
+        In a log-log plot, the slope allows one to identify the type of noise:
+
+        * -1: white or flicker phase noise like discretization or analog noisy delay
+        * -0.5: white period noise
+        * 0: flicker period noise like electric noisy oscillator
+        * 0.5: integrated white period noise (random walk period)
+        * 1: frequency drift, e.g., induced thermally
+        
+        :sample: :math:`E_i^{(n)} = t_i - 2 t_{i+n} + t_{i+2n}`
+        :domain: Allan domain
+        :returns: The overlapping Allan Deviation.
+        :rtype: 1D_array[float]
+
+    .. method:: getMDEV()
+
+        Modified overlapping Allan deviation. It averages the second derivate before calculating the
+        RMS. This splits the slope of white and flicker phase noise:
+
+        * -1.5: white phase noise, like discretization
+        * -1.0: flicker phase noise, like an electric noisy delay
+
+        The metric is more commonly used in the time domain, see :meth:`getTDEV`.
+
+        :sample: :math:`E_i^{(n)} = \frac{1}{n} \sum_{j=0}^{n-1} \left(t_{i+j} - 2 t_{i+j+n} + t_{i+j+2n}\right)`
+        :domain: Allan domain
+        :returns: The overlapping Modified Allan Deviation.
+        :rtype: 1D_array[float]
+
+    .. method:: getHDEV()
+
+        The overlapping Hadamard deviation uses the third derivate of the phase. This cancels the effect
+        of a constant phase drift and converges for more divergent noise sources at higher slopes:
+
+        * 1: integrated flicker period noise (flicker walk period)
+        * 1.5: double integrated white period noise (random run period)
+
+        It is scaled to match the ADEV for white period noise.
+
+        :sample: :math:`E_i^{(n)} = t_i - 3 t_{i+n} + 3 t_{i+2n} - t_{i+3n}`
+        :domain: Allan domain
+        :returns: The overlapping Hadamard Deviation.
+        :rtype: 1D_array[float]
+
+    .. method:: getSTDD()
+
+        .. caution::
+            The standard deviation is not recommended as a measure of frequency stability because it is non-convergent for some
+            types of noise commonly found in frequency sources, most noticeable the frequency drift.
+
+        Standard deviation of the periods.
+
+        :sample: :math:`E_i^{(n)} = t_i - t_{i+n} - \mathrm{mean}_k(t_k - t_{k+n})`
+        :domain: Time domain
+        :returns: The standard deviation.
+        :rtype: 1D_array[float]
+
+    .. method:: getADEVScaled()
+
+        :domain: Time domain
+        :returns: The scaled version of the overlapping Allan Deviation, equivalent to :meth:`getADEV` * :meth:`getTau` / :math:`\sqrt{3}`.
+        :rtype: 1D_array[float]
+
+    .. method:: getTDEV()
+
+        The Time Deviation (TDEV) is the common representation of the Modified overlapping Allan deviation :meth:`getMDEV`.
+        Taking the log-log slope +1 and the splitting of the slope of white and flicker phase noise into account,
+        it allows an easy identification of the two contributions:
+
+        * -0.5: white phase noise, like discretization
+        * 0: flicker phase noise, like an electric noisy delay
+
+        :domain: Time domain
+        :returns: The overlapping Time Deviation, equivalent to :meth:`getMDEV` * :meth:`getTau` / :math:`\sqrt{3}`.
+        :rtype: 1D_array[float]
+
+    .. method:: getHDEVScaled()
+
+        .. caution::
+            While HDEV is scaled to match ADEV for white period noise, this function is scaled to match the TDEV for white
+            phase noise. The difference of period vs phase matching is roughly 5% and easy to overlook.
+
+        :domain: Time domain
+        :returns: The scaled version of the overlapping Hadamard Deviation, equivalent to :meth:`getHDEV` * :meth:`getTau` / :math:`\sqrt{10 / 3}`.
+        :rtype: 1D_array[float]
+
+    .. method:: getTraceIndex()
+
+        The time axis for :meth:`getTracePhase` and :meth:`getTraceFrequency`.
+
+        :returns: The time index in seconds of the phase and frequency error trace.
+        :rtype: 1D_array[float]
+
+    .. method:: getTracePhase()
+
+        Provides the time offset of the averaged timestamps from a linear fit over the last `trace_len` averaged timestamps. 
+
+        :returns: A trace of the last `trace_len` phase samples in seconds.
+        :rtype: 1D_array[float]
+
+    .. method:: getTraceFrequency()
+
+        Provides the relative frequency offset from the average frequency during the last `trace_len + 1` averaged timestamps. 
+
+        :returns: A trace of the last `trace_len` normalized frequency error data points in pp1.
+        :rtype: 1D_array[float]
+
+    .. method:: getTraceFrequencyAbsolute(input_frequency: float = 0.0)
+
+        Provides the absolute frequency offset from a given `input_frequency` during the last `trace_len + 1` averaged timestamps. 
+
+        :param float input_frequency: Nominal frequency of the periodic signal. Default is 0 Hz.
+        :returns: A trace of the last `trace_len` frequency data points in Hz.
+        :rtype: 1D_array[float]
+
+
+
+Time-tag-streaming
+--------------------------------------------------------------------------------
+
+Measurement classes described in this section provide direct access to the time tag stream with minimal or no pre-processing.
+
+.. _time-tag-format:
+
+.. rubric:: Time tag format
+
+The time tag contain essential information about the detected event and have the following format:
+
+.. list-table::
+    :widths: 10 10 30
+    :header-rows: 1
+
+    * - Size
+      - Type
+      - Description
+    * - 8 bit
+      - enum :class:`TagType`
+      - overflow type
+    * - 8 bit
+      - --
+      - reserved
+    * - 16 bit
+      - uint16
+      - number of missed events
+    * - 32 bit
+      - int32
+      - channel number
+    * - 64 bit
+      - int64
+      - time in ps from device start-up
+
+
+TimeTagStream
+^^^^^^^^^^^^^
+
+Allows user to access a copy of the time tag stream. It allocates a memory buffer of the size `max_tags` which is filled with the incoming time tags that arrive from the specified channels. User shall call :meth:`~TimeTagStream.getData` method periodically to obtain the current buffer containing timetags collected. This action will return the current buffer object and create another empty buffer to be filled until the next call to :meth:`~TimeTagStream.getData`.
+
+
+.. class:: TimeTagStream(tagger, n_max_events, channels)
+
+    :param TimeTaggerBase tagger: time tagger object instance
+    :param int n_max_events: buffer size for storing time tags
+    :param list[int] channels: non-empty list of channels to be captured.
+
+    |common methods|
+
+    .. method:: getData()
+
+        Returns a :class:`TimeTagStreamBuffer` object and clears the internal buffer of the :class:`TimeTagStream` measurement. Clearing the internal buffer on each call to :meth:`getData` guarantees that consecutive calls to this method will return every time-tag only once. Data loss may occur if :meth:`getData` is not called frequently enough with respect to `n_max_events`.
+
+        :returns: buffer object containing timetags collected. 
+        :rtype: TimeTagStreamBuffer
+
+
+
+.. class:: TimeTagStreamBuffer()
+
+    .. attribute:: size
+        :type: int
+
+        Number of events stored in the buffer. If the size equals the maximum size of the buffer set in :class:`TimeTagStream` via `n_max_events`, events have likely been discarded.
+
+    .. attribute:: hasOverflows
+        :type: bool
+
+        Returns True if a stream overflow was detected in any of the tags received. Note: this is independent of an overflow of the internal buffer of :class:`TimeTagStream`.
+
+    .. attribute:: tStart
+        :type: int
+
+        Return the data-stream time position when the :class:`TimeTagStream` or :class:`FileWriter` started data acquisition.
+
+    .. attribute:: tGetData
+        :type: int
+
+        Return the data-stream time position of the call to `.getData()` method that created this object.
+
+    .. method:: getTimestamps()
+
+        Returns an array of timestamps.
+
+        :returns: Event timestamps in picoseconds for all chosen channels.
+        :rtype: list[int]
+
+    .. method:: getChannels()
+
+        Returns an array of channel numbers for every timestamp.
+
+        :returns: Channel number for each detected event.
+        :rtype: list[int]
+
+    .. method:: getOverflows()
+
+        .. deprecated:: 2.5.0 please use :meth:`getEventTypes` instead.
+
+    .. method:: getEventTypes()
+
+        Returns an array of event type for every timestamp. See, :ref:`time-tag-format`.
+        The method returns plain integers, but you can use :class:`TagType` to compare the values.
+
+        :returns: Event type value for each detected event.
+        :rtype: 1D_array[int]
+
+    .. method:: getMissedEvents()
+
+        Returns an array of missed event counts during an stream overflow situation.
+
+        :returns: Missed events value for each detected event.
+        :rtype: 1D_array[int]
+
+
+.. _api-FileWriter:
+
+FileWriter
+^^^^^^^^^^
+
+Writes the time-tag-stream into a file in a structured binary format with a lossless compression. The estimated file size requirements are 2-4 Bytes per time tag, not including the container the data is stored in.
+The continuous background data rate for the container can be modified via :meth:`TimeTagger.setStreamBlockSize`. Data is processed in blocks and each block header has a size of 160 Bytes. The default processing latency is 20 ms, which means that a block is written every 20 ms resulting in a background data rate of 8 kB/s. By increasing the processing latency via :meth:`setStreamBlockSize(max_events=524288, max_latency=1000)<TimeTagger.setStreamBlockSize>` to 1 s, the resulting data rate for the container is reduced to one 160 B/s.
+The files created with :class:`FileWriter` measurement can be read using :class:`FileReader` or loaded into the Virtual Time Tagger.
+
+.. note::
+    You can use the :class:`Dump` for dumping into a simple uncompressed binary format. 
+    However, you will not be able to use this file with Virtual Time Tagger or :class:`FileReader`.
+
+The :class:`FileWriter` is able to split the data into multiple files seamlessly
+when the file size reaches a maximal size. For the file splitting to work properly, the filename specified by the user will be extended with a suffix containing sequential counter, so the filenames will look like in the following example
+
+.. code-block::
+
+    fw = FileWriter(tagger, 'filename.ttbin', [1,2,3]) # Store tags from channels 1,2,3
+
+    # When splitting occurs the files with following names will be created
+    #    filename.ttbin     # the sequence header file with no data blocks
+    #    filename.1.ttbin   # the first file with data blocks
+    #    filename.2.ttbin
+    #    filename.3.ttbin
+    #    ...
+
+
+In addition, the :class:`FileWriter` will query and store the configuration of the Time Tagger in the same format as returned by the
+:meth:`TimeTaggerBase.getConfiguration()` method. The configuration is always written into every file.
+
+See also: :ref:`api-FileReader`, :ref:`time-tagger-virtual`, and :func:`mergeStreamFiles`.
+
+.. class:: FileWriter(tagger, filename, channels)
+
+    :param TimeTaggerBase tagger:    time tagger object
+    :param str filename:      name of the file to store to
+    :param list[int] channels: non-empty list of real or virtual channels
+
+    Class constructor. As with all other measurements, the data recording starts
+    immediately after the class instantiation unless you initialize the :class:`FileWriter` with a :class:`SynchronizedMeasurements`.
+
+    .. note::
+
+        Compared to the :class:`Dump` measurement, the :class:`FileWriter` requires
+        explicit specification of the channels.
+        If you want to store timetags from all input channels, you can query
+        the list of all input channels with :meth:`TimeTagger.getChannelList`.
+
+    |common methods|
+
+    .. method:: split([new_filename=""])
+
+        Close the current file and create a new one. If the `new_filename` is provided,
+        the data writing will continue into the file with the new filename and the sequence counter will be reset to zero.
+
+        You can force the file splitting when you call this method without parameter or when the `new_filename` is an empty string.
+
+        :param str new_filename: filename of the new file.
+
+
+    .. method:: setMaxFileSize(max_file_size)
+
+        Set the maximum file size on disk. When this size is exceeded a new file
+        will be automatically created to continue recording.
+        The actual file size might be larger by one block. (default: ~1 GByte)
+
+
+    .. method:: getMaxFileSize()
+
+        :returns: The maximal file size. See also :meth:`FileWriter.setMaxFileSize`.
+        :rtype: int
+
+
+    .. method:: getTotalEvents()
+
+        :returns: The total number of events written into the file(s).
+        :rtype: int
+
+    .. method:: getTotalSize()
+
+        :returns: The total number of bytes written into the file(s).
+        :rtype: int
+
+
+..  Uncomment when usable marker reading is implemented in the FileReader
+
+        .. setMarker(marker_string)
+
+            :param str marker_string: An arbitrary marker string to write at the current location in the file.
+
+            Writes a comment into the file. While reading the file, the last marker can be extracted.
+
+
+.. _api-FileReader:
+
+FileReader
+^^^^^^^^^^
+
+This class allows you to read data files store with :class:`FileReader`. The :class:`FileReader` reads a data block of the specified size into a :class:`TimeTagStreamBuffer` object and returns this object. The returned data object is exactly the same as returned by the :class:`TimeTagStream` measurement and allows you to create a custom data processing algorithms that will work both, for reading from a file and for the on-the-fly processing.
+
+The :class:`FileReader` will automatically recognize if the files were split and read them too one by one.
+
+Example:
+
+.. code-block::
+
+    # Lets assume we have following files created with the FileWriter
+    #  measurement.ttbin     # sequence header file with no data blocks
+    #  measurement.1.ttbin   # the first file with data blocks
+    #  measurement.2.ttbin
+    #  measurement.3.ttbin
+    #  measurement.4.ttbin
+    #  another_meas.ttbin
+    #  another_meas.1.ttbin
+
+    # Read all files in the sequence 'measurement'
+    fr = FileReader("measurement.ttbin")
+
+    # Read only the first data file
+    fr = FileReader("measurement.1.ttbin")
+
+    # Read only the first two files
+    fr = FileReader(["measurement.1.ttbin", "measurement.2.ttbin"])
+
+    # Read the sequence 'measurement' and then the sequence 'another_meas'
+    fr = FileReader(["measurement.ttbin", "another_meas.ttbin"])
+
+
+See also: :ref:`api-FileWriter`, :ref:`time-tagger-virtual`, and :func:`mergeStreamFiles`.
+
+.. class:: FileReader(filenames)
+
+    This is the class constructor. The :class:`FileReader` automatically continues to read files that were split by the :class:`FileWriter`.
+
+    :param list[str] filenames: filename(s) of the files to read.
+
+    .. method:: getData(size_t n_events)
+
+        Reads the next `n_events` and returns the buffer object with the specified number of timetags.
+        The FileReader stores the current location in the data file and guarantees that every timetag is returned once.
+        If less than `n_elements` are returned, the reader has reached the end
+        of the last file in the file-list `filenames`. To check if more data is available for reading, it is more convenient to use :meth:`hasData`.
+
+        :param int n_events: Number of timetags to read from the file.
+        :returns: A buffer of size `n_events`.
+        :rtype: TimeTagStreamBuffer
+
+
+    .. method:: hasData()
+
+        :returns: `True` if more data is available for reading, `False` if all data has been read from all the files specified in the class constructor.
+        :rtype: bool
+
+
+    .. method:: getConfiguration()
+
+        :returns: A JSON formatted string (dictionary in Python) that contains the Time Tagger configuration at the time of file creation.
+        :rtype: str or dict
+
+
+    .. method:: getChannelList()
+
+        :returns: all channels available within the input file
+        :rtype: list[int]
+
+..  Uncomment when usable marker reading is implemented in the FileReader
+
+    .. method:: getLastMarker()
+
+        Returns a last read marker string.
+
+
+Dump
+^^^^
+
+.. deprecated:: 2.6.0 please use :class:`FileWriter` instead.
+
+.. warning::
+    The files created with this class are not readable by  
+    :class:`TimeTaggerVirtual` and :class:`FileReader`.
+
+Writes the timetag stream into a file in a simple uncompressed binary format that store timetags as 128bit records, see :ref:`time-tag-format`.
+
+Please visit the programming examples provided in the installation folder of how to dump and load data.
+
+.. class:: Dump(tagger, filename, max_tags, channels)
+
+    :param TimeTaggerBase tagger: time tagger object instance
+    :param str filename: name of the file to dump to
+    :param int max_tags: stop after this number of tags has been dumped. Negative values will dump forever
+    :param list[int] channels: list of real or virtual channels which are dumped to the file (when empty or not passed all active channels are dumped)
+
+    .. method:: clear()
+
+        Delete current data in the file and restart data storage.
+
+    .. method:: stop()
+
+        Stops data recording and closes data file.
+
+
+Scope
+^^^^^
+
+.. image:: ../figuresPyLab/output/Scope.*
+
+The :class:`Scope` class allows to visualize time tags for rising and falling edges in a time trace diagram similarly to an ultrafast logic analyzer. The trace recording is synchronized to a trigger signal which can be any physical or virtual channel. However, only physical channels can be specified to the `event_channels` parameter. Additionally, one has to specify the time `window_size` which is the timetrace duration to be recorded, the number of traces to be recorded and the maximum number of events to be detected. If ``n_traces < 1`` then retriggering will occur infinitely, which is similar to the "normal" mode of an oscilloscope.
+
+.. note::
+    Scope class implicitly enables the detection of positive and negative edges for every physical channel specified in `event_channels`. This accordingly doubles the data rate requirement per input.
+
+.. class:: Scope(tagger, event_channels=[], trigger_channel, window_size, n_traces, n_max_events)
+
+    :param TimeTagger tagger: TimeTagger object
+    :param list[int] event_channels: List of channels
+    :param int trigger_channel: Channel number of the trigger signal
+    :param int window_size: Time window in picoseconds
+    :param int n_traces: Number of trigger events to be detected
+    :param int n_max_events: Max number of events to be detected
+
+    |common methods|
+
+    .. method:: getData()
+
+        Returns a tuple of the size equal to the number of `event_channels` multiplied by `n_traces`, where each element is a tuple of :class:`Event`.
+
+        :returns: Event list for each trace.
+        :rtype: tuple[tuple[Event]]
+
+    .. method:: ready()
+
+        :returns: Returns whether the acquisition is complete which means that all traces (`n_traces`) are acquired.
+        :rtype: bool
+
+    .. method:: triggered()
+
+        :returns: Returns number of trigger events have been captured so far.
+        :rtype: int
+
+.. class:: Event
+
+    Pair of the timestamp and the new state.
+
+    .. attribute:: time
+
+        :type: int
+
+    .. attribute:: state
+
+        :type: State
+
+
+.. class:: State
+
+    Current input state. Can be unknown because no edge has been detected on the given channel after initialization or an overflow.
+
+    .. attribute:: UNKNOWN
+
+    .. attribute:: HIGH
+
+    .. attribute:: LOW
+
+
+Sampler
+^^^^^^^
+
+.. image:: ../figuresPyLab/output/Sampler.*
+
+The :class:`Sampler` class allows sampling the state of a set of channels via a trigger channel.
+
+For every event on the trigger input, the current state (low: 0, high: 1, unknown: 2)
+will be written to an internal buffer. Fetching the data of the internal buffer will clear
+its internal buffer, so every event will be returned only once.
+
+Time Tagger detects pulse edges and therefore a channel will be in the unknown state until an edge detection event was received on that channel from the start of
+the measurement or after an overflow.
+The internal processing assumes that no event could be received within the channel's deadtime otherwise invalid data will be reported until the next event on this input channel.
+
+The maximum number of channels is limited to 63 for one :class:`Sampler` instance.
+
+.. class:: Sampler(tagger, trigger, channels, max_trigger)
+
+    :param TimeTagger tagger: TimeTagger object
+    :param int trigger: Channel number of the trigger signal
+    :param list[int] channels: List of channels to be sampled
+    :param int max_trigger: The number of triggers and their respective sampled data, which is stored within the measurement class.
+
+    |common methods|
+
+    .. method:: getData()
+
+        Returns and removes the stored data as a 2D array (n_triggers x (1+n_channels)):
+
+        .. code:: python
+
+            [
+                [timestamp of first trigger,  state of channel 0, state of channel 1, ...],
+                [timestamp of second trigger, state of channel 0, state of channel 1, ...],
+                ...
+            ]
+
+        Where state means:
+
+        .. code:: python
+
+            0: low
+            1: high
+            2: undefined (after overflow)
+
+        :returns: sampled data
+        :rtype: 2D_array[int]
+
+    .. method:: getDataAsMask()
+
+        Returns and removes the stored data as a 2D array (n_triggers x 2):
+
+        .. code:: python
+
+            [
+                [timestamp of first trigger,  (state of channel 0) << 0 | (state of channel 1) << 1 | ... | any_undefined << 63],
+                [timestamp of second trigger, (state of channel 0) << 0 | (state of channel 1) << 1 | ... | any_undefined << 63],
+                ...
+            ]
+
+        Where state means:
+
+        .. code:: python
+
+            0: low or undefined (after overflow)
+            1: high
+
+        If the highest bit (data[63]) is marked, one of the channels has been in an undefined state.
+
+        :returns: sampled data
+        :rtype: 2D_array[int]
+
+
+Helper classes
+--------------
+
+
+SynchronizedMeasurements
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The `SynchronizedMeasurements` class allows for synchronizing multiple measurement classes in a way that ensures all these measurements to start, stop simultaneously and operate on exactly the same time tags.
+You can pass a Time Tagger proxy-object returned by :meth:`SynchronizedMeasurements.getTagger` to every measurement you create. This will simultaneously disable their autostart and register for synchronization.
+
+.. class:: SynchronizedMeasurements(tagger)
+
+    :param TimeTaggerBase tagger: TimeTagger object
+
+    .. method:: registerMeasurement(measurement)
+
+        Registers the `measurement` object into a pool of the synchronized measurements.
+
+        .. note::
+            Registration of the measurement classes with this method does not synchronize them. In order to start/stop/clear these measurements synchronously, call these functions on the :class:`SynchronizedMeasurements` object after registering the measurement objects, which should be synchronized.
+
+        :param measurement: Any measurement (:class:`IteratorBase`) object.
+
+    .. method:: unregisterMeasurement(measurement)
+
+        Unregisters the `measurement` object out of the pool of the synchronized measurements.
+
+        .. note::
+            This method does nothing if the provided measurement is not currently registered.
+
+        :param measurement: Any measurement (:class:`IteratorBase`) object.
+
+    .. method:: start()
+
+        Calls :meth:`~IteratorBase.start` for every registered measurement in a synchronized way.
+
+
+    .. method:: startFor(duration[, clear=True])
+
+        Calls :meth:`~IteratorBase.startFor` for every registered measurement in a synchronized way.
+
+
+    .. method:: stop()
+
+        Calls :meth:`~IteratorBase.stop` for every registered measurement in a synchronized way.
+
+
+    .. method:: clear()
+
+        Calls :meth:`clear` for every registered measurement in a synchronized way.
+
+
+    .. method:: isRunning()
+
+        Calls :meth:`~IteratorBase.isRunning` for every registered measurement and returns true if any measurement is running.
+
+
+    .. method:: getTagger()
+
+        Returns a proxy tagger object which can be passed to the constructor of a measurement class to register the measurements at initialization to the synchronized measurement object. Those measurements will not start automatically.
+
+        .. note::
+                The proxy tagger object returned by :meth:`getTagger` is not identical with the :class:`TimeTagger` object created by :meth:`createTimeTagger()`. You can create synchronized measurements with the proxy object the following way:
+
+                .. code:: python
+
+                    tagger = TimeTagger.createTimeTagger()
+                    syncMeas = TimeTagger.SynchronizedMeasurements(tagger)
+                    taggerSync = syncMeas.getTagger()
+                    counter = TimeTagger.Counter(taggerSync, [1, 2])
+                    countrate = TimeTagger.Countrate(taggerSync, [3, 4])
+
+                Passing `tagger` as a constructor parameter would lead to the not synchronized behavior.
+
+
+.. _api.CustomMeasurements:
+
+Custom Measurements
+-------------------
+
+The class :class:`CustomMeasurement` allows you to access the raw time tag stream with very little overhead.
+By inheriting from :class:`CustomMeasurement`, you can implement your fully customized measurement class. The :meth:`CustomMeasurement.process` method of this class
+will be invoked as soon as new data is available.
+
+.. note:: This functionality is only available for C++, C# and Python.
+    You can find examples of how to use the :class:`CustomMeasurement` in your examples folder.
+
+
+.. class:: CustomMeasurement(tagger)
+
+    :param TimeTaggerBase tagger: TimeTagger object
+
+    The constructor of the :class:`CustomMeasurement` class itself takes only the parameter `tagger`. When you sub-class your own measurement,
+    you can add to your constructor any parameters that are necessary for your measurement. You can find detailed examples in your example folder.
+
+    |common methods|
+
+    .. method:: process(incoming_tags, begin_time, end_time)
+
+        :param incoming_tags: Tag[][struct{type, missed_events, channel, time}], the chunk of time-tags to be processed in this call of
+            :meth:`process`. This is an external reference that is shared with other measurements and might be overwritten for the next
+            call. So if you need to store tags, create a copy.
+
+        :param int begin_time: The begin time of the data chunk.
+
+        :param int end_time: The end time of the data chunk
+
+        Override the :meth:`process` method to include your data processing.
+        The method will be called by the Time Tagger backend when a new chunk of time-tags is available.
+        You are free to execute any code you like, but be aware that this
+        is the critical part when it comes to performance. In Python, it is advisable to use
+        :func:`numpy.array` for calculation or even pre-compiled code with
+        `Numba <https://numba.pydata.org/>`_ if an explicit iteration of the tags is necessary. Check the examples in your examples folder
+        carefully on how to design the :meth:`process` method.
+
+
+        .. note::
+            In Python, the `incoming_tags` are a :ref:`structured Numpy array <numpy:structured_arrays>`.
+            You can access single tags as well as arrays of tag entries directly:
+
+            .. code:: python
+
+                first_tag = incoming_tags[0]
+                all_timestamps = incoming_tags['time']
+
+    .. attribute:: mutex
+
+        Context manager object (see :ref:`python:typecontextmanager`) that locks the mutex when used and automatically unlocks it when the code block exits.
+        For example, it is intended for use with Python's :ref:`"with" keyword <python:with>` as
+
+        .. code-block:: python
+
+            class MyMeasurement(CustomMeasurement):
+
+                def getData(self):
+                    # Acquire a lock for this instance to guarantee that 
+                    # self.data is not modified in other parallel threads.
+                    # This ensures to return a consistent data.
+                    with self.mutex:
+                        return self.data.copy()
+                            
+

@@ -1,0 +1,1030 @@
+==================
+TimeTagger classes
+==================
+
+The Time Tagger classes represent the different time-tag sources for your measurements and analysis.
+These objects are created by factory functions in the :ref:`Time Tagger library <time-tagger-library-functions>`:
+
+    Time Tagger hardware
+        The :class:`TimeTagger` represents a hardware device and allows access to hardware settings.
+        To connect to a hardware Time Tagger and to get a :class:`TimeTagger` object, use :meth:`createTimeTagger`.
+    Virtual Time Tagger
+        The :class:`TimeTaggerVirtual` allows replaying files created with the :class:`FileWriter`.
+        To create a :class:`TimeTaggerVirtual` object, use :meth:`createTimeTaggerVirtual`.
+    Network Time Tagger
+        The :class:`TimeTaggerNetwork` allows the (remote) access to a Time Tagger made available via :meth:`TimeTagger.startServer`.
+        The :class:`TimeTaggerNetwork` object is created with :meth:`createTimeTaggerNetwork` which also establishes connection to the server.
+
+
+General Time Tagger features
+----------------------------
+
+The :class:`TimeTaggerBase` class defines methods and functionality present in all Time Tagger objects.
+The specific classes below inherit from :class:`TimeTaggerBase`.
+Every :doc:`measurement <Measurements>` and :doc:`virtual channel <VirtualChannels>` instance
+requires a reference to a :class:`TimeTaggerBase` object to associate with.
+
+.. class:: TimeTaggerBase
+
+    .. method:: setInputDelay(channel, delay)
+
+        Convenience method that calls :meth:`~TimeTaggerBase.setDelaySoftware` if you use a Time Tagger 20 or the delay is > 2 µs, otherwise :meth:`~TimeTaggerBase.setDelayHardware` is called.
+
+        :param int channel: Channel number
+        :param int delay: Delay time in picoseconds
+
+
+    .. method:: getInputDelay(channel)
+
+        Convenience method that returns the sum of :meth:`~TimeTaggerBase.getDelaySoftware` and :meth:`~TimeTaggerBase.getDelayHardware`.
+
+        :param int channel: Channel number
+        :returns: Delay time in picoseconds
+        :rtype: int
+
+
+    .. method:: setDelayHardware(channel, delay)
+
+        .. note:: Method is not available for the Time Tagger 20.
+
+        Set an artificial delay per `channel`. The delay can be positive or negative. This delay is applied onboard the Time Tagger directly after the time-to-digital conversion, so it also affects the :doc:`Conditional Filter</InDepthGuides/ConditionalFilter>`. If you exceed the maximum hardware delay range, please use :meth:`~setDelaySoftware` instead.
+
+        :param int channel: Channel number
+        :param int delay: Delay time in picoseconds, the maximum/minimum value allowed is ±2000000 (±2 µs)
+
+
+    .. method:: getDelayHardware(channel)
+
+        .. note:: Method is not available for the Time Tagger 20.
+
+        Returns the value of the delay applied onboard the Time Tagger in picoseconds for the specified `channel`.
+
+        :param int channel: Channel number
+        :returns: Delay time in picoseconds
+        :rtype: int
+
+    .. method:: setDelaySoftware(channel, delay)
+
+        Set an artificial delay per `channel`. The delay can be positive or negative. This delay is applied on the computer, so it does not affect onboard processes such as the Conditional Filter.
+
+        :param int channel: Channel number
+        :param int delay: Delay time in picoseconds
+
+
+    .. method:: getDelaySoftware(channel)
+
+        Returns the value of the delay applied on the computer in picoseconds for the specified `channel`.
+
+        :param int channel: Channel number
+        :returns: Delay time in picoseconds
+        :rtype: int
+
+
+    .. method:: setDeadtime(channel, deadtime)
+
+        Sets the dead time of a channel in picoseconds. The requested time will be rounded to the nearest multiple of the internal clock period, which is |tt20-deadtime| for the Time Tagger 20, |ttu-deadtime| for the Time Tagger Ultra and |ttx-deadtime| for the Time Tagger X. The minimum dead time is one clock cycle. As the deadtime passed as an input will be altered to the rounded value, the rounded value will be returned. The maximum dead time 65535 * internal clock period, which is 393.210 µs for the Time Tagger 20, 131.070 µs for the Time Tagger Ultra and 87.380 µs for the Time Tagger X.
+
+        .. note:: The specified deadtime is 2.1 ns for Time Tagger Ultra and 1.5 ns for Time Tagger X. With the default setting of the hardware deadtime filter, an event arriving between the default hardware deadtime and the specified deadtime after the last event of that channel might be dropped (e.g., an event arriving between 2 ns and 2.1 ns after the last event on that channel for Time Tagger Ultra).
+
+        :param int channel: Channel number
+        :param int deadtime: Deadtime value in picoseconds
+        :returns: Deadtime in picoseconds rounded to the nearest valid value (multiple of the clock period not exceeding maximum dead time).
+        :rtype: int
+
+
+    .. method:: getDeadtime(channel)
+
+        Returns the dead time value for the specified `channel`.
+
+        :param int channel: Physical channel number
+        :returns: Deadtime value in picoseconds
+        :rtype: int
+
+
+    .. method:: getOverflows()
+
+        Returns the number of overflows (missing blocks of time tags due to limited USB data rate) that occurred since start-up or last call to :meth:`clearOverflows`.
+
+        :returns: Number of overflows
+        :rtype: int
+
+
+    .. method:: getOverflowsAndClear()
+
+        Returns the number of overflows that occurred since start-up and sets them to zero (see, :meth:`clearOverflows`).
+
+        :returns: Number of overflows
+        :rtype: int
+
+
+    .. method:: clearOverflows()
+
+        Set the overflow counter to zero.
+
+    .. method:: setSoftwareClock(input_channel: int, input_frequency: float, averaging_periods: float = 1000, wait_until_locked: bool = True)
+
+        Define in software one of the input channels as the base clock for all channels.
+        This feature sets up a software PLL and rescales all incoming time-tags according to the software clock defined.
+        The PLL provides a new time base with "ideal clock tags" separated by exactly the defined `clock_period`.
+        For measurements, you can use both, rescaled and ideal clock tags.
+
+        While the PLL is not locked, the time base of the instrument is invalid.
+        In this case, the time-tag stream changes to the overflow mode.
+        This means that after every call to :meth:`setSoftwareClock`, you will find overflows because the PLL starts from an unlocked state.
+
+        .. caution::
+
+            It is often useful to apply this feature in combination with :meth:`TimeTagger.setEventDivider` on the `input_channel`.
+            The values of `input_frequency` and `averaging_periods` correspond to the transferred time-tags, not to the physical frequency.
+            Changing the `divider` independently after setting up the software clock may lead to a failure of the locking process.
+            Do not add `input_channel` to the list of `filtered` channels in :meth:`TimeTagger.setConditionalFilter`.
+
+            For the Time Tagger 20, a phase error of 200 ps needs to be considered when using the software clock.
+
+        :param int input_channel: The physical channel that is used as software clock input.
+
+        :param float input_frequency: The frequency of the software clock after application of :meth:`TimeTagger.setEventDivider` (e.g. a 10 MHz clock signal with `divider = 20` has `input_frequency = 500 000`).
+            The value should not deviate from the real frequency by more than a few percent.
+            Default: 10E6, for 10 MHz.
+
+        :param float averaging_periods: The number of cycles to average over.
+            The suppression of discretization noise is improved by a higher `averaging_periods`.
+            If the value is too large, however, this will result in increased phase jitter due to the drift of the internal clock or the applied software clock signal.
+            Default: 1000.
+
+        :param bool wait_until_locked: Blocks the execution until the software clock is locked.
+            Throws an exception on locking errors. All locking log messages are filtered while this call is executed.
+            Default: True
+
+    .. method:: disableSoftwareClock()
+
+        Disable the software clock.
+
+    .. method:: getSoftwareClockState()
+
+        Provides an object representing the current software clock state.
+        This includes the configuration parameters as well as dynamic values generated based on the incoming signal.
+
+        :returns: An object that contains the current state of the software clock.
+        :rtype: SoftwareClockState
+
+    .. method:: getFence(alloc_fence: bool = True)
+
+        Generate a new fence object, which validates the current configuration and the current time.
+        This fence is uploaded to the earliest pipeline stage of the Time Tagger.
+        Waiting on this fence ensures that all hardware settings, such as trigger levels, channel
+        registrations, etc., have propagated to the FPGA and are physically active. Synchronizes
+        the Time Tagger internal memory so that all tags arriving after the :meth:`waitForFence` call were
+        actually produced after the :meth:`getFence` call. The :meth:`waitForFence` function waits until all tags,
+        which are present at the time of the function call within the internal memory of the Time
+        Tagger, are processed.
+        This call might block to limit the number of active fences.
+
+        :param bool alloc_fence: optional, default: True. If False, a reference to the most recently created fence will be returned instead
+        :returns: The allocated fence
+        :rtype: int
+
+
+    .. method:: waitForFence(fence, timeout: int = -1)
+
+        Wait for a fence in the data stream. See :meth:`getFence` for more details.
+
+        :param int fence: fence object, which shall be waited on
+        :param int timeout: (optional) Timeout in milliseconds. Negative means no timeout, zero returns immediately. Default: -1.
+        :returns: True if the fence has passed, false on timeout
+        :rtype: bool
+
+
+    .. method:: sync(timeout: int = -1)
+
+        Ensure that all hardware settings, such as trigger levels, channel registrations, etc., have propagated to the FPGA and are physically active. Synchronizes the Time Tagger internal memory, so that all tags arriving after a sync call were actually produced after the sync call. The sync function waits until all tags, which are present at the time of the function call within the internal memory of the Time Tagger, are processed.
+        It is equivalent to :code:`waitForFence(getFence())`.
+
+        The operation of this method on the :class:`TimeTaggerNetwork` depends on the server access mode. 
+        If the :class:`TimeTaggerNetwork` is connected to the Time Tagger server started in :attr:`AccessMode.Control`, the synchronization will be done all way through the server and the hardware.
+        If the Time Tagger server started in :attr:`AccessMode.Listen`, the client will be able to synchronize only with the server but will not synchronize with the Time Tagger Hardware. However, if a USB synchronization fence was created by the server side, the clients will also see it.
+
+        .. seealso::
+            
+            * :meth:`~TimeTaggerBase.getFence`, :meth:`~TimeTaggerBase.waitForFence`, :meth:`~TimeTagger.startServer`, :class:`AccessMode`
+            * :doc:`/InDepthGuides/PipelineSynchronization`
+
+        :param int timeout: (optional) Timeout in milliseconds. Negative means no timeout, zero returns immediately. Default: -1.
+        :returns: True if the synchronization was successful, false on timeout
+        :rtype: bool
+
+
+    .. method:: getInvertedChannel(channel)
+
+        Returns the channel number for the inverted edge of the channel passed in via the channel parameter. In case the given channel has no inverted channel, :const:`CHANNEL_UNUSED` is returned.
+
+        :param int channel: Channel number
+        :returns: Channel number
+        :rtype: int
+
+
+    .. method:: isUnusedChannel(channel)
+
+        Returns true if the passed channel number is :const:`CHANNEL_UNUSED`.
+
+        :param int channel: Channel number
+        :returns: True/False
+        :rtype: bool
+
+
+    .. method:: getConfiguration()
+
+        Returns a JSON formatted string (dictionary in Python) containing complete information on the Time Tagger settings. It also includes descriptions of measurements and virtual channels created on this Time Tagger instance.
+
+        :returns: Time Tagger settings and currently existing measurements.
+        :rtype: str or dict
+
+
+Time Tagger hardware
+--------------------
+
+.. class:: TimeTagger
+
+    Base class: :class:`TimeTaggerBase`
+
+    This class provides access to the hardware and exposes methods to control hardware settings,
+    such as trigger levels or even filters.
+    Behind the scenes, it opens the USB connection, initializes the device and receives and manages the time-tag-stream.
+
+    .. method:: reset()
+
+        Reset the Time Tagger to the start-up state.
+
+
+    .. method:: setTriggerLevel(channel, voltage)
+
+        Set the trigger level of an input channel in Volts.
+
+        :param int channel: Physical channel number
+        :param float voltage: Trigger level in Volts
+
+
+    .. method:: getTriggerLevel(channel)
+
+        Returns trigger level for the specified physical channel number.
+
+        :param int channel: Physical channel number
+        :returns: The applied trigger voltage level, which might differ from the input parameter due to the DAC discretization.
+        :rtype: float
+
+
+    .. method:: getHardwareDelayCompensation(channel)
+
+        Get the hardware input delay compensation for the given `channel` in picoseconds.
+
+        This compensation can be understood as an implicit part of :meth:`~TimeTaggerBase.setDelayHardware` and :meth:`~TimeTaggerBase.setDelaySoftware`.
+        If your device is able to set an arbitrary delay onboard, this applies to the hardware delay compensation as well.
+
+        :param int channel: Channel number
+        :returns: Hardware delay compensation in picoseconds
+        :rtype: int
+
+
+    .. method:: setConditionalFilter(trigger, filtered, hardwareDelayCompensation = True)
+
+        Activates or deactivates the event filter. Time tags on the filtered channels are discarded unless they were preceded by a time tag on one of the trigger channels, which reduces the data rate. More details can be found in the :doc:`In-Depth Guide: Conditional Filter </InDepthGuides/ConditionalFilter>`.
+
+        :param list[int] trigger: List of channel numbers
+        :param list[int] filtered: List of channel numbers
+        :param bool hardwareDelayCompensation: optional, default: True. If set to False, the physical hardware delay will not be compensated. This is only relevant for devices without :meth:`~TimeTaggerBase.setDelayHardware`, do not set this value to False if your device is capable of onboard delay compensation. Without onboard delay compensation, setting the value to False guarantees that the trigger tag of the conditional filter is always in before the triggered tag when the InputDelays are set to 0.
+
+
+    .. method:: clearConditionalFilter()
+
+        Deactivates the event filter. Equivalent to :code:`setConditionalFilter([], [], True)`. Enables the physical hardware delay compensation again if it was deactivated by :meth:`setConditionalFilter`.
+
+
+    .. method:: getConditionalFilterTrigger()
+
+        Returns the collection of trigger channels for the conditional filter.
+
+        :returns: List of channel numbers
+        :rtype: list[int]
+
+
+    .. method:: getConditionalFilterFiltered()
+
+        Returns the collection of channels to which the conditional filter is currently applied.
+
+        :returns: List of channel numbers
+        :rtype: list[int]
+
+
+    .. method:: setEventDivider(channel, divider)
+
+        .. image:: ../figuresPyLab/output/EventDivider.*
+
+        Applies an event divider filter with the specified factor to a channel, which reduces the data rate. 
+        Only every n-th event from the input stream passes through the filter, as shown in the image.
+        The divider is a 16 bit integer, so the maximum value is 65535.
+        
+        Note that if the conditional filter is also active, the conditional filter is applied first.
+
+        :param int channel: Physical channel number
+        :param int divider: Divider factor, min. 1 and max. 65535
+
+
+    .. method:: getEventDivider(channel)
+
+        Gets the event divider filter factor for the given `channel`.
+
+        :param int channel: Channel number
+        :returns: Divider factor value
+        :rtype: int
+
+
+    .. method:: setInputImpedanceHigh(channel, state)
+
+        .. note:: Method is only available for the Time Tagger X.
+        
+        Sets the input impedance to high-Z for the specified `channel`. By default the input impedance is 50 Ohm.
+
+        :param int channel: Channel number
+        :param bool state: True/False
+
+
+    .. method:: getInputImpedanceHigh(channel)
+
+        .. note:: Method is only available for the Time Tagger X.
+        
+        Returns whether the input impedance is set to high-Z for the specified `channel`.
+
+        :param int channel: Channel number
+        :returns: state of high input impedance
+        :rtype: bool
+
+
+    .. method:: setInputHysteresis(channel, value)
+        
+        .. note:: Method is only available for the Time Tagger X.
+
+        Sets the input hysteresis value for the specified `channel`. 
+        Oscillations of the measured signal within the hysteresis range around the trigger value are ignored and therefore do not
+        trigger new events. Supported values are 1 mV, 20 mV, 70 mV. Default input hysteresis value is 1 mV.
+
+        :param int channel: Channel number
+        :param int value:  hysteresis voltage value in mV (1, 20, 70)
+
+
+    .. method:: getInputHysteresis(channel)
+
+        .. note:: Method is only available for the Time Tagger X.
+
+        Returns the voltage value in mV of the input hysteresis for the specified `channel`.
+
+        :param int channel: Channel number
+        :returns: hysteresis voltage value in mV
+        :rtype: int 
+
+    .. method:: setNormalization(channels, state)
+
+        Enables or disables Gaussian normalization of the detection jitter. Enabled by default.
+
+        :param list[int] channels: List of physical channel numbers
+        :param bool state: True/False
+
+
+    .. method:: getNormalization(channel)
+
+        Returns True if Gaussian normalization is enabled.
+
+        :returns: True/False
+        :rtype: bool
+
+
+    .. method:: setTestSignal(channels, state)
+
+        Connect or disconnect the channels with the on-chip uncorrelated signal generator.
+
+        :param list[int] channels: List of physical channel numbers
+        :param bool state: True/False
+
+
+    .. method:: getTestSignal(channel)
+
+        Returns true if the internal test signal is activated on the specified `channel`.
+
+        :param int channel: Physical channel number
+        :returns: True/False
+        :rtype: bool
+
+
+    .. method:: getSerial()
+
+        Returns the hardware serial number.
+
+        :returns: Serial number string
+        :rtype: str
+
+
+    .. method:: getModel()
+
+        :returns: Model name as string
+        :rtype: str
+
+
+    .. method:: getPcbVersion()
+
+        Returns Time Tagger :abbr:`PCB (Printed circuit board)` version.
+
+        :returns: PCB version
+        :rtype: str
+
+
+    .. method:: getDACRange()
+
+        Return a vector containing the minimum and the maximum :abbr:`DAC (Digital-to-Analog Converter)` voltage range for the trigger level.
+
+        :returns: Min and max voltage in Volt
+        :rtype: (float, float)
+
+
+    .. These methods are not exposed since 2019.
+
+        .. method:: registerChannel(channel)
+
+            Enable transmission of time tags on the specified channel.
+
+            :param int channel: Channel number
+
+
+        .. method:: unregisterChannel(channel)
+
+            Disable transmission of time tags on the specified channel.
+
+            :param int channel: Channel number
+
+
+    .. method:: getChannelList(type=ChannelEdge.All)
+
+        Returns a list of channels corresponding to the given `type`.
+
+        :param ChannelEdge type: Limits the returned channels to the specified channel edge type
+        :returns: List of channel numbers
+        :rtype: list[int]
+
+
+    .. method:: setHardwareBufferSize(size)
+
+        Sets the maximum buffer size within the Time Tagger. The default value is 64 MTags, but can be changed within the range of 32 kTags to 512 MTags. Please note that this buffer can only be filled with a total data rate of up to 500 MTags/s.
+
+        .. note::
+            Time Tagger 20 uses by default the whole buffer of 8 MTags, which can be filled with a total data rate of up to 40 MTags/s.
+
+        :param int size: Buffer size, must be a positive number
+
+
+    .. method:: autoCalibration()
+
+        Run an auto-calibration of the Time Tagger hardware using the built-in test signal.
+
+        :returns: the list of jitter of each input channel in picoseconds based on the calibration data.
+        :rtype: list[float]
+
+
+    .. method:: getDistributionCount()
+
+        Returns the calibration data represented in counts.
+
+        :returns: Distribution data
+        :rtype: 2D_array[int]
+
+
+    .. method:: getDistributionPSec()
+
+        Returns the calibration data in picoseconds.
+
+        :returns: Calibration data
+        :rtype: 2D_array[int]
+
+
+    .. method:: getPsPerClock()
+
+        Returns the duration of a clock cycle in picoseconds. This is the inverse of the internal clock frequency.
+
+        :returns: Clock period in picoseconds
+        :rtype: int
+
+
+    .. method:: setStreamBlockSize(max_events=131072, max_latency=20)
+
+        This option controls the latency and the block size of the data stream.
+        Depending on which of the two parameters is exceeded first, the block stream size is adjusted accordingly.
+
+        .. note::
+
+            The block size will be reduced even further when no new tag arrives within roughly 1-2 µs.
+
+        :param int max_events: maximum number of events within one block (256 - 32M), default: 131072 events
+        :param int max_latency: maximum latency in milliseconds for constant input rates (1 to 10000), default: 20 ms.
+
+    
+    .. method:: setTimeTaggerNetworkStreamCompression(active)
+
+        Enables/disables the compression of TimeTags before they are streamed from the server to the clients.
+        Activation can be helpful for slow network environments (<= 100 MBit/s) if the bandwidth is the limiting factor.
+        For instance, the amount of streamed data of periodic signals is reduced by about a factor of 2. The compression, on the other hand, 
+        leads to increased CPU utilization and is not advantageous for fast networks (>= 1 GBit/s).
+
+        :param bool active: flag defining whether the compression is enabled (default: False).
+
+
+    .. method:: setTestSignalDivider(divider)
+
+        Change the frequency of the on-chip test signal.
+
+        For the Time Tagger X, the base frequency is 333 MHz and the default divider 375 corresponds to ~890 kCounts/s.
+
+        For the Time Tagger Ultra, the base frequency is 50 MHz and the default divider 63 corresponds to ~800 kCounts/s.
+
+        For the Time Tagger 20, the base frequency is 62.5 MHz and the default divider 74 corresponds to ~850 kCounts/s.
+
+        :param int divider: Division factor
+
+
+    .. method:: getTestSignalDivider()
+
+        Returns the value of test signal division factor.
+
+
+    .. method:: getDeviceLicense()
+
+        Returns a JSON formatted string (dict in Python) containing license information of the Time Tagger device, for instance, model, edition, and available channels.
+
+        :returns: License information
+        :rtype: dict
+
+    .. method:: getSensorData()
+
+        Prints a JSON formatted string (dict in Python) containing all available sensor data for the given board. The Time Tagger 20 has no onboard sensors.
+
+        :returns: Sensor data
+        :rtype: dict
+
+
+    .. method:: disableLEDs(state)
+        
+        Disables all channel LEDs and back LEDs. The disabling of the power button LED will follow in the upcoming release.
+
+        :param bool state: True/False
+
+    
+    .. method:: setLED(bitmask)
+
+        Manually change the state of the Time Tagger LEDs. The power LED of the Time Tagger 20 cannot be programmed by software.
+
+        Example:
+
+        .. code:: python
+
+            # Turn off all LEDs
+            tagger.setLED(0x01FF0000)
+
+            # Restore normal LEDs operation
+            tagger.setLED(0)
+
+
+        | 0 -> LED off
+        | 1 -> LED on
+        | **illumination bits**
+        | 0-2: status, rgb - all Time Tagger models
+        | 3-5: power, rgb - Time Tagger Ultra only
+        | 6-8: clock, rgb - Time Tagger Ultra only
+
+
+        | 0 -> normal LED behavior, not overwritten by setLED
+        | 1 -> LED state is overwritten by the corresponding bit of 0-8
+        | **mask bits**
+        | 16-18: status, rgb - all Time Tagger models
+        | 19-21: power, rgb - Time Tagger Ultra only
+        | 22-24: clock, rgb - Time Tagger Ultra only
+
+
+        :param int bitmask: LED bitmask.
+
+    .. method:: setSoundFrequency(freq_hz)
+
+        Set the Time Tagger's internal buzzer to a frequency in Hz.
+
+        :param int freq_hz: The sound frequency in Hz, use 0 to switch the buzzer off.
+
+    .. method:: enableFpgaLink(channels, destination_mac, interface = FpgaLinkInterface::SFPP_10GE)
+
+        Enable the FPGA link of the Time Tagger X
+
+        :param list[int] channels: List of channels, which shall be streamed over the FPGA link
+        :param str destination_mac: Destination MAC, use an empty string for the broadcast address of "FF:FF:FF:FF:FF:FF"
+        :param FpgaLinkInterface interface: selects which interface shall be used
+
+    .. method:: disableFpgaLink()
+
+        Disable the FPGA link of the Time Tagger X
+
+    .. method:: startServer(access_mode, channels=[], port=41101)
+
+        Start a Time Tagger server that can be accessed via :class:`TimeTaggerNetwork`.
+        The server access mode controls if the clients are allowed to change the hardware parameters. See also: :class:`AccessMode`.
+
+        :param AccessMode access_mode: :class:`AccessMode` in which the server should run. Either control or listen
+        :param list[int] channels: Channels to be streamed. Used only when ``access_mode=AccessMode.Listen``
+        :param int port: Port at which this Time Tagger server will be listening on.
+        :raises RuntimeError: if server is already running.
+
+    
+    .. method:: stopServer()
+
+        Stop the Time Tagger server if currently running, otherwise do nothing.
+
+
+    .. method:: isServerRunning()
+
+        :returns: True is server is running and False otherwise.
+        :rtype: bool
+
+
+    .. note::
+        The following `xtra` methods are mainly for development purposes and may be discontinued 
+        in future software versions without further notice. These methods are only available for the Time Tagger X.
+
+    
+    .. method:: xtra_setAuxOut(channel, state)
+
+        Enables/Disables the Aux Out signal for the specified Aux `channel`.
+
+        :param int channel: Aux channel number
+        :param bool state: True/False
+
+
+    .. method:: xtra_getAuxOut(channel)
+
+        Returns whether the Aux Out signal is enabled for the specified Aux `channel`.
+
+        :returns: State of the Aux Out signal
+        :rtype: bool
+    
+
+    .. method:: xtra_setAuxOutSignal(channel, divider, duty_cylce)
+
+        Sets the signal shape, i.e., duty cycle and frequency, of the Aux out signal for the specified Aux `channel`. 
+
+        :param int channel: Aux channel number
+        :param int divider: Divider of the Aux Out base signal frequency (333 MHz)
+        :param float duty_cycle: The duty cycle of the aux signal
+
+
+    .. method:: xtra_getAuxOutSignalDivider(channel):
+
+        Returns the divider for the frequency of the Aux Out signal generator or the specified Aux `channel`.
+
+        :param int channel: Aux channel number
+        :returns: Divider for the frequency of the Aux Out signal generator
+        :rtype: int
+
+
+    .. method:: xtra_getAuxOutSignalDutyCycle(channel)
+
+        Returns the duty cycle of the Aux Out signal for the specified Aux `channel`.
+
+        :param int channel: Aux channel number
+        :returns: Duty cycle of the Aux Out signal generator
+        :rtype: float
+
+
+    .. method:: xtra_measureTriggerLevel(channel)
+
+        Measures and returns the applied voltage threshold of the specified `channel`.
+
+        :param int channel: Channel number
+        :returns: Applied voltage threshold of a channel
+        :rtype: float
+
+
+    .. method:: xtra_setClockSource(source)
+
+        Specifies the different clock sources: 0 - internal clock , 1 - external clock 10 Mhz, 2 - external clock 500 MHz.
+
+        :param int source: Number of the clock source. Allowed values: 0, 1, 2
+    
+
+    .. method:: xtra_getClockSource()
+
+        Returns the used clock source: 0 - internal clock , 1 - external clock 10 Mhz, 2 - external clock 500 MHz.
+        
+        :returns: Number of the clock source
+        :rtype: int
+
+    
+    .. method:: xtra_setClockAutoSelect(state)
+
+        Enables/Disables the auto clocking function.
+
+        :param bool state: True/False
+
+
+    .. method:: xtra_getClockAutoSelect()
+
+        Returns whether the auto clocking function is enabled.
+
+        :returns: State of auto clocking
+        :rtype: bool
+
+
+    .. method:: xtra_setClockOut(state)
+
+        Activates/Deactivates the 10 MHz clock output.
+        
+        :param bool state: True/False
+
+
+.. _time-tagger-virtual:
+
+The TimeTaggerVirtual class
+---------------------------
+
+In the Time Tagger software version 2.6.0, we have introduced the new :class:`TimeTaggerVirtual`, which allows
+replaying earlier stored time-tag dump files. Using the virtual Time Tagger, you can repeat your experiment
+data analysis with different parameters or even perform different measurements.
+
+.. note::
+    The virtual Time Tagger requires a free software license, which is automatically acquired from the
+    Swabian Instruments license server when :func:`createTimeTagger` or :func:`createTimeTaggerVirtual` is called while a Time Tagger
+    is attached. Once received, the license is permanently stored on this PC and the Virtual Time Tagger will work 
+    without Time Tagger hardware attached.
+
+.. class:: TimeTaggerVirtual
+
+    Base class: :class:`TimeTaggerBase`
+
+
+    .. method:: replay(file, begin=0, duration=-1, queue=True)
+
+        Replay a dump file specified by its path `file` or add it to the replay queue.
+        If the flag `queue` is false, the current queue will be discarded and file will be replayed immediately.
+
+        The `file` parameter can specify a header file or single specific file as shown in the following example.
+
+        .. code-block::
+
+            # Assume we have following the files in the current directory:
+            #   filename.ttbin
+            #   filename.1.ttbin
+            #   filename.2.ttbin
+
+            # Replay all files named "filename.NN.ttbin" sequentially
+            virtual_tagger.replay('filename.ttbin')
+
+            # Replay a single file "filename.1.ttbin"
+            virtual_tagger.replay('filename.1.ttbin')
+
+        See also: :ref:`api-FileWriter`, :ref:`api-FileReader`, and :func:`mergeStreamFiles`.
+
+        :param str file: the file to be replayed
+        :param int begin: duration in picoseconds to skip at the beginning of the file. A negative time will generate a pause in the replay.
+        :param int duration: duration in picoseconds to be read from the file. `duration=-1` will replay everything. (default: -1)
+        :param bool queue: flag if this file shall be queued. (default: `True`)
+
+        :returns: ID of the queued file
+        :rtype: int
+
+
+    .. method:: stop()
+
+        This method stops the current file and clears the replay queue.
+
+
+    .. method:: waitForCompletion([ID=0, timeout=-1])
+
+        Blocks the current thread until the replay is completed.
+
+        This method blocks the current execution and waits until the given file has finished its replay.
+        If no ID is provided, it waits until all queued files are replayed.
+
+        This function does not block on a zero timeout. Negative timeouts are interpreted as infinite timeouts.
+
+        :param int ID: selects which file to wait for. (default: 0)
+        :param int timeout: timeout in milliseconds
+        :returns: true if the file is complete, false on timeout
+        :rtype: bool
+
+
+    .. method:: setReplaySpeed(speed)
+
+        Configures the speed factor for the virtual tagger.
+
+        A value of `speed=1.0` will replay at a real-time rate.
+        All `speed` values < 0.0 will replay the data as fast as possible but stops at the end of all data. This is the default value.
+        Extreme slow replay speed between 0.0 and 0.1 is not supported.
+
+        :param float speed: replay speed factor.
+
+
+    .. method:: getReplaySpeed()
+
+        Returns the current speed factor.
+
+        Please see also :meth:`setReplaySpeed` for more details.
+
+
+    .. method:: getConfiguration()
+
+        Returns a JSON formatted string (`dict` in Python) containing information on the TimeTaggerVirtual instance and on the
+        real Time Tagger settings stored in the current time tag stream file.
+
+
+.. _time-tagger-network:
+
+The TimeTaggerNetwork class
+---------------------------
+
+In the Time Tagger software version 2.10, we have introduced a way of sending the time-tag stream 
+to other applications and even remote computers for independent processing. We call this feature *Network Time Tagger*. You can use it with any Time Tagger hardware device by starting the time-tag stream server with :meth:`TimeTagger.startServer()`. Once the server is running, the clients can connect to it by calling :func:`createTimeTaggerNetwork` and specifying the server address.
+A client can be any computer that can access the server over the network or another process on the same computer. It is also possible to run the server and client on different operating systems or use different programming languages.
+
+.. admonition:: Note on performance
+
+    The Network Time Tagger server sends a time tag stream in a compressed format requiring about 4 bytes per time tag. 
+    Every client receives the data only from the channels required by the client. The maximum achievable data rate will depend on multiple factors, like server and client CPU performance, operating system, network adapter used, and network bandwidth, as well as the whole network infrastructure.
+
+    In a 1 Gbps Ethernet network, it is possible to achieve about 26 MTags/second of the total outgoing data rate from the server. Note that this bandwidth is shared among all clients connected.
+    Likewise, a 10 Gbps Ethernet network allows reaching higher data rates while having more clients.
+    In our tests, we reached up to 40 MTags/s per client.
+
+    When you run the server and the client on the same computer, the speed of the network adapters installed on your system becomes irrelevant. 
+    In this case, the operating system sends the data directly from the server to the client.
+
+.. class:: TimeTaggerNetwork
+
+    Base class: :class:`TimeTaggerBase`
+
+    .. note::
+
+        Although the :class:`TimeTaggerNetwork` formally inherits from :class:`TimeTaggerBase`, almost all methods of the hardware
+        Time Tagger :class:`TimeTagger` are available on the client (except for :meth:`TimeTagger.startServer` and :meth:`TimeTagger.stopServer`).
+        These redundant methods are not listed in this section.
+        A call to a method that exists on :class:`TimeTagger` will be forwarded to the server. If a method with similar
+        functionality exists on the :class:`TimeTaggerNetwork` only, it can be distinguished by the suffix `...Client`.
+        If the server is running in :attr:`AccessMode.Listen` and a method call forwarded to the server would cause setting changes
+        on the server-side, the call will raise an exception on the client.
+
+        This scheme of forwarding may lead to unexpected behavior:
+        If the server is started in :attr:`AccessMode.Listen` with a restricted set of `channels`
+        and you call :meth:`TimeTagger.getChannelList` on the client side, not all channels returned by this method can be accessed.
+        You can request the list of accessible channels from the server with :func:`getTimeTaggerServerInfo`.
+
+    The :class:`TimeTaggerNetwork` represents a client-side of the Network Time Tagger and provides access to the Time Tagger server. 
+    A server can be created on any physical Time Tagger by calling :meth:`TimeTagger.startServer`.
+    The :class:`TimeTaggerNetwork` object is created by calling :meth:`createTimeTaggerNetwork`.
+
+    .. method:: isConnected()
+
+        Check if the Network Time Tagger is currently connected to a server.
+
+        :return: True/False
+        :return_type: bool
+
+
+    .. method:: setDelayClient(channel, delay)
+        
+        Sets an artificial software delay per channel on the client side. 
+        To specify it on the server side, see :meth:`~TimeTaggerBase.setDelaySoftware` 
+        or :meth:`~TimeTaggerBase.setDelayHardware` (|ttu-name| only).
+        This delay will be applied only on this object and will not affect the server settings or
+        delays at any other clients connected to the same Time Tagger server.
+        
+        :param int channel: Channel number
+        :param int delay: Delay time in picoseconds
+
+
+    .. method:: getDelayClient(channel)
+        
+        Returns the value of the delay applied on the client-side in picoseconds for the specified channel.
+        
+        :param int channel: Channel number
+        :return: input delay in picoseconds
+        :return_type: int
+
+
+    .. method:: clearOverflowsClient()
+
+        Clears the overflow counter on the client-side. A call to :meth:`~TimeTaggerBase.getOverflows` will return the information
+        as it is available on the server. See :meth:`getOverflowsClient` for more information on client-side overflows.
+
+
+    .. method:: getOverflowsClient()
+
+        If the server is not able to send all the time-tags to the client, e.g. due to limited network bandwidth,
+        the time-tag stream switches to the overflow mode.
+        This means that the client might experience additional overflow events that are not originating from the hardware.
+        This counter counts all overflows occurred on the hardware and on the server since the client connection or last call to 
+        :meth:`clearOverflowsClient` or :meth:`getOverflowsAndClearClient`.
+
+        :returns: The value of the client-side overflow counter. 
+        :return_type: int
+
+
+    .. method:: getOverflowsAndClearClient()
+
+        The same as :meth:`getOverflowsClient` but also clears the client-side counter.
+        See :meth:`getOverflowsClient` for more information on client-side overflows.
+
+
+
+    .. .. method:: getServerVirtualChannelList()
+
+    ..     Returns a list of virtual channel numbers that are accessible by the client.
+
+    ..     :returns: List of virtual channel numbers
+    ..     :rtype: list[int]
+
+
+    .. Software clock is currently not implemented on the client-side.
+
+        .. method:: setSoftwareClockClient(clock_channel, clock_period = 100000, averaging_factor: float = 100)
+
+            Creates a software clock on the client side. See :meth:`TimeTaggerBase.setSoftwareClock`
+
+            :param int clock_channel: The physical channel that is used as software clock input.
+
+            :param int clock_period: The period of the software clock after application of :meth:`TimeTagger.setEventDivider` (e.g. a 10 MHz clock signal with `divider = 20` has `clock_period = 2 000 000`).
+                The value should not deviate from the real period by more than a few percent.
+                Default: 100000, for 10 MHz.
+
+            :param float averaging_factor: The number of cycles to average over.
+                The suppression of discretization noise is improved by a higher `averaging_factor`.
+                If the value is too large, however, this will result in increased phase jitter due to the drift of the internal clock or the applied software clock signal.
+                Default: 100.
+
+        .. method:: getSoftwareClockStateClient()
+
+            Provides an object representing the current software clock state on the client side. See :meth:`TimeTaggerBase.getSoftwareClockState`
+            
+            :returns: An object that contains the current state of the software clock.
+            :rtype: SoftwareClockState
+
+
+Additional classes
+------------------
+
+.. class:: SoftwareClockState
+
+    The `SoftwareClockState` object contains the current configuration state:
+
+    .. attribute:: clock_period
+        :type: int
+
+        The rounded clock period matching the input frequency set in :meth:`TimeTaggerBase.setSoftwareClock`.
+
+    .. attribute:: input_channel
+        :type: int
+
+        The physical input channel of the software clock set in :meth:`TimeTaggerBase.setSoftwareClock`.
+
+    .. attribute:: ideal_clock_channel
+        :type: int
+
+        A virtual channel number to receive the ideal clock tags.
+        During a locking period, these tags are separated by `clock_period` by definition.
+        To receive the rescaled measured clock tags, use `clock_channel`.
+
+    .. attribute:: averaging_periods
+        :type: float
+
+        The averaging periods set in :meth:`TimeTaggerBase.setSoftwareClock`.
+
+    .. attribute:: enabled
+        :type: bool
+
+        Indicates whether the software clock is active or not.
+
+    Beyond the configuration state, the object provides current runtime information of the software clock:
+
+    .. attribute:: is_locked
+        :type: bool
+
+        Indicates whether the PLL of the software clock was able to lock to the input signal.
+
+    .. attribute:: error_counter
+        :type: int
+
+        Amount of locking errors since the last :meth:`TimeTaggerBase.setSoftwareClock` call.
+
+    .. attribute:: last_ideal_clock_event
+        :type: int
+
+        Timestamp of the last ideal clock event in picoseconds.
+
+    .. attribute:: period_error
+        :type: float
+
+        Current deviation of the measured clock period from the ideal period given by `clock_period`.
+
+    .. attribute:: phase_error_estimation
+        :type: float
+
+        Current root of the squared differences of `clock_input` timestamps and ideal clock timestamps.
+        This value includes the discretization noise of the `clock_input` channel.

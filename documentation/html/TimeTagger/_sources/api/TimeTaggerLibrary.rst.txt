@@ -1,0 +1,416 @@
+=======================
+The TimeTagger Library
+=======================
+
+The Time Tagger Library contains classes for hardware access and data processing. 
+This section covers the units and terminology definitions as well as describes constants and functions defined at the library level. 
+
+
+Units of measurement
+--------------------
+
+Time is measured and specified in picoseconds. Time-tags indicate time since device start-up, which is represented by a 64-bit integer number. Note that this implies that the time variable will roll over once approximately every 107 days. This will most likely not be relevant to you unless you plan to run your software continuously over several months, and you are taking data at the instance when the rollover is happening.
+
+Analog voltage levels are specified in Volts.
+
+
+Channel numbers
+---------------
+
+You can use the Time Tagger to detect both rising and falling edges. Throughout the software API, the rising edges are represented by positive channel numbers starting from 1 and the falling edges are represented by negative channel numbers. Virtual channels will automatically obtain numbers higher than the positive channel numbers.
+
+The Time Taggers delivered before mid 2018 have a different channel numbering. More details can be found in the :ref:`Channel Number Schema 0 and 1 <channel_number_schema>` section.
+
+Unused channels
+---------------
+There might be the need to leave a parameter undefined when calling a class constructor.
+Depending on the programming language you are using, you pass an undefined channel via the static constant :const:`CHANNEL_UNUSED`, which can be found in the ``TT`` class for .NET and in the ``TimeTagger`` class in Matlab.
+
+
+Constants
+----------------
+
+.. data:: CHANNEL_UNUSED
+
+    Can be used instead of a channel number when no specific channel is assumed. In MATLAB, use ``TimeTagger.CHANNEL_UNUSED``.
+
+
+Enumerations
+------------
+
+.. class:: AccessMode
+
+    Controls how the Time Tagger server delivers the data-blocks to the connected clients,
+    and if the clients are allowed to change the hardware settings. 
+
+    .. attribute:: Control
+
+        Clients have control over all settings on the Time Tagger. 
+        The data-blocks are delivered asynchronously to every client.
+
+    .. attribute:: Listen
+        
+        Clients cannot change settings on the Time Tagger and only subscribe to the exposed channels.
+        The data-blocks are delivered asynchronously to every client.
+
+    .. attribute:: SynchronousControl
+
+        The same as :attr:`AccessMode.Control` but the data is delivered synchronously to every client.
+
+        .. warning::
+            This mode is not recommended for general use. 
+            The server will attempt to deliver a data-block to every connected client before sending the next data-block.
+            Therefore, the data transmission will always be limited by the slowest client.
+            If any of the clients cannot handle the data rate fast enough compared to the data-rate produced by the Time Tagger hardware,
+            all connected clients will be affected and the Time Tagger hardware buffer may overflow.
+            This can happen due to the network speed limit or insufficient CPU speed on any of the connected clients.
+
+
+.. class:: ChannelEdge
+
+    Selects the channels that :meth:`TimeTagger.getChannelList` returns.
+
+    .. attribute:: All
+
+        Rising and falling edges of channels with HighRes and Standard resolution.
+
+    .. attribute:: Rising
+
+        Rising edges of channels with HighRes and Standard resolution.
+
+    .. attribute:: Falling
+
+        Falling edges of channels with HighRes and Standard resolution.
+
+    .. attribute:: HighResAll
+
+        Rising and falling of channels edges with HighRes resolution.
+
+    .. attribute:: HighResRising
+
+        Rising edges of channels with HighRes resolution.
+
+    .. attribute:: HighResFalling
+
+        Falling edges of channels with HighRes resolution.
+
+    .. attribute:: StandardAll
+
+        Rising and falling edges of channels with Standard resolution.
+
+    .. attribute:: StandardRising
+
+        Rising edges of channels with Standard resolution.
+
+    .. attribute:: StandardFalling
+
+        Falling edges of channels with Standard resolution.
+
+
+.. class:: CoincidenceTimestamp
+
+    Defines what timestamp to use for a coincidence event in :class:`Coincidence`/:class:`Coincidences`.
+
+    .. attribute:: Last
+        
+        Use the last time-tag to define the timestamp of the coincidence.
+
+    .. attribute:: Average
+
+        Calculate the average timestamp of all time-tags in the coincidence and use it as the timestamp of the coincidence.
+
+    .. attribute:: First
+
+        Use the first time-tag to define the timestamp of the coincidence.
+
+    .. attribute:: ListedFirst
+
+        Use the timestamp of the channel at the first position of the list when :class:`Coincidence` or a group of :class:`Coincidences` is instantiated.
+
+.. class:: FpgaLinkInterface
+
+    Determines which Ethernet Port on the Time Tagger X should be used in :meth:`TimeTagger.enableFpgaLink`.
+
+    .. attribute:: SFPP_10GE
+
+        Use the SFP+ Port on the Time Tagger X for FPGA link output.
+
+.. class:: GatedChannelInitial
+
+    The initial state of a :class:`GatedChannel`.
+
+    .. attribute:: Closed
+        :value: 0
+
+        The gate is closed initially.
+
+    .. attribute:: Open
+        :value: 1
+
+        The gate is open initially.
+
+
+.. class:: Resolution
+
+    Defines the resolution mode of the Time Tagger on connection using :meth:`createTimeTagger()`. Details on the available inputs are listed in the :ref:`hardware overview <HighResHardwareDescription>`.
+
+    .. attribute:: Standard
+
+        Use one time-to-digital conversion per channel. All physical inputs can be used.
+
+    .. attribute:: HighResA
+
+        Use two time-to-digital conversions per channel. The resolution is increased by a factor of :math:`\simeq\sqrt{2}` compared to the Standard mode, but only a reduced number of certain inputs can be used. Some inputs may remain in Standard mode depending on your license.
+
+    .. attribute:: HighResB
+
+        Use four time-to-digital conversions per channel. The resolution is increased by a factor of :math:`\simeq 2` compared to the Standard mode, but only a reduced number of certain inputs can be used. Some inputs may remain in Standard mode depending on your license.
+
+    .. attribute:: HighResC
+
+        Use four time-to-digital conversions per channel. The resolution is increased by a factor of :math:`\simeq\sqrt{8}` compared to the Standard mode, but only a reduced number of certain inputs can be used. Some inputs may remain in Standard mode depending on your license.
+
+
+.. class:: TagType
+
+    This enumeration describes the overflow condition.
+
+    .. attribute:: TimeTag
+        :value: 0
+
+        A normal event from any input channel, no overflow.
+
+    .. attribute:: Error
+        :value: 1
+
+        An error in the internal data processing, e.g. on plugging the external clock. This invalidates the global time.
+
+    .. attribute:: OverflowBegin  
+        :value: 2
+
+        Marks the beginning of an interval with incomplete data because of too high data rates.
+
+    .. attribute:: OverflowEnd 
+        :value: 3
+
+        Marks the end of the interval. All events, which were lost in this interval, have been handled
+
+    .. attribute:: MissedEvents 
+        :value: 4
+
+        This virtual event signals the number of lost events per channel within an overflow interval. Might be sent repeatedly for larger number of lost events.
+
+
+.. class:: UsageStatisticsStatus
+
+    .. attribute:: Disabled
+        :value: 0
+
+        Usage statistics collection and upload is disabled.
+
+    .. attribute:: Collecting
+        :value: 1
+
+        Enable usage statistics collection local but without automatic uploading. 
+        This option might be useful to collect usage statistics for debugging purpose.
+
+    .. attribute:: CollectingAndUploading
+        :value: 2
+
+        Enable usage statistics collection and automatic upload 
+
+
+.. _time-tagger-library-functions:
+
+
+Functions
+----------------
+
+.. function:: createTimeTagger([serial='', resolution=Resolution.Standard])
+
+    Establishes the connection to a first available Time Tagger device and creates a :class:`TimeTagger` object. Optionally, the connection to a specific device can be achieved by specifying the device serial number.
+
+    If the HighRes mode is available, it can be selected from :class:`Resolution`. Details on the available inputs are listed in the :ref:`hardware overview <HighResHardwareDescription>`.
+
+    In MATLAB, this function is accessed as ``TimeTagger.createTimeTagger``.
+
+
+    :param str serial: Serial number string of the device or empty string
+    :param Resolution resolution: Select the resolution of the Time Tagger. The default is :code:`Resolution.Standard`.
+    :returns: TimeTagger object
+    :rtype: TimeTagger
+    :raises RuntimeError: if no Time Tagger devices are available or if the serial number is not correct.
+
+
+.. function:: createTimeTaggerVirtual()
+
+    Creates a virtual Time Tagger object.
+    Virtual Time Tagger uses time-tag dump file(s) as a data source instead of
+    Time tagger hardware. This allows you to use all Time Tagger library
+    measurements for offline processing of the dumped time tag stream.
+    For example, you can repeat the analysis of your experiment with different parameters, like different binwidths etc.
+
+    In MATLAB, this function is accessed as ``TimeTagger.createTimeTaggerVirtual``.
+
+    :returns: TimeTaggerVirtual object
+    :rtype: TimeTaggerVirtual
+
+
+.. function:: createTimeTaggerNetwork([address='localhost:41101'])
+
+    Creates a new :class:`TimeTaggerNetwork` object.
+    During creation, the object tries to open a connection to the specified Time Tagger server that has been created by :meth:`TimeTagger.startServer`.
+    This makes the remote time-tag stream locally available.
+    If the connection fails, the method will throw an exception.
+
+    In MATLAB, this function is accessed as``TimeTagger.createTimeTaggerNetwork``.
+
+    :param str address: IP address, hostname, or domain-name of the server, where the Time Tagger server is running. The port number is optional and can be specified if server listens on a port other than default |ttn-default-port|.
+    :returns: TimeTaggerNetwork object that can be used, e.g., for measurements
+    :rtype: TimeTaggerNetwork
+
+    :raises RuntimeError: if the connection to the server cannot be made.
+    :raises ValueError: if the address string has an invalid format.
+
+
+.. function:: getTimeTaggerServerInfo([address='localhost:41101'])
+
+    Returns TimeTagger configuration, exposed channels, hardware channels and virtual channels as a JSON formatted string. 
+    
+    :param str address: IP address, hostname or domain-name of the server, where the Time Tagger server is running. The port number is optional and can be specified if server listens on a port other than default |ttn-default-port|.
+
+    :returns: Information about server, available channels and exposed channels.
+    :rtype: str or dict
+    
+    :raises RuntimeError: if the connection to the server cannot be made.
+    :raises ValueError: if the address string has an invalid format.
+
+
+.. function:: freeTimeTagger(tagger)
+
+    Releases all Time Tagger resources and terminates the active connection.
+
+    :param TimeTaggerBase tagger: TimeTaggerBase object to disconnect
+
+
+.. function:: scanTimeTagger()
+
+    Returns a list of the serial numbers of the connected but not instantiated Time Taggers.
+
+    In MATLAB this function is accessible as ``TimeTagger.scanTimeTagger()``.
+
+    :returns: List of serial numbers
+    :rtype: list[str]
+
+
+.. function:: scanTimeTaggerServers()
+
+    Scans the network for available Time Tagger servers.
+
+    .. note::
+        The server discovery algorithm uses multicast UDP messages sent to the address 
+        `239.255.255.83:41102`. This method is expected to work well in most situations, however there is a possibility when it could fail. The servers may not be discoverable if the system firewall rejects multicast traffic or blocks access to the used UDP port |ttn-discovery-port|, also multicast traffic is not usually forwarded to other IP networks by the routers.
+
+    :returns: A list of addresses of the Time Tagger servers that are available in the network.
+    :rtype: list[str]
+
+
+.. function:: setLogger(callback)
+
+    Registers a callback function, e.g. for customized error handling. Please see the examples in the installation folder on how to use it.
+    Callback function shall have the following signature `callback(level, message)`. 
+    By default, the log messages are printed into the console.
+
+    Python example:
+    
+    .. code-block:: python
+
+        def logger_func(level, message):
+            print(level, message)
+        setLogger(logger_func)
+
+    Matlab example:
+
+    .. code-block:: matlab
+
+        function logger_func(level, message)
+            fprintf('%d : %s\n', level, message)
+        end
+        TimeTagger.setLogger(@logger_func)
+
+.. function:: setTimeTaggerChannelNumberScheme(int scheme)
+
+    Selects whether the first physical channel starts with 0 or 1
+
+    ``TT_CHANNEL_NUMBER_SCHEME_AUTO`` - the scheme is detected automatically, according to the channel labels on the device (default).
+
+    ``TT_CHANNEL_NUMBER_SCHEME_ONE`` - force the first channel to be 1.
+
+    ``TT_CHANNEL_NUMBER_SCHEME_ZERO`` - force the first channel to be 0.
+
+    .. important::
+
+        The method must be called before the first call to :func:`createTimeTagger`.
+
+
+.. function:: getTimeTaggerChannelNumberScheme()
+
+    Returns the currently used channel schema, which is either ``TT_CHANNEL_NUMBER_SCHEME_ZERO`` or ``TT_CHANNEL_NUMBER_SCHEME_ONE``.
+
+    :returns: Channel schema
+    :rtype: int
+
+.. function:: mergeStreamFiles(output_filename, input_filenames, channel_offsets, time_offsets, overlap_only)
+
+    :param str output_filename:  Filename where to store the merge result ``*.ttbin``.
+    :param List[str] input_filenames: List of dump files that will be merged
+    :param List[int] channel_offsets: Channel number offset for each ``*.ttbin`` file. Useful when input files have the same channel numbers.
+    :param List[int] time_offsets: Time offset for each ``*.ttbin`` file in picoseconds.
+    :param bool overlap_only: If True, then merge only the regions where the time is overlapping.
+
+    This function merges a list of time tag stream files into one file.
+    The merged stream file can be loaded into the :class:`TimeTaggerVirtual` for processing. 
+    The file merging combines streams into one with the possibility of specifying a constant time offset for each input stream file.
+    Additionally, it is possible to specify channel number offset if the input stream files were recorded from the same channel numbers, for instance, using two Time Tagger devices.
+    The parameters `input_filenames`, `channel_offsets`, and `time_offsets` shall be of equal length.
+
+    This function handles the ``*.ttbin`` files the same way as the :meth:`TimeTaggerVirtual.replay`. 
+    
+    See also: :ref:`api-FileWriter`, :ref:`api-FileReader`, and :ref:`time-tagger-virtual`.
+
+    .. note::
+        When merging multiple stream files recorded at different times or from different devices, you have to be aware of possible time base differences.
+        This function does not rescale the data into a common time base as this would require additional information and external synchronization signal. 
+        If you want to improve the synchronicity of the time base between two devices, please send the reference clock signal to any of the available inputs 
+        of each Time Tagger and set up the software clock :meth:`~TimeTaggerBase.setSoftwareClock`.
+
+.. _api-usage-statistics:
+
+.. rubric:: Usage statistics data collection
+
+See also the section :doc:`/sections/UsageStatistics`.
+
+.. function:: setUsageStatisticsStatus(status)
+
+    :param UsageStatisticsStatus status: New status of the usage statistics data collection.
+
+    This function allows a user to override the system-wide default setting on collection and submission of the usage statistics data. 
+    This function operates within the scope of a current OS user. 
+    The system-wide default setting is given during the installation of the Time Tagger software. 
+    Please run the installer again to allow collection and uploading or to disable the usage statistics.
+
+
+.. function:: getUsageStatisticsStatus()
+    
+    :returns: Returns the current status of the usage statistics for the current user. The status is described by the :class:`UsageStatisticsStatus`.
+    :rtype: UsageStatisticsStatus
+
+
+.. function:: getUsageStatisticsReport()
+    
+    This function returns the current state of the usage statistics report as a JSON formatted string. 
+    If there is no report data available or it was submitted just now, the output is a message: `Info: No report data available yet.`
+    If you had given your consent earlier and then revoked it, this function will still return earlier accumulated report data.
+
+    :returns: Usage statistics data encoded as JSON string.
+    :rtype: str

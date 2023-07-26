@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimeTagger classes &mdash; Time Tagger User Manual 2.16.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/iconTT.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Virtual Channels" href="VirtualChannels.html" />
+    <link rel="prev" title="The TimeTagger Library" href="TimeTaggerLibrary.html" />
+ 
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXS6LN3');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXS6LN3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Time Tagger User Manual
+              <img src="../_static/logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.16.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<div id="link_documentation_pdf" style="margin-top:20px;">
+    <a style="font-weight:normal;color:#fcfcfc" target="_blank" href="/static/downloads/TimeTagger_User_Manual.pdf">
+<svg version="1.1"  width="13px" height="14px" viewBox="0 0 13 14" xmlns="http://www.w3.org/2000/svg">
+<g id="Download" fill="#fff">
+<path d="m10 6.5-0.74-0.76-2.4 2.4v-8.2h-1.1v8.2l-2.4-2.4-0.74 0.76 3.6 3.6z"></path>
+<path d="m1.1 13v-2.7h-1.1v3.8h13v-3.9h-1.1v2.9z"></path>
+</g>
+</svg>
+        Documentation as pdf
+    </a>
+</div>
+<script>
+    // Hide the pdf download link when we detect that the file is served from the local file system.
+    // Mostly likly to identify the ttlab offline documentation browser
+    if(window.location.protocol === "file:") {
+        document.getElementById("link_documentation_pdf").style.display = "none";
+    }
+</script>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sections/gettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/installation.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../synchronizer/index.html">Synchronizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/hardware.html">Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/software.html">Software Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Application Programmer’s Interface</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TimeTaggerLibrary.html">The TimeTagger Library</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">TimeTagger classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#general-time-tagger-features">General Time Tagger features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#TimeTaggerBase"><code class="docutils literal notranslate"><span class="pre">TimeTaggerBase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#time-tagger-hardware">Time Tagger hardware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#TimeTagger"><code class="docutils literal notranslate"><span class="pre">TimeTagger</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-timetaggervirtual-class">The TimeTaggerVirtual class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#TimeTaggerVirtual"><code class="docutils literal notranslate"><span class="pre">TimeTaggerVirtual</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-timetaggernetwork-class">The TimeTaggerNetwork class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#TimeTaggerNetwork"><code class="docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-classes">Additional classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SoftwareClockState"><code class="docutils literal notranslate"><span class="pre">SoftwareClockState</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="VirtualChannels.html">Virtual Channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Measurements.html">Measurement Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../InDepthGuides/index.html">In Depth Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/UsageStatistics.html">Usage Statistics Collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sections/changelog.html">Revision History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Time Tagger User Manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Application Programmer’s Interface</a></li>
+      <li class="breadcrumb-item active">TimeTagger classes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="timetagger-classes">
+<h1>TimeTagger classes<a class="headerlink" href="#timetagger-classes" title="Permalink to this heading"></a></h1>
+<p>The Time Tagger classes represent the different time-tag sources for your measurements and analysis.
+These objects are created by factory functions in the <a class="reference internal" href="TimeTaggerLibrary.html#time-tagger-library-functions"><span class="std std-ref">Time Tagger library</span></a>:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Time Tagger hardware</dt><dd><p>The <a class="reference internal" href="#TimeTagger" title="TimeTagger"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagger</span></code></a> represents a hardware device and allows access to hardware settings.
+To connect to a hardware Time Tagger and to get a <a class="reference internal" href="#TimeTagger" title="TimeTagger"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagger</span></code></a> object, use <a class="reference internal" href="TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a>.</p>
+</dd>
+<dt>Virtual Time Tagger</dt><dd><p>The <a class="reference internal" href="#TimeTaggerVirtual" title="TimeTaggerVirtual"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerVirtual</span></code></a> allows replaying files created with the <a class="reference internal" href="Measurements.html#FileWriter" title="FileWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileWriter</span></code></a>.
+To create a <a class="reference internal" href="#TimeTaggerVirtual" title="TimeTaggerVirtual"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerVirtual</span></code></a> object, use <a class="reference internal" href="TimeTaggerLibrary.html#createTimeTaggerVirtual" title="createTimeTaggerVirtual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createTimeTaggerVirtual()</span></code></a>.</p>
+</dd>
+<dt>Network Time Tagger</dt><dd><p>The <a class="reference internal" href="#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a> allows the (remote) access to a Time Tagger made available via <a class="reference internal" href="#TimeTagger.startServer" title="TimeTagger.startServer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.startServer()</span></code></a>.
+The <a class="reference internal" href="#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a> object is created with <a class="reference internal" href="TimeTaggerLibrary.html#createTimeTaggerNetwork" title="createTimeTaggerNetwork"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createTimeTaggerNetwork()</span></code></a> which also establishes connection to the server.</p>
+</dd>
+</dl>
+</div></blockquote>
+<section id="general-time-tagger-features">
+<h2>General Time Tagger features<a class="headerlink" href="#general-time-tagger-features" title="Permalink to this heading"></a></h2>
+<p>The <a class="reference internal" href="#TimeTaggerBase" title="TimeTaggerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerBase</span></code></a> class defines methods and functionality present in all Time Tagger objects.
+The specific classes below inherit from <a class="reference internal" href="#TimeTaggerBase" title="TimeTaggerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerBase</span></code></a>.
+Every <a class="reference internal" href="Measurements.html"><span class="doc">measurement</span></a> and <a class="reference internal" href="VirtualChannels.html"><span class="doc">virtual channel</span></a> instance
+requires a reference to a <a class="reference internal" href="#TimeTaggerBase" title="TimeTaggerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerBase</span></code></a> object to associate with.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="TimeTaggerBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TimeTaggerBase</span></span><a class="headerlink" href="#TimeTaggerBase" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.setInputDelay">
+<span class="sig-name descname"><span class="pre">setInputDelay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.setInputDelay" title="Permalink to this definition"></a></dt>
+<dd><p>Convenience method that calls <a class="reference internal" href="#TimeTaggerBase.setDelaySoftware" title="TimeTaggerBase.setDelaySoftware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDelaySoftware()</span></code></a> if you use a Time Tagger 20 or the delay is &gt; 2 µs, otherwise <a class="reference internal" href="#TimeTaggerBase.setDelayHardware" title="TimeTaggerBase.setDelayHardware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDelayHardware()</span></code></a> is called.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p></li>
+<li><p><strong>delay</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Delay time in picoseconds</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.getInputDelay">
+<span class="sig-name descname"><span class="pre">getInputDelay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.getInputDelay" title="Permalink to this definition"></a></dt>
+<dd><p>Convenience method that returns the sum of <a class="reference internal" href="#TimeTaggerBase.getDelaySoftware" title="TimeTaggerBase.getDelaySoftware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getDelaySoftware()</span></code></a> and <a class="reference internal" href="#TimeTaggerBase.getDelayHardware" title="TimeTaggerBase.getDelayHardware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getDelayHardware()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Delay time in picoseconds</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.setDelayHardware">
+<span class="sig-name descname"><span class="pre">setDelayHardware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.setDelayHardware" title="Permalink to this definition"></a></dt>
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Method is not available for the Time Tagger 20.</p>
+</div>
+<p>Set an artificial delay per <cite>channel</cite>. The delay can be positive or negative. This delay is applied onboard the Time Tagger directly after the time-to-digital conversion, so it also affects the <a class="reference internal" href="../InDepthGuides/ConditionalFilter.html"><span class="doc">Conditional Filter</span></a>. If you exceed the maximum hardware delay range, please use <a class="reference internal" href="#TimeTaggerBase.setDelaySoftware" title="TimeTaggerBase.setDelaySoftware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDelaySoftware()</span></code></a> instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p></li>
+<li><p><strong>delay</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Delay time in picoseconds, the maximum/minimum value allowed is ±2000000 (±2 µs)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.getDelayHardware">
+<span class="sig-name descname"><span class="pre">getDelayHardware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.getDelayHardware" title="Permalink to this definition"></a></dt>
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Method is not available for the Time Tagger 20.</p>
+</div>
+<p>Returns the value of the delay applied onboard the Time Tagger in picoseconds for the specified <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Delay time in picoseconds</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.setDelaySoftware">
+<span class="sig-name descname"><span class="pre">setDelaySoftware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.setDelaySoftware" title="Permalink to this definition"></a></dt>
+<dd><p>Set an artificial delay per <cite>channel</cite>. The delay can be positive or negative. This delay is applied on the computer, so it does not affect onboard processes such as the Conditional Filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p></li>
+<li><p><strong>delay</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Delay time in picoseconds</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.getDelaySoftware">
+<span class="sig-name descname"><span class="pre">getDelaySoftware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.getDelaySoftware" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the value of the delay applied on the computer in picoseconds for the specified <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Delay time in picoseconds</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.setDeadtime">
+<span class="sig-name descname"><span class="pre">setDeadtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deadtime</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.setDeadtime" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the dead time of a channel in picoseconds. The requested time will be rounded to the nearest multiple of the internal clock period, which is 6 ns for the Time Tagger 20, 2 ns for the Time Tagger Ultra and 1.333 ns for the Time Tagger X. The minimum dead time is one clock cycle. As the deadtime passed as an input will be altered to the rounded value, the rounded value will be returned. The maximum dead time 65535 * internal clock period, which is 393.210 µs for the Time Tagger 20, 131.070 µs for the Time Tagger Ultra and 87.380 µs for the Time Tagger X.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The specified deadtime is 2.1 ns for Time Tagger Ultra and 1.5 ns for Time Tagger X. With the default setting of the hardware deadtime filter, an event arriving between the default hardware deadtime and the specified deadtime after the last event of that channel might be dropped (e.g., an event arriving between 2 ns and 2.1 ns after the last event on that channel for Time Tagger Ultra).</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p></li>
+<li><p><strong>deadtime</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Deadtime value in picoseconds</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Deadtime in picoseconds rounded to the nearest valid value (multiple of the clock period not exceeding maximum dead time).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.getDeadtime">
+<span class="sig-name descname"><span class="pre">getDeadtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.getDeadtime" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the dead time value for the specified <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Physical channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Deadtime value in picoseconds</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.getOverflows">
+<span class="sig-name descname"><span class="pre">getOverflows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.getOverflows" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the number of overflows (missing blocks of time tags due to limited USB data rate) that occurred since start-up or last call to <a class="reference internal" href="#TimeTaggerBase.clearOverflows" title="TimeTaggerBase.clearOverflows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clearOverflows()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of overflows</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.getOverflowsAndClear">
+<span class="sig-name descname"><span class="pre">getOverflowsAndClear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.getOverflowsAndClear" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the number of overflows that occurred since start-up and sets them to zero (see, <a class="reference internal" href="#TimeTaggerBase.clearOverflows" title="TimeTaggerBase.clearOverflows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clearOverflows()</span></code></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of overflows</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.clearOverflows">
+<span class="sig-name descname"><span class="pre">clearOverflows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.clearOverflows" title="Permalink to this definition"></a></dt>
+<dd><p>Set the overflow counter to zero.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.setSoftwareClock">
+<span class="sig-name descname"><span class="pre">setSoftwareClock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">averaging_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_until_locked</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.setSoftwareClock" title="Permalink to this definition"></a></dt>
+<dd><p>Define in software one of the input channels as the base clock for all channels.
+This feature sets up a software PLL and rescales all incoming time-tags according to the software clock defined.
+The PLL provides a new time base with “ideal clock tags” separated by exactly the defined <cite>clock_period</cite>.
+For measurements, you can use both, rescaled and ideal clock tags.</p>
+<p>While the PLL is not locked, the time base of the instrument is invalid.
+In this case, the time-tag stream changes to the overflow mode.
+This means that after every call to <a class="reference internal" href="#TimeTaggerBase.setSoftwareClock" title="TimeTaggerBase.setSoftwareClock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setSoftwareClock()</span></code></a>, you will find overflows because the PLL starts from an unlocked state.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is often useful to apply this feature in combination with <a class="reference internal" href="#TimeTagger.setEventDivider" title="TimeTagger.setEventDivider"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setEventDivider()</span></code></a> on the <cite>input_channel</cite>.
+The values of <cite>input_frequency</cite> and <cite>averaging_periods</cite> correspond to the transferred time-tags, not to the physical frequency.
+Changing the <cite>divider</cite> independently after setting up the software clock may lead to a failure of the locking process.
+Do not add <cite>input_channel</cite> to the list of <cite>filtered</cite> channels in <a class="reference internal" href="#TimeTagger.setConditionalFilter" title="TimeTagger.setConditionalFilter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setConditionalFilter()</span></code></a>.</p>
+<p>For the Time Tagger 20, a phase error of 200 ps needs to be considered when using the software clock.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The physical channel that is used as software clock input.</p></li>
+<li><p><strong>input_frequency</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The frequency of the software clock after application of <a class="reference internal" href="#TimeTagger.setEventDivider" title="TimeTagger.setEventDivider"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.setEventDivider()</span></code></a> (e.g. a 10 MHz clock signal with <cite>divider = 20</cite> has <cite>input_frequency = 500 000</cite>).
+The value should not deviate from the real frequency by more than a few percent.
+Default: 10E6, for 10 MHz.</p></li>
+<li><p><strong>averaging_periods</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The number of cycles to average over.
+The suppression of discretization noise is improved by a higher <cite>averaging_periods</cite>.
+If the value is too large, however, this will result in increased phase jitter due to the drift of the internal clock or the applied software clock signal.
+Default: 1000.</p></li>
+<li><p><strong>wait_until_locked</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Blocks the execution until the software clock is locked.
+Throws an exception on locking errors. All locking log messages are filtered while this call is executed.
+Default: True</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.disableSoftwareClock">
+<span class="sig-name descname"><span class="pre">disableSoftwareClock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.disableSoftwareClock" title="Permalink to this definition"></a></dt>
+<dd><p>Disable the software clock.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.getSoftwareClockState">
+<span class="sig-name descname"><span class="pre">getSoftwareClockState</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.getSoftwareClockState" title="Permalink to this definition"></a></dt>
+<dd><p>Provides an object representing the current software clock state.
+This includes the configuration parameters as well as dynamic values generated based on the incoming signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An object that contains the current state of the software clock.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#SoftwareClockState" title="SoftwareClockState">SoftwareClockState</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.getFence">
+<span class="sig-name descname"><span class="pre">getFence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alloc_fence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.getFence" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a new fence object, which validates the current configuration and the current time.
+This fence is uploaded to the earliest pipeline stage of the Time Tagger.
+Waiting on this fence ensures that all hardware settings, such as trigger levels, channel
+registrations, etc., have propagated to the FPGA and are physically active. Synchronizes
+the Time Tagger internal memory so that all tags arriving after the <a class="reference internal" href="#TimeTaggerBase.waitForFence" title="TimeTaggerBase.waitForFence"><code class="xref py py-meth docutils literal notranslate"><span class="pre">waitForFence()</span></code></a> call were
+actually produced after the <a class="reference internal" href="#TimeTaggerBase.getFence" title="TimeTaggerBase.getFence"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getFence()</span></code></a> call. The <a class="reference internal" href="#TimeTaggerBase.waitForFence" title="TimeTaggerBase.waitForFence"><code class="xref py py-meth docutils literal notranslate"><span class="pre">waitForFence()</span></code></a> function waits until all tags,
+which are present at the time of the function call within the internal memory of the Time
+Tagger, are processed.
+This call might block to limit the number of active fences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>alloc_fence</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – optional, default: True. If False, a reference to the most recently created fence will be returned instead</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The allocated fence</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.waitForFence">
+<span class="sig-name descname"><span class="pre">waitForFence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.waitForFence" title="Permalink to this definition"></a></dt>
+<dd><p>Wait for a fence in the data stream. See <a class="reference internal" href="#TimeTaggerBase.getFence" title="TimeTaggerBase.getFence"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getFence()</span></code></a> for more details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fence</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – fence object, which shall be waited on</p></li>
+<li><p><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – (optional) Timeout in milliseconds. Negative means no timeout, zero returns immediately. Default: -1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the fence has passed, false on timeout</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.sync">
+<span class="sig-name descname"><span class="pre">sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.sync" title="Permalink to this definition"></a></dt>
+<dd><p>Ensure that all hardware settings, such as trigger levels, channel registrations, etc., have propagated to the FPGA and are physically active. Synchronizes the Time Tagger internal memory, so that all tags arriving after a sync call were actually produced after the sync call. The sync function waits until all tags, which are present at the time of the function call within the internal memory of the Time Tagger, are processed.
+It is equivalent to <code class="code docutils literal notranslate"><span class="pre">waitForFence(getFence())</span></code>.</p>
+<p>The operation of this method on the <a class="reference internal" href="#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a> depends on the server access mode.
+If the <a class="reference internal" href="#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a> is connected to the Time Tagger server started in <a class="reference internal" href="TimeTaggerLibrary.html#AccessMode.Control" title="AccessMode.Control"><code class="xref py py-attr docutils literal notranslate"><span class="pre">AccessMode.Control</span></code></a>, the synchronization will be done all way through the server and the hardware.
+If the Time Tagger server started in <a class="reference internal" href="TimeTaggerLibrary.html#AccessMode.Listen" title="AccessMode.Listen"><code class="xref py py-attr docutils literal notranslate"><span class="pre">AccessMode.Listen</span></code></a>, the client will be able to synchronize only with the server but will not synchronize with the Time Tagger Hardware. However, if a USB synchronization fence was created by the server side, the clients will also see it.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#TimeTaggerBase.getFence" title="TimeTaggerBase.getFence"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getFence()</span></code></a>, <a class="reference internal" href="#TimeTaggerBase.waitForFence" title="TimeTaggerBase.waitForFence"><code class="xref py py-meth docutils literal notranslate"><span class="pre">waitForFence()</span></code></a>, <a class="reference internal" href="#TimeTagger.startServer" title="TimeTagger.startServer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">startServer()</span></code></a>, <a class="reference internal" href="TimeTaggerLibrary.html#AccessMode" title="AccessMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessMode</span></code></a></p></li>
+<li><p><a class="reference internal" href="../InDepthGuides/PipelineSynchronization.html"><span class="doc">Synchronization of the Time Tagger pipeline</span></a></p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – (optional) Timeout in milliseconds. Negative means no timeout, zero returns immediately. Default: -1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the synchronization was successful, false on timeout</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.getInvertedChannel">
+<span class="sig-name descname"><span class="pre">getInvertedChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.getInvertedChannel" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the channel number for the inverted edge of the channel passed in via the channel parameter. In case the given channel has no inverted channel, <a class="reference internal" href="TimeTaggerLibrary.html#CHANNEL_UNUSED" title="CHANNEL_UNUSED"><code class="xref py py-const docutils literal notranslate"><span class="pre">CHANNEL_UNUSED</span></code></a> is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Channel number</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.isUnusedChannel">
+<span class="sig-name descname"><span class="pre">isUnusedChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.isUnusedChannel" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if the passed channel number is <a class="reference internal" href="TimeTaggerLibrary.html#CHANNEL_UNUSED" title="CHANNEL_UNUSED"><code class="xref py py-const docutils literal notranslate"><span class="pre">CHANNEL_UNUSED</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True/False</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerBase.getConfiguration">
+<span class="sig-name descname"><span class="pre">getConfiguration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerBase.getConfiguration" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a JSON formatted string (dictionary in Python) containing complete information on the Time Tagger settings. It also includes descriptions of measurements and virtual channels created on this Time Tagger instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Time Tagger settings and currently existing measurements.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="time-tagger-hardware">
+<h2>Time Tagger hardware<a class="headerlink" href="#time-tagger-hardware" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="TimeTagger">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TimeTagger</span></span><a class="headerlink" href="#TimeTagger" title="Permalink to this definition"></a></dt>
+<dd><p>Base class: <a class="reference internal" href="#TimeTaggerBase" title="TimeTaggerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerBase</span></code></a></p>
+<p>This class provides access to the hardware and exposes methods to control hardware settings,
+such as trigger levels or even filters.
+Behind the scenes, it opens the USB connection, initializes the device and receives and manages the time-tag-stream.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.reset" title="Permalink to this definition"></a></dt>
+<dd><p>Reset the Time Tagger to the start-up state.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setTriggerLevel">
+<span class="sig-name descname"><span class="pre">setTriggerLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">voltage</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setTriggerLevel" title="Permalink to this definition"></a></dt>
+<dd><p>Set the trigger level of an input channel in Volts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Physical channel number</p></li>
+<li><p><strong>voltage</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Trigger level in Volts</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getTriggerLevel">
+<span class="sig-name descname"><span class="pre">getTriggerLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getTriggerLevel" title="Permalink to this definition"></a></dt>
+<dd><p>Returns trigger level for the specified physical channel number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Physical channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The applied trigger voltage level, which might differ from the input parameter due to the DAC discretization.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getHardwareDelayCompensation">
+<span class="sig-name descname"><span class="pre">getHardwareDelayCompensation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getHardwareDelayCompensation" title="Permalink to this definition"></a></dt>
+<dd><p>Get the hardware input delay compensation for the given <cite>channel</cite> in picoseconds.</p>
+<p>This compensation can be understood as an implicit part of <a class="reference internal" href="#TimeTaggerBase.setDelayHardware" title="TimeTaggerBase.setDelayHardware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDelayHardware()</span></code></a> and <a class="reference internal" href="#TimeTaggerBase.setDelaySoftware" title="TimeTaggerBase.setDelaySoftware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDelaySoftware()</span></code></a>.
+If your device is able to set an arbitrary delay onboard, this applies to the hardware delay compensation as well.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Hardware delay compensation in picoseconds</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setConditionalFilter">
+<span class="sig-name descname"><span class="pre">setConditionalFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trigger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filtered</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hardwareDelayCompensation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setConditionalFilter" title="Permalink to this definition"></a></dt>
+<dd><p>Activates or deactivates the event filter. Time tags on the filtered channels are discarded unless they were preceded by a time tag on one of the trigger channels, which reduces the data rate. More details can be found in the <a class="reference internal" href="../InDepthGuides/ConditionalFilter.html"><span class="doc">In-Depth Guide: Conditional Filter</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trigger</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – List of channel numbers</p></li>
+<li><p><strong>filtered</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – List of channel numbers</p></li>
+<li><p><strong>hardwareDelayCompensation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – optional, default: True. If set to False, the physical hardware delay will not be compensated. This is only relevant for devices without <a class="reference internal" href="#TimeTaggerBase.setDelayHardware" title="TimeTaggerBase.setDelayHardware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDelayHardware()</span></code></a>, do not set this value to False if your device is capable of onboard delay compensation. Without onboard delay compensation, setting the value to False guarantees that the trigger tag of the conditional filter is always in before the triggered tag when the InputDelays are set to 0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.clearConditionalFilter">
+<span class="sig-name descname"><span class="pre">clearConditionalFilter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.clearConditionalFilter" title="Permalink to this definition"></a></dt>
+<dd><p>Deactivates the event filter. Equivalent to <code class="code docutils literal notranslate"><span class="pre">setConditionalFilter([],</span> <span class="pre">[],</span> <span class="pre">True)</span></code>. Enables the physical hardware delay compensation again if it was deactivated by <a class="reference internal" href="#TimeTagger.setConditionalFilter" title="TimeTagger.setConditionalFilter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setConditionalFilter()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getConditionalFilterTrigger">
+<span class="sig-name descname"><span class="pre">getConditionalFilterTrigger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getConditionalFilterTrigger" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the collection of trigger channels for the conditional filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of channel numbers</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getConditionalFilterFiltered">
+<span class="sig-name descname"><span class="pre">getConditionalFilterFiltered</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getConditionalFilterFiltered" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the collection of channels to which the conditional filter is currently applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of channel numbers</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setEventDivider">
+<span class="sig-name descname"><span class="pre">setEventDivider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">divider</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setEventDivider" title="Permalink to this definition"></a></dt>
+<dd><img alt="../_images/EventDivider.svg" src="../_images/EventDivider.svg" /><p>Applies an event divider filter with the specified factor to a channel, which reduces the data rate.
+Only every n-th event from the input stream passes through the filter, as shown in the image.
+The divider is a 16 bit integer, so the maximum value is 65535.</p>
+<p>Note that if the conditional filter is also active, the conditional filter is applied first.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Physical channel number</p></li>
+<li><p><strong>divider</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Divider factor, min. 1 and max. 65535</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getEventDivider">
+<span class="sig-name descname"><span class="pre">getEventDivider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getEventDivider" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the event divider filter factor for the given <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Divider factor value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setInputImpedanceHigh">
+<span class="sig-name descname"><span class="pre">setInputImpedanceHigh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setInputImpedanceHigh" title="Permalink to this definition"></a></dt>
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Method is only available for the Time Tagger X.</p>
+</div>
+<p>Sets the input impedance to high-Z for the specified <cite>channel</cite>. By default the input impedance is 50 Ohm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p></li>
+<li><p><strong>state</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – True/False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getInputImpedanceHigh">
+<span class="sig-name descname"><span class="pre">getInputImpedanceHigh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getInputImpedanceHigh" title="Permalink to this definition"></a></dt>
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Method is only available for the Time Tagger X.</p>
+</div>
+<p>Returns whether the input impedance is set to high-Z for the specified <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>state of high input impedance</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setInputHysteresis">
+<span class="sig-name descname"><span class="pre">setInputHysteresis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setInputHysteresis" title="Permalink to this definition"></a></dt>
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Method is only available for the Time Tagger X.</p>
+</div>
+<p>Sets the input hysteresis value for the specified <cite>channel</cite>.
+Oscillations of the measured signal within the hysteresis range around the trigger value are ignored and therefore do not
+trigger new events. Supported values are 1 mV, 20 mV, 70 mV. Default input hysteresis value is 1 mV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – hysteresis voltage value in mV (1, 20, 70)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getInputHysteresis">
+<span class="sig-name descname"><span class="pre">getInputHysteresis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getInputHysteresis" title="Permalink to this definition"></a></dt>
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Method is only available for the Time Tagger X.</p>
+</div>
+<p>Returns the voltage value in mV of the input hysteresis for the specified <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>hysteresis voltage value in mV</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setNormalization">
+<span class="sig-name descname"><span class="pre">setNormalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setNormalization" title="Permalink to this definition"></a></dt>
+<dd><p>Enables or disables Gaussian normalization of the detection jitter. Enabled by default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channels</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – List of physical channel numbers</p></li>
+<li><p><strong>state</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – True/False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getNormalization">
+<span class="sig-name descname"><span class="pre">getNormalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getNormalization" title="Permalink to this definition"></a></dt>
+<dd><p>Returns True if Gaussian normalization is enabled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True/False</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setTestSignal">
+<span class="sig-name descname"><span class="pre">setTestSignal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setTestSignal" title="Permalink to this definition"></a></dt>
+<dd><p>Connect or disconnect the channels with the on-chip uncorrelated signal generator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channels</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – List of physical channel numbers</p></li>
+<li><p><strong>state</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – True/False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getTestSignal">
+<span class="sig-name descname"><span class="pre">getTestSignal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getTestSignal" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if the internal test signal is activated on the specified <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Physical channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True/False</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getSerial">
+<span class="sig-name descname"><span class="pre">getSerial</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getSerial" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the hardware serial number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Serial number string</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getModel">
+<span class="sig-name descname"><span class="pre">getModel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getModel" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Model name as string</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getPcbVersion">
+<span class="sig-name descname"><span class="pre">getPcbVersion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getPcbVersion" title="Permalink to this definition"></a></dt>
+<dd><p>Returns Time Tagger <abbr title="Printed circuit board">PCB</abbr> version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PCB version</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getDACRange">
+<span class="sig-name descname"><span class="pre">getDACRange</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getDACRange" title="Permalink to this definition"></a></dt>
+<dd><p>Return a vector containing the minimum and the maximum <abbr title="Digital-to-Analog Converter">DAC</abbr> voltage range for the trigger level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Min and max voltage in Volt</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getChannelList">
+<span class="sig-name descname"><span class="pre">getChannelList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ChannelEdge.All</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getChannelList" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of channels corresponding to the given <cite>type</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>type</strong> (<a class="reference internal" href="TimeTaggerLibrary.html#ChannelEdge" title="ChannelEdge"><em>ChannelEdge</em></a>) – Limits the returned channels to the specified channel edge type</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of channel numbers</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setHardwareBufferSize">
+<span class="sig-name descname"><span class="pre">setHardwareBufferSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setHardwareBufferSize" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the maximum buffer size within the Time Tagger. The default value is 64 MTags, but can be changed within the range of 32 kTags to 512 MTags. Please note that this buffer can only be filled with a total data rate of up to 500 MTags/s.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Time Tagger 20 uses by default the whole buffer of 8 MTags, which can be filled with a total data rate of up to 40 MTags/s.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Buffer size, must be a positive number</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.autoCalibration">
+<span class="sig-name descname"><span class="pre">autoCalibration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.autoCalibration" title="Permalink to this definition"></a></dt>
+<dd><p>Run an auto-calibration of the Time Tagger hardware using the built-in test signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the list of jitter of each input channel in picoseconds based on the calibration data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getDistributionCount">
+<span class="sig-name descname"><span class="pre">getDistributionCount</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getDistributionCount" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the calibration data represented in counts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Distribution data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>2D_array[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getDistributionPSec">
+<span class="sig-name descname"><span class="pre">getDistributionPSec</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getDistributionPSec" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the calibration data in picoseconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Calibration data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>2D_array[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getPsPerClock">
+<span class="sig-name descname"><span class="pre">getPsPerClock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getPsPerClock" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the duration of a clock cycle in picoseconds. This is the inverse of the internal clock frequency.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Clock period in picoseconds</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setStreamBlockSize">
+<span class="sig-name descname"><span class="pre">setStreamBlockSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">131072</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_latency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setStreamBlockSize" title="Permalink to this definition"></a></dt>
+<dd><p>This option controls the latency and the block size of the data stream.
+Depending on which of the two parameters is exceeded first, the block stream size is adjusted accordingly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The block size will be reduced even further when no new tag arrives within roughly 1-2 µs.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_events</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – maximum number of events within one block (256 - 32M), default: 131072 events</p></li>
+<li><p><strong>max_latency</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – maximum latency in milliseconds for constant input rates (1 to 10000), default: 20 ms.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setTimeTaggerNetworkStreamCompression">
+<span class="sig-name descname"><span class="pre">setTimeTaggerNetworkStreamCompression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setTimeTaggerNetworkStreamCompression" title="Permalink to this definition"></a></dt>
+<dd><p>Enables/disables the compression of TimeTags before they are streamed from the server to the clients.
+Activation can be helpful for slow network environments (&lt;= 100 MBit/s) if the bandwidth is the limiting factor.
+For instance, the amount of streamed data of periodic signals is reduced by about a factor of 2. The compression, on the other hand,
+leads to increased CPU utilization and is not advantageous for fast networks (&gt;= 1 GBit/s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>active</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – flag defining whether the compression is enabled (default: False).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setTestSignalDivider">
+<span class="sig-name descname"><span class="pre">setTestSignalDivider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">divider</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setTestSignalDivider" title="Permalink to this definition"></a></dt>
+<dd><p>Change the frequency of the on-chip test signal.</p>
+<p>For the Time Tagger X, the base frequency is 333 MHz and the default divider 375 corresponds to ~890 kCounts/s.</p>
+<p>For the Time Tagger Ultra, the base frequency is 50 MHz and the default divider 63 corresponds to ~800 kCounts/s.</p>
+<p>For the Time Tagger 20, the base frequency is 62.5 MHz and the default divider 74 corresponds to ~850 kCounts/s.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>divider</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Division factor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getTestSignalDivider">
+<span class="sig-name descname"><span class="pre">getTestSignalDivider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getTestSignalDivider" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the value of test signal division factor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getDeviceLicense">
+<span class="sig-name descname"><span class="pre">getDeviceLicense</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getDeviceLicense" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a JSON formatted string (dict in Python) containing license information of the Time Tagger device, for instance, model, edition, and available channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>License information</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.getSensorData">
+<span class="sig-name descname"><span class="pre">getSensorData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.getSensorData" title="Permalink to this definition"></a></dt>
+<dd><p>Prints a JSON formatted string (dict in Python) containing all available sensor data for the given board. The Time Tagger 20 has no onboard sensors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sensor data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.disableLEDs">
+<span class="sig-name descname"><span class="pre">disableLEDs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.disableLEDs" title="Permalink to this definition"></a></dt>
+<dd><p>Disables all channel LEDs and back LEDs. The disabling of the power button LED will follow in the upcoming release.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – True/False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setLED">
+<span class="sig-name descname"><span class="pre">setLED</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bitmask</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setLED" title="Permalink to this definition"></a></dt>
+<dd><p>Manually change the state of the Time Tagger LEDs. The power LED of the Time Tagger 20 cannot be programmed by software.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Turn off all LEDs</span>
+<span class="n">tagger</span><span class="o">.</span><span class="n">setLED</span><span class="p">(</span><span class="mh">0x01FF0000</span><span class="p">)</span>
+
+<span class="c1"># Restore normal LEDs operation</span>
+<span class="n">tagger</span><span class="o">.</span><span class="n">setLED</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">0 -&gt; LED off</div>
+<div class="line">1 -&gt; LED on</div>
+<div class="line"><strong>illumination bits</strong></div>
+<div class="line">0-2: status, rgb - all Time Tagger models</div>
+<div class="line">3-5: power, rgb - Time Tagger Ultra only</div>
+<div class="line">6-8: clock, rgb - Time Tagger Ultra only</div>
+</div>
+<div class="line-block">
+<div class="line">0 -&gt; normal LED behavior, not overwritten by setLED</div>
+<div class="line">1 -&gt; LED state is overwritten by the corresponding bit of 0-8</div>
+<div class="line"><strong>mask bits</strong></div>
+<div class="line">16-18: status, rgb - all Time Tagger models</div>
+<div class="line">19-21: power, rgb - Time Tagger Ultra only</div>
+<div class="line">22-24: clock, rgb - Time Tagger Ultra only</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bitmask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – LED bitmask.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.setSoundFrequency">
+<span class="sig-name descname"><span class="pre">setSoundFrequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freq_hz</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.setSoundFrequency" title="Permalink to this definition"></a></dt>
+<dd><p>Set the Time Tagger’s internal buzzer to a frequency in Hz.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>freq_hz</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The sound frequency in Hz, use 0 to switch the buzzer off.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.enableFpgaLink">
+<span class="sig-name descname"><span class="pre">enableFpgaLink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_mac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface</span> <span class="pre">=</span> <span class="pre">FpgaLinkInterface::SFPP_10GE</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.enableFpgaLink" title="Permalink to this definition"></a></dt>
+<dd><p>Enable the FPGA link of the Time Tagger X</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channels</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – List of channels, which shall be streamed over the FPGA link</p></li>
+<li><p><strong>destination_mac</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Destination MAC, use an empty string for the broadcast address of “FF:FF:FF:FF:FF:FF”</p></li>
+<li><p><strong>interface</strong> (<a class="reference internal" href="TimeTaggerLibrary.html#FpgaLinkInterface" title="FpgaLinkInterface"><em>FpgaLinkInterface</em></a>) – selects which interface shall be used</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.disableFpgaLink">
+<span class="sig-name descname"><span class="pre">disableFpgaLink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.disableFpgaLink" title="Permalink to this definition"></a></dt>
+<dd><p>Disable the FPGA link of the Time Tagger X</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.startServer">
+<span class="sig-name descname"><span class="pre">startServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">access_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">41101</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.startServer" title="Permalink to this definition"></a></dt>
+<dd><p>Start a Time Tagger server that can be accessed via <a class="reference internal" href="#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a>.
+The server access mode controls if the clients are allowed to change the hardware parameters. See also: <a class="reference internal" href="TimeTaggerLibrary.html#AccessMode" title="AccessMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessMode</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>access_mode</strong> (<a class="reference internal" href="TimeTaggerLibrary.html#AccessMode" title="AccessMode"><em>AccessMode</em></a>) – <a class="reference internal" href="TimeTaggerLibrary.html#AccessMode" title="AccessMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessMode</span></code></a> in which the server should run. Either control or listen</p></li>
+<li><p><strong>channels</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – Channels to be streamed. Used only when <code class="docutils literal notranslate"><span class="pre">access_mode=AccessMode.Listen</span></code></p></li>
+<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Port at which this Time Tagger server will be listening on.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – if server is already running.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.stopServer">
+<span class="sig-name descname"><span class="pre">stopServer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.stopServer" title="Permalink to this definition"></a></dt>
+<dd><p>Stop the Time Tagger server if currently running, otherwise do nothing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.isServerRunning">
+<span class="sig-name descname"><span class="pre">isServerRunning</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.isServerRunning" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True is server is running and False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following <cite>xtra</cite> methods are mainly for development purposes and may be discontinued
+in future software versions without further notice. These methods are only available for the Time Tagger X.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.xtra_setAuxOut">
+<span class="sig-name descname"><span class="pre">xtra_setAuxOut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.xtra_setAuxOut" title="Permalink to this definition"></a></dt>
+<dd><p>Enables/Disables the Aux Out signal for the specified Aux <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Aux channel number</p></li>
+<li><p><strong>state</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – True/False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.xtra_getAuxOut">
+<span class="sig-name descname"><span class="pre">xtra_getAuxOut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.xtra_getAuxOut" title="Permalink to this definition"></a></dt>
+<dd><p>Returns whether the Aux Out signal is enabled for the specified Aux <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>State of the Aux Out signal</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.xtra_setAuxOutSignal">
+<span class="sig-name descname"><span class="pre">xtra_setAuxOutSignal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">divider</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duty_cylce</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.xtra_setAuxOutSignal" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the signal shape, i.e., duty cycle and frequency, of the Aux out signal for the specified Aux <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Aux channel number</p></li>
+<li><p><strong>divider</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Divider of the Aux Out base signal frequency (333 MHz)</p></li>
+<li><p><strong>duty_cycle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The duty cycle of the aux signal</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">xtra_getAuxOutSignalDivider(channel):</span></span></dt>
+<dd><p>Returns the divider for the frequency of the Aux Out signal generator or the specified Aux <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Aux channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Divider for the frequency of the Aux Out signal generator</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.xtra_getAuxOutSignalDutyCycle">
+<span class="sig-name descname"><span class="pre">xtra_getAuxOutSignalDutyCycle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.xtra_getAuxOutSignalDutyCycle" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the duty cycle of the Aux Out signal for the specified Aux <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Aux channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Duty cycle of the Aux Out signal generator</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.xtra_measureTriggerLevel">
+<span class="sig-name descname"><span class="pre">xtra_measureTriggerLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.xtra_measureTriggerLevel" title="Permalink to this definition"></a></dt>
+<dd><p>Measures and returns the applied voltage threshold of the specified <cite>channel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Applied voltage threshold of a channel</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.xtra_setClockSource">
+<span class="sig-name descname"><span class="pre">xtra_setClockSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.xtra_setClockSource" title="Permalink to this definition"></a></dt>
+<dd><p>Specifies the different clock sources: 0 - internal clock , 1 - external clock 10 Mhz, 2 - external clock 500 MHz.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>source</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of the clock source. Allowed values: 0, 1, 2</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.xtra_getClockSource">
+<span class="sig-name descname"><span class="pre">xtra_getClockSource</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.xtra_getClockSource" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the used clock source: 0 - internal clock , 1 - external clock 10 Mhz, 2 - external clock 500 MHz.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of the clock source</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.xtra_setClockAutoSelect">
+<span class="sig-name descname"><span class="pre">xtra_setClockAutoSelect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.xtra_setClockAutoSelect" title="Permalink to this definition"></a></dt>
+<dd><p>Enables/Disables the auto clocking function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – True/False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.xtra_getClockAutoSelect">
+<span class="sig-name descname"><span class="pre">xtra_getClockAutoSelect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.xtra_getClockAutoSelect" title="Permalink to this definition"></a></dt>
+<dd><p>Returns whether the auto clocking function is enabled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>State of auto clocking</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTagger.xtra_setClockOut">
+<span class="sig-name descname"><span class="pre">xtra_setClockOut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTagger.xtra_setClockOut" title="Permalink to this definition"></a></dt>
+<dd><p>Activates/Deactivates the 10 MHz clock output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – True/False</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="the-timetaggervirtual-class">
+<span id="time-tagger-virtual"></span><h2>The TimeTaggerVirtual class<a class="headerlink" href="#the-timetaggervirtual-class" title="Permalink to this heading"></a></h2>
+<p>In the Time Tagger software version 2.6.0, we have introduced the new <a class="reference internal" href="#TimeTaggerVirtual" title="TimeTaggerVirtual"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerVirtual</span></code></a>, which allows
+replaying earlier stored time-tag dump files. Using the virtual Time Tagger, you can repeat your experiment
+data analysis with different parameters or even perform different measurements.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The virtual Time Tagger requires a free software license, which is automatically acquired from the
+Swabian Instruments license server when <a class="reference internal" href="TimeTaggerLibrary.html#createTimeTagger" title="createTimeTagger"><code class="xref py py-func docutils literal notranslate"><span class="pre">createTimeTagger()</span></code></a> or <a class="reference internal" href="TimeTaggerLibrary.html#createTimeTaggerVirtual" title="createTimeTaggerVirtual"><code class="xref py py-func docutils literal notranslate"><span class="pre">createTimeTaggerVirtual()</span></code></a> is called while a Time Tagger
+is attached. Once received, the license is permanently stored on this PC and the Virtual Time Tagger will work
+without Time Tagger hardware attached.</p>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="TimeTaggerVirtual">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TimeTaggerVirtual</span></span><a class="headerlink" href="#TimeTaggerVirtual" title="Permalink to this definition"></a></dt>
+<dd><p>Base class: <a class="reference internal" href="#TimeTaggerBase" title="TimeTaggerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerBase</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerVirtual.replay">
+<span class="sig-name descname"><span class="pre">replay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">begin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerVirtual.replay" title="Permalink to this definition"></a></dt>
+<dd><p>Replay a dump file specified by its path <cite>file</cite> or add it to the replay queue.
+If the flag <cite>queue</cite> is false, the current queue will be discarded and file will be replayed immediately.</p>
+<p>The <cite>file</cite> parameter can specify a header file or single specific file as shown in the following example.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assume we have following the files in the current directory:</span>
+<span class="c1">#   filename.ttbin</span>
+<span class="c1">#   filename.1.ttbin</span>
+<span class="c1">#   filename.2.ttbin</span>
+
+<span class="c1"># Replay all files named &quot;filename.NN.ttbin&quot; sequentially</span>
+<span class="n">virtual_tagger</span><span class="o">.</span><span class="n">replay</span><span class="p">(</span><span class="s1">&#39;filename.ttbin&#39;</span><span class="p">)</span>
+
+<span class="c1"># Replay a single file &quot;filename.1.ttbin&quot;</span>
+<span class="n">virtual_tagger</span><span class="o">.</span><span class="n">replay</span><span class="p">(</span><span class="s1">&#39;filename.1.ttbin&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See also: <a class="reference internal" href="Measurements.html#api-filewriter"><span class="std std-ref">FileWriter</span></a>, <a class="reference internal" href="Measurements.html#api-filereader"><span class="std std-ref">FileReader</span></a>, and <a class="reference internal" href="TimeTaggerLibrary.html#mergeStreamFiles" title="mergeStreamFiles"><code class="xref py py-func docutils literal notranslate"><span class="pre">mergeStreamFiles()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – the file to be replayed</p></li>
+<li><p><strong>begin</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – duration in picoseconds to skip at the beginning of the file. A negative time will generate a pause in the replay.</p></li>
+<li><p><strong>duration</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – duration in picoseconds to be read from the file. <cite>duration=-1</cite> will replay everything. (default: -1)</p></li>
+<li><p><strong>queue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – flag if this file shall be queued. (default: <cite>True</cite>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID of the queued file</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerVirtual.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerVirtual.stop" title="Permalink to this definition"></a></dt>
+<dd><p>This method stops the current file and clears the replay queue.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerVirtual.waitForCompletion">
+<span class="sig-name descname"><span class="pre">waitForCompletion</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">ID=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout=-1</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerVirtual.waitForCompletion" title="Permalink to this definition"></a></dt>
+<dd><p>Blocks the current thread until the replay is completed.</p>
+<p>This method blocks the current execution and waits until the given file has finished its replay.
+If no ID is provided, it waits until all queued files are replayed.</p>
+<p>This function does not block on a zero timeout. Negative timeouts are interpreted as infinite timeouts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ID</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – selects which file to wait for. (default: 0)</p></li>
+<li><p><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – timeout in milliseconds</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>true if the file is complete, false on timeout</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerVirtual.setReplaySpeed">
+<span class="sig-name descname"><span class="pre">setReplaySpeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">speed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerVirtual.setReplaySpeed" title="Permalink to this definition"></a></dt>
+<dd><p>Configures the speed factor for the virtual tagger.</p>
+<p>A value of <cite>speed=1.0</cite> will replay at a real-time rate.
+All <cite>speed</cite> values &lt; 0.0 will replay the data as fast as possible but stops at the end of all data. This is the default value.
+Extreme slow replay speed between 0.0 and 0.1 is not supported.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>speed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – replay speed factor.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerVirtual.getReplaySpeed">
+<span class="sig-name descname"><span class="pre">getReplaySpeed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerVirtual.getReplaySpeed" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the current speed factor.</p>
+<p>Please see also <a class="reference internal" href="#TimeTaggerVirtual.setReplaySpeed" title="TimeTaggerVirtual.setReplaySpeed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setReplaySpeed()</span></code></a> for more details.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerVirtual.getConfiguration">
+<span class="sig-name descname"><span class="pre">getConfiguration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerVirtual.getConfiguration" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a JSON formatted string (<cite>dict</cite> in Python) containing information on the TimeTaggerVirtual instance and on the
+real Time Tagger settings stored in the current time tag stream file.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="the-timetaggernetwork-class">
+<span id="time-tagger-network"></span><h2>The TimeTaggerNetwork class<a class="headerlink" href="#the-timetaggernetwork-class" title="Permalink to this heading"></a></h2>
+<p>In the Time Tagger software version 2.10, we have introduced a way of sending the time-tag stream
+to other applications and even remote computers for independent processing. We call this feature <em>Network Time Tagger</em>. You can use it with any Time Tagger hardware device by starting the time-tag stream server with <a class="reference internal" href="#TimeTagger.startServer" title="TimeTagger.startServer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.startServer()</span></code></a>. Once the server is running, the clients can connect to it by calling <a class="reference internal" href="TimeTaggerLibrary.html#createTimeTaggerNetwork" title="createTimeTaggerNetwork"><code class="xref py py-func docutils literal notranslate"><span class="pre">createTimeTaggerNetwork()</span></code></a> and specifying the server address.
+A client can be any computer that can access the server over the network or another process on the same computer. It is also possible to run the server and client on different operating systems or use different programming languages.</p>
+<div class="admonition-note-on-performance admonition">
+<p class="admonition-title">Note on performance</p>
+<p>The Network Time Tagger server sends a time tag stream in a compressed format requiring about 4 bytes per time tag.
+Every client receives the data only from the channels required by the client. The maximum achievable data rate will depend on multiple factors, like server and client CPU performance, operating system, network adapter used, and network bandwidth, as well as the whole network infrastructure.</p>
+<p>In a 1 Gbps Ethernet network, it is possible to achieve about 26 MTags/second of the total outgoing data rate from the server. Note that this bandwidth is shared among all clients connected.
+Likewise, a 10 Gbps Ethernet network allows reaching higher data rates while having more clients.
+In our tests, we reached up to 40 MTags/s per client.</p>
+<p>When you run the server and the client on the same computer, the speed of the network adapters installed on your system becomes irrelevant.
+In this case, the operating system sends the data directly from the server to the client.</p>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="TimeTaggerNetwork">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TimeTaggerNetwork</span></span><a class="headerlink" href="#TimeTaggerNetwork" title="Permalink to this definition"></a></dt>
+<dd><p>Base class: <a class="reference internal" href="#TimeTaggerBase" title="TimeTaggerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerBase</span></code></a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the <a class="reference internal" href="#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a> formally inherits from <a class="reference internal" href="#TimeTaggerBase" title="TimeTaggerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerBase</span></code></a>, almost all methods of the hardware
+Time Tagger <a class="reference internal" href="#TimeTagger" title="TimeTagger"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagger</span></code></a> are available on the client (except for <a class="reference internal" href="#TimeTagger.startServer" title="TimeTagger.startServer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.startServer()</span></code></a> and <a class="reference internal" href="#TimeTagger.stopServer" title="TimeTagger.stopServer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.stopServer()</span></code></a>).
+These redundant methods are not listed in this section.
+A call to a method that exists on <a class="reference internal" href="#TimeTagger" title="TimeTagger"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTagger</span></code></a> will be forwarded to the server. If a method with similar
+functionality exists on the <a class="reference internal" href="#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a> only, it can be distinguished by the suffix <cite>…Client</cite>.
+If the server is running in <a class="reference internal" href="TimeTaggerLibrary.html#AccessMode.Listen" title="AccessMode.Listen"><code class="xref py py-attr docutils literal notranslate"><span class="pre">AccessMode.Listen</span></code></a> and a method call forwarded to the server would cause setting changes
+on the server-side, the call will raise an exception on the client.</p>
+<p>This scheme of forwarding may lead to unexpected behavior:
+If the server is started in <a class="reference internal" href="TimeTaggerLibrary.html#AccessMode.Listen" title="AccessMode.Listen"><code class="xref py py-attr docutils literal notranslate"><span class="pre">AccessMode.Listen</span></code></a> with a restricted set of <cite>channels</cite>
+and you call <a class="reference internal" href="#TimeTagger.getChannelList" title="TimeTagger.getChannelList"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.getChannelList()</span></code></a> on the client side, not all channels returned by this method can be accessed.
+You can request the list of accessible channels from the server with <a class="reference internal" href="TimeTaggerLibrary.html#getTimeTaggerServerInfo" title="getTimeTaggerServerInfo"><code class="xref py py-func docutils literal notranslate"><span class="pre">getTimeTaggerServerInfo()</span></code></a>.</p>
+</div>
+<p>The <a class="reference internal" href="#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a> represents a client-side of the Network Time Tagger and provides access to the Time Tagger server.
+A server can be created on any physical Time Tagger by calling <a class="reference internal" href="#TimeTagger.startServer" title="TimeTagger.startServer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTagger.startServer()</span></code></a>.
+The <a class="reference internal" href="#TimeTaggerNetwork" title="TimeTaggerNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTaggerNetwork</span></code></a> object is created by calling <a class="reference internal" href="TimeTaggerLibrary.html#createTimeTaggerNetwork" title="createTimeTaggerNetwork"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createTimeTaggerNetwork()</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerNetwork.isConnected">
+<span class="sig-name descname"><span class="pre">isConnected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerNetwork.isConnected" title="Permalink to this definition"></a></dt>
+<dd><p>Check if the Network Time Tagger is currently connected to a server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True/False</p>
+</dd>
+<dt class="field-even">Return_type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerNetwork.setDelayClient">
+<span class="sig-name descname"><span class="pre">setDelayClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerNetwork.setDelayClient" title="Permalink to this definition"></a></dt>
+<dd><p>Sets an artificial software delay per channel on the client side.
+To specify it on the server side, see <a class="reference internal" href="#TimeTaggerBase.setDelaySoftware" title="TimeTaggerBase.setDelaySoftware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDelaySoftware()</span></code></a>
+or <a class="reference internal" href="#TimeTaggerBase.setDelayHardware" title="TimeTaggerBase.setDelayHardware"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDelayHardware()</span></code></a> (Time Tagger Ultra only).
+This delay will be applied only on this object and will not affect the server settings or
+delays at any other clients connected to the same Time Tagger server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p></li>
+<li><p><strong>delay</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Delay time in picoseconds</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerNetwork.getDelayClient">
+<span class="sig-name descname"><span class="pre">getDelayClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerNetwork.getDelayClient" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the value of the delay applied on the client-side in picoseconds for the specified channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>channel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Channel number</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>input delay in picoseconds</p>
+</dd>
+<dt class="field-odd">Return_type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerNetwork.clearOverflowsClient">
+<span class="sig-name descname"><span class="pre">clearOverflowsClient</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerNetwork.clearOverflowsClient" title="Permalink to this definition"></a></dt>
+<dd><p>Clears the overflow counter on the client-side. A call to <a class="reference internal" href="#TimeTaggerBase.getOverflows" title="TimeTaggerBase.getOverflows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getOverflows()</span></code></a> will return the information
+as it is available on the server. See <a class="reference internal" href="#TimeTaggerNetwork.getOverflowsClient" title="TimeTaggerNetwork.getOverflowsClient"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getOverflowsClient()</span></code></a> for more information on client-side overflows.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerNetwork.getOverflowsClient">
+<span class="sig-name descname"><span class="pre">getOverflowsClient</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerNetwork.getOverflowsClient" title="Permalink to this definition"></a></dt>
+<dd><p>If the server is not able to send all the time-tags to the client, e.g. due to limited network bandwidth,
+the time-tag stream switches to the overflow mode.
+This means that the client might experience additional overflow events that are not originating from the hardware.
+This counter counts all overflows occurred on the hardware and on the server since the client connection or last call to
+<a class="reference internal" href="#TimeTaggerNetwork.clearOverflowsClient" title="TimeTaggerNetwork.clearOverflowsClient"><code class="xref py py-meth docutils literal notranslate"><span class="pre">clearOverflowsClient()</span></code></a> or <a class="reference internal" href="#TimeTaggerNetwork.getOverflowsAndClearClient" title="TimeTaggerNetwork.getOverflowsAndClearClient"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getOverflowsAndClearClient()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The value of the client-side overflow counter.</p>
+</dd>
+<dt class="field-even">Return_type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TimeTaggerNetwork.getOverflowsAndClearClient">
+<span class="sig-name descname"><span class="pre">getOverflowsAndClearClient</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TimeTaggerNetwork.getOverflowsAndClearClient" title="Permalink to this definition"></a></dt>
+<dd><p>The same as <a class="reference internal" href="#TimeTaggerNetwork.getOverflowsClient" title="TimeTaggerNetwork.getOverflowsClient"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getOverflowsClient()</span></code></a> but also clears the client-side counter.
+See <a class="reference internal" href="#TimeTaggerNetwork.getOverflowsClient" title="TimeTaggerNetwork.getOverflowsClient"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getOverflowsClient()</span></code></a> for more information on client-side overflows.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="additional-classes">
+<h2>Additional classes<a class="headerlink" href="#additional-classes" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="SoftwareClockState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SoftwareClockState</span></span><a class="headerlink" href="#SoftwareClockState" title="Permalink to this definition"></a></dt>
+<dd><p>The <cite>SoftwareClockState</cite> object contains the current configuration state:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SoftwareClockState.clock_period">
+<span class="sig-name descname"><span class="pre">clock_period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#SoftwareClockState.clock_period" title="Permalink to this definition"></a></dt>
+<dd><p>The rounded clock period matching the input frequency set in <a class="reference internal" href="#TimeTaggerBase.setSoftwareClock" title="TimeTaggerBase.setSoftwareClock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setSoftwareClock()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SoftwareClockState.input_channel">
+<span class="sig-name descname"><span class="pre">input_channel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#SoftwareClockState.input_channel" title="Permalink to this definition"></a></dt>
+<dd><p>The physical input channel of the software clock set in <a class="reference internal" href="#TimeTaggerBase.setSoftwareClock" title="TimeTaggerBase.setSoftwareClock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setSoftwareClock()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SoftwareClockState.ideal_clock_channel">
+<span class="sig-name descname"><span class="pre">ideal_clock_channel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#SoftwareClockState.ideal_clock_channel" title="Permalink to this definition"></a></dt>
+<dd><p>A virtual channel number to receive the ideal clock tags.
+During a locking period, these tags are separated by <cite>clock_period</cite> by definition.
+To receive the rescaled measured clock tags, use <cite>clock_channel</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SoftwareClockState.averaging_periods">
+<span class="sig-name descname"><span class="pre">averaging_periods</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#SoftwareClockState.averaging_periods" title="Permalink to this definition"></a></dt>
+<dd><p>The averaging periods set in <a class="reference internal" href="#TimeTaggerBase.setSoftwareClock" title="TimeTaggerBase.setSoftwareClock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setSoftwareClock()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SoftwareClockState.enabled">
+<span class="sig-name descname"><span class="pre">enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#SoftwareClockState.enabled" title="Permalink to this definition"></a></dt>
+<dd><p>Indicates whether the software clock is active or not.</p>
+</dd></dl>
+
+<p>Beyond the configuration state, the object provides current runtime information of the software clock:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SoftwareClockState.is_locked">
+<span class="sig-name descname"><span class="pre">is_locked</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#SoftwareClockState.is_locked" title="Permalink to this definition"></a></dt>
+<dd><p>Indicates whether the PLL of the software clock was able to lock to the input signal.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SoftwareClockState.error_counter">
+<span class="sig-name descname"><span class="pre">error_counter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#SoftwareClockState.error_counter" title="Permalink to this definition"></a></dt>
+<dd><p>Amount of locking errors since the last <a class="reference internal" href="#TimeTaggerBase.setSoftwareClock" title="TimeTaggerBase.setSoftwareClock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeTaggerBase.setSoftwareClock()</span></code></a> call.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SoftwareClockState.last_ideal_clock_event">
+<span class="sig-name descname"><span class="pre">last_ideal_clock_event</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#SoftwareClockState.last_ideal_clock_event" title="Permalink to this definition"></a></dt>
+<dd><p>Timestamp of the last ideal clock event in picoseconds.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SoftwareClockState.period_error">
+<span class="sig-name descname"><span class="pre">period_error</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#SoftwareClockState.period_error" title="Permalink to this definition"></a></dt>
+<dd><p>Current deviation of the measured clock period from the ideal period given by <cite>clock_period</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SoftwareClockState.phase_error_estimation">
+<span class="sig-name descname"><span class="pre">phase_error_estimation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#SoftwareClockState.phase_error_estimation" title="Permalink to this definition"></a></dt>
+<dd><p>Current root of the squared differences of <cite>clock_input</cite> timestamps and ideal clock timestamps.
+This value includes the discretization noise of the <cite>clock_input</cite> channel.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="TimeTaggerLibrary.html" class="btn btn-neutral float-left" title="The TimeTagger Library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="VirtualChannels.html" class="btn btn-neutral float-right" title="Virtual Channels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Swabian Instruments.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

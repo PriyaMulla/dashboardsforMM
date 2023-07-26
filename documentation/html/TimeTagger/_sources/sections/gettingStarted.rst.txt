@@ -1,0 +1,270 @@
+***************
+Getting Started
+***************
+
+The following section describes how to get started with your Time Tagger.
+
+First, please install the most recent driver/software, including graphical user interfaces, libraries, and examples for C++, Python, .NET, C#, LabVIEW, Matlab, and Mathematica.
+
+.. admonition:: Time Tagger software download
+
+    https://www.swabianinstruments.com/time-tagger/downloads/
+
+You are highly encouraged to read the sections below to get started with the graphical user interface and/or the Time Tagger programming libraries.
+
+In addition, information about the hardware, API, etc. can be found in the menu bar on the left and on our main website: https://www.swabianinstruments.com/time-tagger/.
+
+How to get started with Linux can be found in the :ref:`Linux <linux>` section.
+
+
+Get familiar with your Time Tagger
+++++++++++++++++++++++++++++++++++
+
+To learn more about the *Time Tagger* you are encouraged to consult the following resources.
+
+#. Run the Graphical User Interface, `Time Tagger Lab`_ or the `Web Application`_, to play with your Time Tagger interactively. The examples below will allow you to experience basic data acquisition. Play with the Time Tagger settings to see their effects on typical measurements.
+#. Check out the :doc:`/api/index` chapter. It gives you a detailed overview of all Time Tagger features and data processing classes. Check out the following sections to get started using the *Time Tagger* software library in the programming language of your choice.
+#. Study the code examples in the ``.\examples\<language>\`` folders of your Time Tagger installation.
+
+
+Graphical User Interfaces
++++++++++++++++++++++++++
+
+.. _timetaggerlab:
+
+Time Tagger Lab
+---------------
+
+Time Tagger Lab is the provided Graphical User Interface (GUI) for Windows systems.
+It is designed to perform standard measurements quickly and to get an interactive experience with your Time Tagger.
+
+#. Download and install the most recent `Time Tagger software <https://www.swabianinstruments.com/time-tagger/downloads/>`_ from our downloads site.
+#. Start ``Time Tagger Lab`` from the Windows start menu.
+#. The Time Tagger Lab welcome screen opens and presents all available devices. If you plug or unplug a Time Tagger, the display will update automatically.
+
+Time Tagger Lab allows you to work with your *Time Tagger* interactively.
+We will now use the Time Tagger's internal test signal to measure a :ref:`cross correlation<api.Correlation>` between two channels as an example.
+
+#. On the welcome screen, click on the panel representing your desired device. The ``Home`` screen of your Time Tagger shows up.
+#. On the top of the ``Home`` screen, you can toggle between the basic display you are currently looking at and the ``Detailed View``. Activate the ``Detailed View``.
+#. In the upper panel of the ``Detailed View``, you can change settings for every input. Activate the internal test signal of inputs 1 and 2 by checking the boxes on the very right.
+#. Go back to the basic display by deactivating ``Detailed view``. The count rate displays (cps) show a test signal count rate of 800 to 900 kHz, and the trigger level setting is replaced by the label ``test signal``.
+
+With the activated test signal, we can start our first measurement.
+
+#. Click on ``Open creator (F2)`` in the ``Measurements`` panel on the left. The creator gives you an overview of all available measurements.
+#. Pick ``Bidirectional histogram - Correlation``. Now you can read through a detailed description and change the initial settings of your measurement.
+#. Set ``Reference channel`` to `1` and ``Click channel`` to `2`. Click ``Add measurement``.
+#. The measurement graph is showing up. To start the measurement, click the ``Play`` button next to the graph.
+#. A Gaussian peak should be displayed. You can zoom in using the controls on the plot. If the resolution is not sufficient, try a smaller ``Bin width`` in the measurement settings.
+#. The detection jitter of a single channel is :math:`\frac{1}{\sqrt{2}}` times the standard deviation of this two-channel measurement (the FWHM of the Gaussian peak is 2.35 times its standard deviation).
+
+You have just verified the time resolution (detection jitter) of your Time Tagger.
+
+
+.. _webapplication:
+
+Web Application
+---------------
+
+The Web Application is the traditional provided GUI for Windows and Linux for quick measurements.
+On Windows systems, we recommend switching to `Time Tagger Lab<_timetaggerlab>` today.
+
+#. Download and install the most recent `Time Tagger software <https://www.swabianinstruments.com/time-tagger/downloads/>`_ from our downloads site.
+#. Start the ``Time Tagger Application`` from the Windows start menu.
+#. The Web Application should show up in your browser.
+
+.. note:: 
+    The Web Application has the port ``50120`` as default port. If this collides with another application you can change the port with passing the argument ``TimeTaggerServer.exe -p 50120``. 
+
+The Web Application allows you to work with your *Time Tagger* interactively. We will now use the Time Tagger's internal test signal to measure a :ref:`cross correlation<api.Correlation>` between two channels as an example.
+
+#. Click ``Add TimeTagger``, click ``Init`` (select resolution if available) on any of the available Time Taggers
+#. Click ``Create measurement``, look for ``Bidirectional Histogram (Class: Correlation)`` and click ``Create`` next to it.
+#. Select ``Rising edge 1`` for Channel 1 and ``Rising edge 2`` for Channel 2.
+#. Set ``Binwidth`` to 10 ps and leave ``Number of data points`` at 1000, click ``Initialize``.
+
+The Time Tagger is now acquiring data, but it does not yet have a signal. We will now enable its internal test signal.
+
+#. On the top left, click on the settings wheel next to ``Time Tagger``.
+#. On the far right, check ``Test signal`` for channels ``1`` and ``2``, click ``Ok``.
+#. A Gaussian peak should be displayed. You can zoom in using the controls on the plot.
+#. The detection jitter of a single channel is :math:`\frac{1}{\sqrt{2}}` times the standard deviation of this two-channel measurement (the FWHM of the Gaussian peak is 2.35 times its standard deviation).
+
+You have just verified the time resolution (detection jitter) of your Time Tagger.
+
+
+Programming languages
++++++++++++++++++++++
+
+.. _examples:
+
+Python
+------
+
+#. Make sure that your *Time Tagger* device is connected to your computer and the *Time Tagger* Web Application (especially the server window) is closed.
+#. Make sure the *Time Tagger* software and a Python distribution (we recommend `Anaconda <https://www.anaconda.com/>`_) are installed.
+#. Open a command shell and navigate to the ``.\examples\python\1-Quickstart`` folder in your *Time Tagger* installation directory
+#. Start an **ipython** shell with plotting support by entering ``ipython --pylab``
+#. Run the **hello_world.py** script by entering ``run hello_world``
+
+The `hello_world` executes a simple yet useful measurement that demonstrates many essential features of the *Time Tagger* programming interface:
+
+#. Connect your Time Tagger
+#. Start the built-in test signal (~0.8 MHz square wave) and apply it to channels 1 and 2
+#. Control the trigger level of your inputs - although it is not necessary here
+#. Initialize a standard measurement (:class:`Correlation`) in order to find the delay of the test signal between channel 1 and 2
+#. How to control the delay of different inputs programmatically.
+
+You are encouraged to open and read the ``hello_world.py`` file in an editor to understand what it is doing.
+With this basic knowledge, you can explore the other examples in the ``1-Quickstart`` folder:
+
+
++-----+---------------------------+----------------------------------------------------+
+| No. | Topic                     | Classes & Methods                                  |
++=====+===========================+====================================================+
+| **Basic software control** (folder `1-basic_software_control`)                       |
++-----+---------------------------+----------------------------------------------------+
+| 1-A | Create a measurement      | :meth:`createTimeTagger`,                          |
+|     |                           | :meth:`Counter.getData`,                           |
+|     |                           |                                                    |
+|     |                           | :meth:`Counter.getIndex`                           |
++     +---------------------------+----------------------------------------------------+
+|     | Count rate trace          | :class:`Counter`                                   |
++-----+---------------------------+----------------------------------------------------+
+| 1-B | Start & stop measurements | :class:`Countrate`,                                |
+|     |                           | :meth:`~IteratorBase.start`,                       |
+|     |                           | :meth:`~IteratorBase.stop`,                        |
+|     |                           | :meth:`~IteratorBase.startFor`                     |
++-----+---------------------------+----------------------------------------------------+
+| 1-C | Synchronize measurements  | :class:`SynchronizedMeasurements`                  |
++     +---------------------------+----------------------------------------------------+
+|     | Use different histograms  | :class:`Correlation`,                              |
+|     |                           | :class:`Histogram`,                                |
+|     |                           |                                                    |
+|     |                           | :class:`StartStop`,                                |
+|     |                           | :class:`HistogramLogBins`                          |
++-----+---------------------------+----------------------------------------------------+
+| 1-D | Virtual Channels          | :class:`DelayedChannel`,                           |
+|     |                           | :class:`Coincidence`,                              |
+|     |                           | :class:`GatedChannel`                              |
++-----+---------------------------+----------------------------------------------------+
+| 1-E | Logging errors            | :meth:`setLogger`                                  |
++-----+---------------------------+----------------------------------------------------+
+| 1-F | (External) software clock | :meth:`TimeTaggerBase.setSoftwareClock`,           |
+|     |                           |                                                    |
+|     |                           | :class:`FrequencyStability`                        |
++-----+---------------------------+----------------------------------------------------+
+| **Controlling the hardware** (folder `2-controlling-the-hardware`)                   |
++-----+---------------------------+----------------------------------------------------+
+| 2-A | Get hardware information  | :meth:`scanTimeTagger`,                            |
+|     |                           | :meth:`TimeTagger.getSerial`,                      |
+|     |                           |                                                    |
+|     |                           | :meth:`TimeTagger.getModel`,                       |
+|     |                           | :meth:`TimeTagger.getSensorData`,                  |
+|     |                           |                                                    |
+|     |                           | :meth:`TimeTaggerBase.getConfiguration`            |
++-----+---------------------------+----------------------------------------------------+
+| 2-B | The input trigger level   | :meth:`TimeTagger.setTriggerLevel`,                |
+|     |                           | :meth:`TimeTagger.getDACRange`                     |
++-----+---------------------------+----------------------------------------------------+
+| 2-C | Filter tags on hardware   | :meth:`TimeTagger.setConditionalFilter`,           |
+|     |                           |                                                    |
+|     |                           | :meth:`TimeTagger.setEventDivider`                 |
++-----+---------------------------+----------------------------------------------------+
+| 2-D | Control input delays      | :meth:`TimeTaggerBase.setInputDelay`,              |
+|     |                           | :class:`Histogram2D`                               |
++-----+---------------------------+----------------------------------------------------+
+| 2-E | Overflows                 | :meth:`TimeTaggerBase.getOverflows`,               |
+|     |                           |                                                    |
+|     |                           | :meth:`TimeTagger.setTestSignalDivider`            |
++-----+---------------------------+----------------------------------------------------+
+| 2-F | HighRes mode              | :meth:`createTimeTagger`,                          |
+|     |                           | :class:`TimeDifferences`                           |
++-----+---------------------------+----------------------------------------------------+
+| **Dump and re-analyze time-tags** (folder `3-dump-and-reanalyze-time-tags`)          |
++-----+---------------------------+----------------------------------------------------+
+| 3-A | Dump tags by FileWriter   | :class:`FileWriter`                                |
++-----+---------------------------+----------------------------------------------------+
+| 3-B | The Time Tagger Virtual   | :meth:`createTimeTaggerVirtual`,                   |
+|     |                           | :class:`TimeTaggerVirtual`                         |
++-----+---------------------------+----------------------------------------------------+
+| **Working with raw time-tags** (folder `4-working-with-raw-time-tags`)               |
++-----+---------------------------+----------------------------------------------------+
+| 4-A | The FileReader            | :class:`FileReader`,                               |
+|     |                           | :class:`TimeTagStreamBuffer`                       |
++-----+---------------------------+----------------------------------------------------+
+| 4-B | Streaming raw time-tags   | :class:`TimeTagStream`                             |
++-----+---------------------------+----------------------------------------------------+
+| 4-C | Custom Measurements       | :class:`CustomMeasurement`                         |
++-----+---------------------------+----------------------------------------------------+
+
+More details about the software interface are covered by the API documentation in the subsequent section
+
+LabVIEW (via .NET)
+-------------------------------------------------------------------------------
+
+A set of examples is provided in ``.\examples\LabVIEW\`` for LabVIEW 2014 and higher (32 and 64 bit).
+
+Matlab (wrapper for .NET)
+-------------------------------------------------------------------------------
+
+Wrapper classes are provided for Matlab so that native Matlab variables can be used.
+
+The Time Tagger toolbox is automatically installed during the setup. If ``TimeTagger`` is not available in your Matlab environment try to reinstall the toolbox from 
+``.\driver\Matlab\TimeTaggerMatlab.mltbx``.
+
+The following changes in respect to the .NET library have been made:
+
+* static functions are available through the ``TimeTagger`` class
+* all classes except for the ``TimeTagger``, ``TimeTaggerNetwork``, and ``TimeTaggerVirtual`` classes will have a ``TT`` prefix (e.g. ``TTCountrate``) to prevent conflict with any variables/classes in your Matlab environment
+
+An example of how to use the Time Tagger with Matlab can be found in ``.\examples\Matlab\``.
+
+
+
+Wolfram Mathematica (via .NET)
+-------------------------------------------------------------------------------
+Time Tagger functionality is provided to Mathematica via .NET interoperability interface. Please take a look at the examples in ``.\examples\Mathematica\``.
+
+
+.NET
+-------------------------------------------------------------------------------
+
+We provide a .NET class library (32, 64 bit and CIL) for the TimeTagger which can be used to access the TimeTagger from many high-level languages.
+
+The following are important to note:
+
+* Namespace: ``SwabianInstruments.TimeTagger``
+* the corresponding library ``.\driver\xxx\SwabianInstruments.TimeTagger.dll`` is registered in the Global Assembly Cache (GAC)
+* static functions (e.g. to create an instance of a TimeTagger) are accessible via ``SwabianInstruments.TimeTagger.TT``
+
+C#
+-------------------------------------------------------------------------------
+
+A sample Visual Studio C# project provided in the ``.\examples\csharp\Quickstart`` directory covers the basics of how to use the Time Tagger .NET API.
+An example of creating 'custom measurements' is also included.
+
+Please copy the project folder to a directory within the user environment such that files can be written within the directory.
+
+An 'Example Suite' is provided in the ``.\examples\csharp\ExampleSuite`` directory. 'Example Suite' is an interactive application that demonstrates various measurements that can be performed with the TimeTagger.
+Reference source code to setup and plot (with OxyPlot) each measurement is also provided within the application.
+Additionally, the application contains examples for creating and using '*Virtual channels*', '*Filtering*' and '*Accessing the raw time tags*'.
+
+.. note:: Running the Example Suite requires '.NET Core 3.1 Desktop Runtime (v3.1.10)'.
+
+C++
+-------------------------------------------------------------------------------
+
+The provided Visual Studio C++ project can be found in ``.\examples\cpp\``.
+Using the C++ interface is the most performant way to interact with the Time Tagger as it supports writing custom measurement classes with no overhead.
+But it is more elaborate compared to the other high-level languages.
+Please visit ``.\documentation\Time Tagger C++ API Manual.pdf`` for more details on the C++ API.
+
+.. note::
+
+    * the C++ headers are stored in the ``.\driver\include\`` folder
+    * the final assembly must link ``.\driver\xYZ\TimeTagger.lib``
+    * the library ``.\driver\xYZ\TimeTagger.dll`` is linked with the shared v142 or newer Visual Studio runtime (``/MD``)
+    * use ``TimeTaggerD.lib`` and ``TimeTaggerD.dll`` for the Visual Studio debug runtime (``/MDd``)
+

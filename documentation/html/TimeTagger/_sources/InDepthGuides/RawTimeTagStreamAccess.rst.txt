@@ -1,0 +1,63 @@
+==========================
+Raw Time-Tag-Stream access
+==========================
+
+There are several ways to access the raw time tags with the Time Tagger API.
+They can be split into two categories: dumping together with post-processing and on-the-fly processing.
+Both ways will be explained in the following. They are not exclusive so that you can combine them,
+also, with other measurements from our API in parallel.
+
+
+Dumping and post-processing
+---------------------------
+
+All incoming time tags or selected channels of the Time Tagger can be stored on the hard drive via the :class:`FileWriter`. 
+Please visit the documentation and the provided programming examples of :class:`FileWriter` for further details.
+
+There are two ways for post-processing the dumped data:
+
+File Reader
+^^^^^^^^^^^
+
+By reading in the stored time tags with the :class:`FileReader`, the tags stored can be processed natively in your preferred programming language.
+You find examples of how to use the :class:`FileReader` in your examples folder.
+
+Virtual Time Tagger
+^^^^^^^^^^^^^^^^^^^
+
+The second option to process stored time tags is the :ref:`Time Tagger Virtual <time-tagger-virtual>`. The :ref:`Time Tagger Virtual <time-tagger-virtual>` allows you to use the full Time Tagger API
+to post-process your data.
+You find examples of how to use the :ref:`Time Tagger Virtual <time-tagger-virtual>` in your examples folder.
+
+
+On-the-fly processing
+---------------------
+
+There are two options to process raw incoming data, the :class:`TimeTagStream` and the :class:`CustomMeasurement`, which will be explained in the following:
+
+TimeTagStream - high-level, lower performance
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The :class:`TimeTagStream` buffers the incoming raw data for on-the-fly processing. The :class:`TimeTagStream` buffer must be polled to retrieve the tags.
+You find examples of how to use the :class:`TimeTagStream` in your examples folder.
+
+CustomMeasurement - low-level, higher performance
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The :class:`CustomMeasurement` functionality allows you to access the raw time tag stream with very little overhead.
+By inheriting from :class:`CustomMeasurement`, you can implement your fully customized measurement class. The :meth:`CustomMeasurement.process` method of this class
+will be invoked as soon as new data is available.
+Note that this functionality is only available for C++, C#, and Python.
+You find examples of how to use the :class:`CustomMeasurement` in your examples folder.
+
+CustomVirtualChannel - modify the time tag stream - C++ only
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is now possible for you to modify the time tag stream, like our API does by inserting time tags, e.g., via :class:`Coincidence` or
+:class:`DelayedChannel`. If you want to use this functionality, please contact Swabian Instruments support.
+
+IteratorBase - C++ only
+^^^^^^^^^^^^^^^^^^^^^^^
+
+All measurements and virtual channels are derived from the :class:`IteratorBase` class.
+You can see how to access the time tag stream on the deepest level with the provided C++ examples.
